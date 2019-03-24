@@ -1,0 +1,8 @@
+*FONT
+    Segoe UI
+
+
+*COLOR
+new Color(30, 30, 30) : Xám sidebar
+new Color(52,152,219) : Xanh duong
+new Color(232,57,99)  : Phấn hồng
