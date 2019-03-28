@@ -22,23 +22,35 @@ import javax.swing.JPanel;
  */
 public class navItem extends JPanel implements MouseListener{
     private JLabel lb,icon;
+    private Color hover = new Color(50, 50, 50);
     private boolean active ;
     private String name,img,imgActive;
     private Rectangle rec = new Rectangle();
     public navItem(String s,Rectangle r,String img,String imgActive)
     {
         name = s;
-        lb = new JLabel(name);
+        lb = new JLabel(name,JLabel.CENTER);
+        this.img = img;
+        this.imgActive = imgActive;
+        this.icon = new JLabel("",JLabel.CENTER);
+        rec = r;
+        init();
+    }
+    public navItem(String s,Rectangle r,String img,String imgActive,Color hover)
+    {
+        name = s;
+        lb = new JLabel(name,JLabel.CENTER);
         this.img = img;
         this.imgActive = imgActive;
         this.icon = new JLabel();
         rec = r;
+        this.hover = hover;
         init();
     }
     public navItem(String s,Rectangle r)
     {
         lb = new JLabel(s);
-        icon = new JLabel();
+        icon = new JLabel("",JLabel.CENTER);
         rec = r;
         init();
     }
@@ -121,7 +133,7 @@ public class navItem extends JPanel implements MouseListener{
     public void mouseEntered(MouseEvent e) {
         if(!active)
         {
-            setBackground(new Color(60, 60, 60));
+            setBackground(hover);
         }
     }
 

@@ -5,7 +5,7 @@
  */
 package DATA;
 
-import DTO.SanPham;
+import DTO.SanPhamDTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class SanPhamDAO {
     private String user = "root";
     private String password="";
-    private String url="jdbc:mysql://localhost/qlsieuthi";
+    private String url="jdbc:mysql://localhost/sieuthimini";
     private Connection conn;
     private Statement st ;
     public SanPhamDAO(String user , String pass,String url)
@@ -57,7 +57,7 @@ public class SanPhamDAO {
         boolean kq = false;
         try {
             Connect();
-            String sql = "SELECT * FROM TaiKhoan WHERE user='"+user+"' "
+            String sql = "SELECT * FROM user WHERE user='"+user+"' "
                     + "AND pass='"+password+"'";
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -68,9 +68,9 @@ public class SanPhamDAO {
         }
         return kq;
     }
-    public ArrayList<SanPham> listSP()
+    public ArrayList<SanPhamDTO> listSP()
     {
-        ArrayList<SanPham> sp = new ArrayList<>();
+        ArrayList<SanPhamDTO> sp = new ArrayList<>();
         try {
             Connect();
             String sql = "SELECT * FROM sanpham WHERE 1";
@@ -79,19 +79,20 @@ public class SanPhamDAO {
             while(rs.next())
             {
 //            System.out.println(rs.getInt("dongiaSP"));
-                String idSP = rs.getString("idSP");
-                String idNSX = rs.getString("idNSX");
-                String nameSP = rs.getString("nameSP");
-                String loaiSP = rs.getString("loaiSP");
-                int price = rs.getInt("dongiaSP");
-                String DVT = rs.getString("DVT");
+                String maSP = rs.getString("MASP");
+                String tenSP = rs.getString("TENSP");
+                int sl = rs.getInt("SOLUONG");
+                int gia = rs.getInt("GIA");
+                String DVT = rs.getString("DONVITINH");
+                String maLoai = rs.getString("MALOAI");
+                String maNsx = rs.getString("MANSX");
                 String IMG = rs.getString("IMG");
 //            System.out.println(price);
-                SanPham s = new SanPham(idSP, idNSX, nameSP, loaiSP, price, DVT, IMG);
+                SanPhamDTO s = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
                 sp.add(s);
             }
             disConnect();
-//        for(SanPham s:sp)
+//        for(SanPhamDTO s:sp)
 //        {
 //            System.out.print(s.getPrice());
 //        }
@@ -104,18 +105,19 @@ public class SanPhamDAO {
 //        }
         return sp;
     }
-    public void addSP(SanPham sp)
+    public void addSP(SanPhamDTO sp)
     {
         try {
             Connect();
             st = conn.createStatement();
             String sql = "INSERT INTO sanpham VALUES (";
-                   sql += "'"+sp.getIdSP()+"',";
-                   sql += "'"+sp.getIdNSX()+"',";
-                   sql += "'"+sp.getName()+"',";
-                   sql += "'"+sp.getCetegory()+"',";
-                   sql += "'"+sp.getPrice()+"',";
-                   sql += "'"+sp.getDVT()+"',";
+                   sql += "'"+sp.getMaSP()+"',";
+                   sql += "'"+sp.getTenSP()+"',";
+                   sql += "'"+sp.getSl()+"',";
+                   sql += "'"+sp.getGia()+"',";
+                   sql += "'"+sp.getDvt()+"',";
+                   sql += "'"+sp.getMaLoai()+"',";
+                   sql += "'"+sp.getMaNsx()+"',";
                    sql += "'"+sp.getImg()+"')";
             disConnect();
         } catch (SQLException ex) {

@@ -5,30 +5,27 @@
  */
 package GUI;
 
-import GUI.model.navItem;
-import qlsieuthi.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import GUI.model.Item;
 import GUI.model.Page404;
-import GUI.model.QLSP;
 import GUI.model.header;
-import GUI.model.SanPhamGUI;
 import GUI.model.navItem;
-import org.w3c.dom.events.MouseEvent;
+import java.awt.Frame;
+import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.metal.MetalBorders;
 
 /**
  *
@@ -41,28 +38,57 @@ public class QLSieuThi extends JFrame implements MouseListener{
     public QLSieuThi()
     {
         Toolkit screen = Toolkit.getDefaultToolkit();
-//        this.DEFAULT_HEIGHT = (int) screen.getScreenSize().getHeight();
-//        this.DEFALUT_WIDTH = (int) screen.getScreenSize().getWidth();
         init();
     }
     public void init()
     {
         setTitle("Quản Lý siêu thị ");
-        ImageIcon logo = new ImageIcon(getClass().getResource("/image/SystemIcon_60px.png"));
+        ImageIcon logo = new ImageIcon(getClass().getResource("/image/SieuThi_25px.png"));
         setIconImage(logo.getImage());
         setLayout(new BorderLayout());
         setSize(DEFALUT_WIDTH,DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setUndecorated(true);
+        setUndecorated(true);
+        //setShape(new RoundRectangle2D.Double(0, 0, DEFALUT_WIDTH, DEFAULT_HEIGHT, 30, 30)); //Bo khung Frame
         
+        
+/************ PHẦN HEADER **************************/      
         header = new JPanel(null);
         header.setBackground(new Color(30, 30, 30));
-        header.setPreferredSize(new Dimension(DEFALUT_WIDTH,60));
-        header.add(new header(DEFALUT_WIDTH,60));
+        header.setPreferredSize(new Dimension(DEFALUT_WIDTH,40));
         
+        header hmain = new header(DEFALUT_WIDTH,40);
+        
+        //Tạo btn EXIT & MINIMIZE
+        navItem exit = new navItem("", new Rectangle(DEFALUT_WIDTH-40, -8, 40, 50), "exit_25px.png", "exit_25px.png", new Color(80,80,80));
+        navItem minimize = new navItem("", new Rectangle(DEFALUT_WIDTH-80, -8, 40, 50), "minimize_25px.png", "minimize_25px.png", new Color(80,80,80));
+        
+        hmain.add(exit);
+        hmain.add(minimize);
+        
+        exit.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e)
+           {
+              System.exit(0);
+           }
+        });
+        
+        minimize.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e)
+           {
+              setState(Frame.ICONIFIED);
+           }
+        });
+        
+        header.add(hmain);
+        
+/***************************************************/    
+
+
+/************ PHẦN NAVIGATION ( MENU ) **************************/  
         nav = new JPanel(null);
-        nav.setBackground(new Color(30, 30, 30));
+        nav.setBackground(new Color(80, 80, 80));
         nav.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT));
         
         //Thêm item vào thanh menu (Tên item : hình)
@@ -73,8 +99,8 @@ public class QLSieuThi extends JFrame implements MouseListener{
         navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
         navItem.add("Công Cụ:CongCu_20px.png:CongCu_20px_active.png");
         navItem.add("Cái đặt:CaiDat_20px.png:CaiDat_20px_active.png");
-        //
         
+        //Gắn cái NavItem vào MENU
         for(int i = 0 ; i < navItem.size() ; i++)
         {
             String s = navItem.get(i).split(":")[0];
@@ -85,52 +111,16 @@ public class QLSieuThi extends JFrame implements MouseListener{
             nav.add(navObj.get(i));
         }
         
-        //Thêm item vào thanh menu (Tên San Pham : hình)
-        ArrayList<String> SanPham = new ArrayList<>();
-        SanPham.add("CoCa Cola");
         
-        
+/************ PHẦN MAIN ( HIỂN THỊ ) **************************/        
         main = new JPanel(null);
         main.setBackground(Color.WHITE);
-        
-        
-//        JPanel ItemView = new JPanel(null);
-//        ItemView.setBounds(new Rectangle(30, 50, this.DEFALUT_WIDTH - 220 , 1000));
-//        ItemView.setBackground(Color.WHITE);
-//        for(int i = 0; i < 2; i ++)
-//        {
-//            for(int j = 0 ; j <= 5 ;j++)
-//            {
-//                ItemView.add(new Item(240*j,330*i,"Nước giải khát","CocaCola.jpg"));
-//            }
-//        }
-//        
-//        JPanel pn = new JPanel(null);
-//        pn.setBackground(null);
-//        pn.setBounds(new Rectangle(0, 180, this.DEFALUT_WIDTH - 220, 1000));
-//        
-//        JButton btnAddImg = new JButton("Add Image");
-//        JButton btnAddVd = new JButton("Add Video");
-//        JButton btnAddYtu = new JButton("Add Youtube");
-//        JButton btnAddVit = new JButton("Add Vimeo");
-//        
-//        btnAddImg.setBounds(new Rectangle(30, 0, 120, 25));
-//        btnAddVd.setBounds(new Rectangle(170, 0, 120, 25));
-//        btnAddYtu.setBounds(new Rectangle(310, 0, 120, 25));
-//        btnAddVit.setBounds(new Rectangle(450, 0, 120, 25));
-//        
-//        pn.add(btnAddImg);
-//        pn.add(btnAddVd);
-//        pn.add(btnAddYtu);
-//        pn.add(btnAddVit);
-//        pn.add(ItemView);
-//        
-//        main.add(pn);
-        
+/**************************************************************/   
+
         add(header,BorderLayout.NORTH);
         add(nav,BorderLayout.WEST);
         add(main,BorderLayout.CENTER);
-        
+      
         setVisible(true);
     }
     public static void main(String[] args) {
@@ -140,7 +130,6 @@ public class QLSieuThi extends JFrame implements MouseListener{
         {
             
         }
-        // TODO code application logic here
         QLSieuThi ql = new QLSieuThi();
         
     }
@@ -149,11 +138,11 @@ public class QLSieuThi extends JFrame implements MouseListener{
     public void mouseClicked(java.awt.event.MouseEvent e) {
         for(int i  = 0 ; i<navObj.size();i++)
         {
-            navItem item = navObj.get(i);
+            navItem item = navObj.get(i); // lấy vị trí item trong menu
             if(e.getSource()== item)
             {
-                item.doActive();
-                changeMainInfo(i);
+                item.doActive(); // Active NavItem đc chọn 
+                changeMainInfo(i); // Hiển thị ra phần main
             }
             else
             {

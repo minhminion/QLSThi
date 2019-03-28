@@ -6,7 +6,7 @@
 package BUS;
 
 import DATA.SanPhamDAO;
-import DTO.SanPham;
+import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Minh Minion
  */
 public class SanPhamBUS {
-    private ArrayList<SanPham> dssp ;
+    private ArrayList<SanPhamDTO> dssp ;
     public SanPhamBUS()
     {
         
@@ -25,14 +25,14 @@ public class SanPhamBUS {
         dssp = new ArrayList<>();
         dssp = spDAO.listSP();
     }
-    public void addSP(SanPham sp)
+    public void addSP(SanPhamDTO sp)
     {
         dssp.add(sp);
         SanPhamDAO spDAO = new SanPhamDAO();
         spDAO.addSP(sp);
     }
 
-    public ArrayList<SanPham> getDssp() {
+    public ArrayList<SanPhamDTO> getDssp() {
         return dssp;
     }
     
