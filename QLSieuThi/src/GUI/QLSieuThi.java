@@ -26,7 +26,7 @@ import GUI.model.Item;
 import GUI.model.Page404;
 import GUI.model.QLSP;
 import GUI.model.header;
-import GUI.model.QLSP1;
+import GUI.model.SanPhamGUI;
 import GUI.model.navItem;
 import org.w3c.dom.events.MouseEvent;
 
@@ -168,7 +168,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         {
             case 0: // QUẢN LÝ SẢN PHẨM
                 main.removeAll();
-                main.add(new QLSP1(DEFALUT_WIDTH));
+                main.add(new SanPhamGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
 

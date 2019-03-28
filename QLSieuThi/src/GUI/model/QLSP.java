@@ -5,7 +5,6 @@
  */
 package GUI.model;
 
-import model.*;
 import java.awt.Color;
 import java.awt.Rectangle;
 import static javax.swing.BorderFactory.createLineBorder;

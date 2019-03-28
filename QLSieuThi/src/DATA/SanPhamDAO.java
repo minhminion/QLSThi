@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.spi.DirStateFactory.Result;
 
 /**
  *
@@ -23,8 +22,9 @@ import javax.naming.spi.DirStateFactory.Result;
 public class SanPhamDAO {
     private String user = "root";
     private String password="";
-    private String url="//jdbc:mysql//";
+    private String url="jdbc:mysql://localhost/qlsieuthi";
     private Connection conn;
+    private Statement st ;
     public SanPhamDAO(String user , String pass,String url)
     {
         this.user = user;
@@ -35,16 +35,18 @@ public class SanPhamDAO {
     public SanPhamDAO() {
        
     }
-    private void Connect()
+    public void Connect()
     {
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(SQLException e) {}
-        catch(ClassNotFoundException e){};
     }
-    private void disConnect()
+    public void disConnect()
     { 
         try{
             conn.close();
@@ -57,7 +59,7 @@ public class SanPhamDAO {
             Connect();
             String sql = "SELECT * FROM TaiKhoan WHERE user='"+user+"' "
                     + "AND pass='"+password+"'";
-            Statement st = conn.createStatement();
+            st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             kq = rs.next();
             disConnect();  
@@ -68,11 +70,11 @@ public class SanPhamDAO {
     }
     public ArrayList<SanPham> listSP()
     {
-        ArrayList<SanPham> sp = new ArrayList<SanPham>();
+        ArrayList<SanPham> sp = new ArrayList<>();
         try {
             Connect();
             String sql = "SELECT * FROM sanpham WHERE 1";
-            Statement st = conn.createStatement();
+            st = this.conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while(rs.next())
             {
@@ -96,13 +98,17 @@ public class SanPhamDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        catch(NullPointerException ex)
+//        {
+//            System.out.println("Lỗi");
+//        }
         return sp;
     }
     public void addSP(SanPham sp)
     {
         try {
             Connect();
-            Statement st = conn.createStatement();
+            st = conn.createStatement();
             String sql = "INSERT INTO sanpham VALUES (";
                    sql += "'"+sp.getIdSP()+"',";
                    sql += "'"+sp.getIdNSX()+"',";

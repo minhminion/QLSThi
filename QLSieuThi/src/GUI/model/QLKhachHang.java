@@ -5,7 +5,6 @@
  */
 package GUI.model;
 
-import model.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

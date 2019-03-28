@@ -5,7 +5,6 @@
  */
 package GUI.model;
 
-import model.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;

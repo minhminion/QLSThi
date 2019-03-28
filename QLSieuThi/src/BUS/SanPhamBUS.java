@@ -31,5 +31,9 @@ public class SanPhamBUS {
         SanPhamDAO spDAO = new SanPhamDAO();
         spDAO.addSP(sp);
     }
+
+    public ArrayList<SanPham> getDssp() {
+        return dssp;
+    }
     
 }
