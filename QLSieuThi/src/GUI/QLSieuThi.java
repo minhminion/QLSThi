@@ -34,7 +34,7 @@ import javax.swing.plaf.metal.MetalBorders;
 public class QLSieuThi extends JFrame implements MouseListener{
     private JPanel header,nav,main;
     private int DEFAULT_HEIGHT = 730,DEFALUT_WIDTH = 1300 ;
-    private ArrayList<navItem> navObj = new ArrayList<>();
+    private ArrayList<navItem> navObj = new ArrayList<>();  //Chứa cái button trên thanh menu
     public QLSieuThi()
     {
         Toolkit screen = Toolkit.getDefaultToolkit();
@@ -91,8 +91,8 @@ public class QLSieuThi extends JFrame implements MouseListener{
         nav.setBackground(new Color(55, 63, 81));
         nav.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT));
         
-        //Thêm item vào thanh menu (Tên item : hình)
-        ArrayList<String> navItem = new ArrayList<>();
+        //Thêm item vào thanh menu (Tên item : icon : icon hover)
+        ArrayList<String> navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
         navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
         navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
@@ -151,7 +151,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         }
     }
 
-    public void changeMainInfo(int i)
+    public void changeMainInfo(int i) //Đổi Phần hiển thị khi bấm btn trên menu
     {
         switch(i)
         {

@@ -34,6 +34,15 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
+import com.sun.org.apache.xml.internal.resolver.helpers.FileURL;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -139,33 +148,83 @@ public class SanPhamGUI extends JPanel{
         JLabel btnAdd = new JLabel(new ImageIcon(getClass().getResource("/image/btnAdd.png")));
         btnAdd.setBounds(new Rectangle(700,10,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnAdd.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e)
-            {
-                JFrame frame = new JFrame();
-                frame.setSize(600,400);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLocationRelativeTo(null);
-                JFileChooser f = new JFileChooser();
-                frame.add(f);
-                
-                frame.setVisible(true);
-            }
-        });
+        
         
         JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit.png")));
         btnEdit.setBounds(new Rectangle(700,110,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnEdit.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e)
-            {
-                JOptionPane.showMessageDialog(null,"Sửa");
-            }
-        });
+       
         
         JLabel btnDelete = new JLabel(new ImageIcon(getClass().getResource("/image/btnDelete.png")));
         btnDelete.setBounds(new Rectangle(700,210,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        ItemView.add(btnAdd);
+        ItemView.add(btnEdit);
+        ItemView.add(btnDelete);
+        
+        
+        
+        JLabel btnFile = new JLabel(new ImageIcon(getClass().getResource("/image/btnFile.png")));
+        btnFile.setVisible(false);
+        btnFile.setBounds(new Rectangle(700,110,200,50));
+        btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnFile.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                JFileChooser fc = new JFileChooser();
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    try {
+                        File file = fc.getSelectedFile(); //Lấy URL hình
+                        BufferedImage i = ImageIO.read(file); // Lấy hình
+                        String sname = file.getName(); //Tên hình
+                        
+                        System.out.println(file);
+                        // Thay đổi hình hiển thị
+                        img.setText("");
+                        img.setIcon(new ImageIcon(i.getScaledInstance(230, 250, Image.SCALE_DEFAULT)));
+
+                        URL saveURL = getClass().getResource("/image/SanPham"); //Lấy URL Project (../build/classes/image/SanPham)
+  
+                        File save = new File(saveURL.getPath()+"\\"+sname); //Tạo File
+                        System.out.println(save);                 
+                        ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
+                        JOptionPane.showMessageDialog(null, "Save thành công"); 
+
+                        revalidate();
+                        repaint();
+                    } catch (IOException ex) {
+                        Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });   
+        
+        JLabel btnBack = new JLabel(new ImageIcon(getClass().getResource("/image/btnBack.png")));
+        btnBack.setVisible(false);
+        btnBack.setBounds(new Rectangle(700,210,200,50));
+        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        ItemView.add(btnFile);
+        ItemView.add(btnBack);
+        
+        // MouseClick btnADD
+        btnAdd.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                btnEdit.setVisible(false);
+                btnDelete.setVisible(false);
+                btnFile.setVisible(true);
+                btnBack.setVisible(true);
+                
+                tbl.setEnabled(false);
+            }
+        });
+        
+        // MouseClick btnDelete
         btnDelete.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
@@ -173,9 +232,60 @@ public class SanPhamGUI extends JPanel{
             }
         });
         
-        ItemView.add(btnAdd);
-        ItemView.add(btnEdit);
-        ItemView.add(btnDelete);
+        // MouseClick btnEdit
+        btnEdit.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                JOptionPane.showMessageDialog(null,"Sửa");
+            }
+        });
+        
+        //MouseClick btnFile
+        btnFile.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                JFileChooser fc = new JFileChooser();
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    try {
+                        File file = fc.getSelectedFile(); //Lấy URL hình
+                        BufferedImage i = ImageIO.read(file); // Lấy hình
+                        String sname = file.getName(); //Tên hình
+                        
+                        System.out.println(file);
+                        // Thay đổi hình hiển thị
+                        img.setText("");
+                        img.setIcon(new ImageIcon(i.getScaledInstance(230, 250, Image.SCALE_DEFAULT)));
+
+                        URL saveURL = getClass().getResource("/image/SanPham"); //Lấy URL Project (../build/classes/image/SanPham)
+  
+                        File save = new File(saveURL.getPath()+"\\"+sname); //Tạo File
+                        System.out.println(save);                 
+                        ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
+                        JOptionPane.showMessageDialog(null, "Save thành công"); 
+
+                        revalidate();
+                        repaint();
+                    } catch (IOException ex) {
+                        Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        
+        //MouseClick btnBack
+        btnBack.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
+            {
+                btnEdit.setVisible(true);
+                btnDelete.setVisible(true);
+                btnFile.setVisible(false);
+                btnBack.setVisible(false);
+                
+                tbl.setEnabled(true);
+            }
+        });
         /****************************************************************/
         
 /**********************************************************************************/
