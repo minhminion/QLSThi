@@ -22,26 +22,29 @@ import javax.swing.JPanel;
  */
 public class navItem extends JPanel implements MouseListener{
     private JLabel lb,icon;
-    private Color hover = new Color(50, 50, 50);
+    private Color hover = new Color(100, 113, 140);
+    private Color normal = new Color(67, 76, 94);
     private boolean active ;
-    private String name,img,imgActive;
+    private String name,img,imgActive,imgHover;
     private Rectangle rec = new Rectangle();
     public navItem(String s,Rectangle r,String img,String imgActive)
     {
         name = s;
-        lb = new JLabel(name,JLabel.CENTER);
+        lb = new JLabel(name);
         this.img = img;
         this.imgActive = imgActive;
-        this.icon = new JLabel("",JLabel.CENTER);
+        this.imgHover = this.img;
+        this.icon = new JLabel();
         rec = r;
         init();
     }
-    public navItem(String s,Rectangle r,String img,String imgActive,Color hover)
+    public navItem(String s,Rectangle r,String img,String imgActive,String imgHover,Color hover)
     {
         name = s;
-        lb = new JLabel(name,JLabel.CENTER);
+        lb = new JLabel(name);
         this.img = img;
         this.imgActive = imgActive;
+        this.imgHover = imgHover;
         this.icon = new JLabel();
         rec = r;
         this.hover = hover;
@@ -50,9 +53,17 @@ public class navItem extends JPanel implements MouseListener{
     public navItem(String s,Rectangle r)
     {
         lb = new JLabel(s);
-        icon = new JLabel("",JLabel.CENTER);
+        icon = new JLabel();
         rec = r;
         init();
+    }
+    public JPanel isButton()
+    {
+        icon.setBounds(new Rectangle(rec.width/4 + 2 , rec.height/4, 50, 30));
+        normal = null;
+        setBackground(normal);
+//        repaint();
+        return this;
     }
     public void init()
     {
@@ -61,7 +72,6 @@ public class navItem extends JPanel implements MouseListener{
         Font font = new Font("Segoe UI",Font.BOLD,13);
         setLayout(null);
         setBounds(rec);
-        setBackground(null);
         
         icon.setIcon(new ImageIcon(getClass().getResource("/image/"+img)));
         icon.setBackground(Color.white);
@@ -77,7 +87,7 @@ public class navItem extends JPanel implements MouseListener{
         }
         else
         {
-            setBackground(null);
+            setBackground(normal);
         } 
         add(icon);
         add(lb);
@@ -105,7 +115,7 @@ public class navItem extends JPanel implements MouseListener{
         active = false;
         icon.setIcon(new ImageIcon(getClass().getResource("/image/"+img)));
         lb.setForeground(Color.WHITE);
-        setBackground(null);
+        setBackground(new Color(67, 76, 94));
     }
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -134,6 +144,7 @@ public class navItem extends JPanel implements MouseListener{
         if(!active)
         {
             setBackground(hover);
+            icon.setIcon(new ImageIcon(getClass().getResource("/image/"+imgHover)));
         }
     }
 
@@ -141,7 +152,8 @@ public class navItem extends JPanel implements MouseListener{
     public void mouseExited(MouseEvent e){
         if(!active)
         {
-            setBackground(null);
+            setBackground(normal);
+            icon.setIcon(new ImageIcon(getClass().getResource("/image/"+img)));
         }
     }
 }

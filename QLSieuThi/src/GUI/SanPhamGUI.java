@@ -34,6 +34,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -140,7 +142,14 @@ public class SanPhamGUI extends JPanel{
         btnAdd.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
-                JOptionPane.showMessageDialog(null,"Thêm");
+                JFrame frame = new JFrame();
+                frame.setSize(600,400);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
+                JFileChooser f = new JFileChooser();
+                frame.add(f);
+                
+                frame.setVisible(true);
             }
         });
         
@@ -269,7 +278,7 @@ public class SanPhamGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 390, this.DEFALUT_WIDTH - 400 , 210));
+        scroll.setBounds(new Rectangle(30, 450, this.DEFALUT_WIDTH - 400 , 210));
         scroll.setBackground(null);
         
         add(scroll);

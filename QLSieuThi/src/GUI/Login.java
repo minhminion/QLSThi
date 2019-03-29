@@ -6,7 +6,6 @@
 package GUI;
 
 import GUI.model.header;
-import qlsieuthi.*;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -156,28 +155,28 @@ public class Login extends JFrame{
             }
         }));
         
-        
-        btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    MySQLConnection mysql = new MySQLConnection("root","","jdbc:mysql://localhost/qlsieuthi");
-                    if(mysql.checkAcc(user.getText(),"admin"))
-                    {
-                        qlst.setVisible(true);
-                        setVisible(false);
-                    } 
-                    else {
-                        JOptionPane.showMessageDialog(null, "Sai mat khau");
-                    }
-                   
-                } catch (SQLException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+//        
+//        btnLogin.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                try {
+//                    MySQLConnection mysql = new MySQLConnection("root","","jdbc:mysql://localhost/qlsieuthi");
+//                    if(mysql.checkAcc(user.getText(),"admin"))
+//                    {
+//                        qlst.setVisible(true);
+//                        setVisible(false);
+//                    } 
+//                    else {
+//                        JOptionPane.showMessageDialog(null, "Sai mat khau");
+//                    }
+//                   
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (ClassNotFoundException ex) {
+//                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
     }
    
     public static void main(String[]args)

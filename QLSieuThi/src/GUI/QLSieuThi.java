@@ -55,17 +55,17 @@ public class QLSieuThi extends JFrame implements MouseListener{
         
 /************ PHẦN HEADER **************************/      
         header = new JPanel(null);
-        header.setBackground(new Color(30, 30, 30));
+        header.setBackground(new Color(27, 27, 30));
         header.setPreferredSize(new Dimension(DEFALUT_WIDTH,40));
         
         header hmain = new header(DEFALUT_WIDTH,40);
         
         //Tạo btn EXIT & MINIMIZE
-        navItem exit = new navItem("", new Rectangle(DEFALUT_WIDTH-40, -8, 40, 50), "exit_25px.png", "exit_25px.png", new Color(80,80,80));
-        navItem minimize = new navItem("", new Rectangle(DEFALUT_WIDTH-80, -8, 40, 50), "minimize_25px.png", "minimize_25px.png", new Color(80,80,80));
+        navItem exit = new navItem("", new Rectangle(DEFALUT_WIDTH-50, -8, 50, 50), "exit_25px.png", "exit_25px.png", "exit_hover_25px.png", new Color(240, 71, 74));
+        navItem minimize = new navItem("", new Rectangle(DEFALUT_WIDTH-100, -8, 50, 50), "minimize_25px.png", "minimize_25px.png", "minimize_hover_25px.png" ,new Color(80,80,80));
         
-        hmain.add(exit);
-        hmain.add(minimize);
+        hmain.add(exit.isButton());
+        hmain.add(minimize.isButton());
         
         exit.addMouseListener(new MouseAdapter() {
            public void mouseClicked(MouseEvent e)
@@ -88,7 +88,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
 /************ PHẦN NAVIGATION ( MENU ) **************************/  
         nav = new JPanel(null);
-        nav.setBackground(new Color(80, 80, 80));
+        nav.setBackground(new Color(55, 63, 81));
         nav.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT));
         
         //Thêm item vào thanh menu (Tên item : hình)
