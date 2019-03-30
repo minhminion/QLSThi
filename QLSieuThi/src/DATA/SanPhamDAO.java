@@ -25,6 +25,7 @@ public class SanPhamDAO {
     private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
     private Connection conn;
     private Statement st ;
+    private ResultSet rs = null;
     public SanPhamDAO(String user , String pass,String url)
     {
         this.user = user;
@@ -49,6 +50,7 @@ public class SanPhamDAO {
     public void disConnect()
     { 
         try{
+            st.close();
             conn.close();
         }catch (SQLException E){}
     }
@@ -62,6 +64,7 @@ public class SanPhamDAO {
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             kq = rs.next();
+            rs.close();
             disConnect();  
         } catch (SQLException ex) {
             Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +78,7 @@ public class SanPhamDAO {
             Connect();
             String sql = "SELECT * FROM sanpham WHERE 1";
             st = this.conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
             while(rs.next())
             {
 //            System.out.println(rs.getInt("dongiaSP"));
@@ -91,6 +94,7 @@ public class SanPhamDAO {
                 SanPhamDTO s = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
                 sp.add(s);
             }
+            rs.close();
             disConnect();
 //        for(SanPhamDTO s:sp)
 //        {
@@ -140,4 +144,27 @@ public class SanPhamDAO {
         }
     }
     
+    public void setSP(SanPhamDTO sp)
+    {
+        try {
+            Connect();
+            st = conn.createStatement();
+            String sql = "UPDATE sanpham SET ";
+            sql += "TENSP='"+sp.getTenSP()+"', ";
+            sql += "SOLUONG='"+sp.getSl()+"', ";
+            sql += "GIA='"+sp.getGia()+"', ";
+            sql += "DONVITINH='"+sp.getDvt()+"', ";
+            sql += "MALOAI='"+sp.getMaLoai()+"', ";
+            sql += "MANSX='"+sp.getMaNsx()+"', ";
+            sql += "IMG='"+sp.getImg()+"' ";
+            sql += "WHERE MASP='"+sp.getMaSP()+"'";
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            disConnect();
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

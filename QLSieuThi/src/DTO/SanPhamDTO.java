@@ -5,8 +5,6 @@
  */
 package DTO;
 
-import qlsieuthi.*;
-
 /**
  *
  * @author Shadow

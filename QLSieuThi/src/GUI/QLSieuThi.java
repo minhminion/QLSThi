@@ -24,6 +24,8 @@ import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import java.net.URL;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.metal.MetalBorders;
 
@@ -141,6 +143,8 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navItem item = navObj.get(i); // lấy vị trí item trong menu
             if(e.getSource()== item)
             {
+//                URL save = getClass().getClassLoader().getResource("./././");
+//                System.out.println(save);
                 item.doActive(); // Active NavItem đc chọn 
                 changeMainInfo(i); // Hiển thị ra phần main
             }

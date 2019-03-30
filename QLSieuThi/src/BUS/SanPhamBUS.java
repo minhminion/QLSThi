@@ -45,6 +45,19 @@ public class SanPhamBUS {
             }
         }
     }
+    public void setSP(SanPhamDTO s)
+    {
+        for(int i = 0 ; i < dssp.size() ; i++)
+        {
+            if(dssp.get(i).getMaSP().equals(s.getMaSP()))
+            {
+                dssp.set(i, s);
+                SanPhamDAO spDAO = new SanPhamDAO();
+                spDAO.setSP(s);
+                return;
+            }
+        }
+    }
     public ArrayList<SanPhamDTO> getDssp() {
         return dssp;
     }

@@ -53,11 +53,13 @@ import javax.swing.JFrame;
 public class SanPhamGUI extends JPanel{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private JTable tbl;
+    private BufferedImage i = null;//Hình ảnh chọn từ file
     private JLabel img;
-    private JTextField txtId,txtName,txtSl,txtGia,txtDVT,txtNSX,txtLoai,txtSearch;
     private String imgName;
+    private JTextField txtId,txtName,txtSl,txtGia,txtDVT,txtNSX,txtLoai,txtSearch;
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
+    private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
     
     //        
 
@@ -192,6 +194,8 @@ public class SanPhamGUI extends JPanel{
             @Override
             public void mouseClicked(MouseEvent e)
             {
+                EditOrAdd = true;
+                
                 cleanView();
                 
                 btnAdd.setVisible(false);
@@ -226,11 +230,25 @@ public class SanPhamGUI extends JPanel{
         btnEdit.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
-                JOptionPane.showMessageDialog(null,"Sửa");
+                EditOrAdd = false;
+                
+                
+                txtId.setEditable(false);
+                
+                btnAdd.setVisible(false);
+                btnEdit.setVisible(false);
+                btnDelete.setVisible(false);
+                
+                btnCofirm.setVisible(true);
+                btnBack.setVisible(true);
+                btnFile.setVisible(true);
+                
+                tbl.clearSelection();
+                tbl.setEnabled(false);
             }
         });
         
-        //MouseClick btnFile
+        // MouseClick btnFile
         btnFile.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
@@ -240,18 +258,13 @@ public class SanPhamGUI extends JPanel{
                 {
                     try {
                         File file = fc.getSelectedFile(); //Lấy URL hình
-                        BufferedImage i = ImageIO.read(file); // Lấy hình
-                        imgName = file.getName(); //Tên hình
+                        i = ImageIO.read(file); // Lấy hình
+                        imgName = txtId.getText().concat(".jpg"); //Tên hình
                         
                         // Thay đổi hình hiển thị
                         img.setText("");
                         img.setIcon(new ImageIcon(i.getScaledInstance(230, 250, Image.SCALE_DEFAULT)));
-
-                        URL saveURL = getClass().getResource("/image/SanPham"); //Lấy URL Project (../build/classes/image/SanPham)
-  
-                        File save = new File(saveURL.getPath()+"\\"+imgName); //Tạo File
-                        ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
-
+                        
                         revalidate();
                         repaint();
                     } catch (IOException ex) {
@@ -265,6 +278,8 @@ public class SanPhamGUI extends JPanel{
         btnBack.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
+                cleanView();
+                
                 btnAdd.setVisible(true);
                 btnEdit.setVisible(true);
                 btnDelete.setVisible(true);
@@ -281,21 +296,61 @@ public class SanPhamGUI extends JPanel{
         btnCofirm.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
-                int i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
-                if(i == 0)
+                int i;
+                if(EditOrAdd) //Thêm Sản Phẩm
                 {
-                    String maSP = txtId.getText();
-                    String tenSP = txtName.getText();
-                    int sl = Integer.parseInt(txtSl.getText());
-                    int gia = Integer.parseInt(txtGia.getText());
-                    String DVT = txtDVT.getText();
-                    String maLoai = txtLoai.getText();
-                    String maNsx = txtNSX.getText();
-                    String IMG = imgName;
-                    SanPhamDTO sp = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
-                    spBUS.addSP(sp);
-                    outModel(model, spBUS.getDssp());
+                    i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
+                    if(i == 0)
+                    {
+                        //Lấy dữ liệu từ TextField
+                        String maSP = txtId.getText();
+                        String tenSP = txtName.getText();
+                        int sl = Integer.parseInt(txtSl.getText());
+                        int gia = Integer.parseInt(txtGia.getText());
+                        String DVT = txtDVT.getText();
+                        String maLoai = txtLoai.getText();
+                        String maNsx = txtNSX.getText();
+                        String IMG = imgName;
+
+                        //Upload sản phẩm lên DAO và BUS
+                        SanPhamDTO sp = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
+                        spBUS.addSP(sp);
+
+                        outModel(model, spBUS.getDssp());// Load lại table
+
+                        saveIMG();// Lưu hình ảnh 
+
+                        cleanView();
+                    }
                 }
+                else    // Edit Sản phẩm
+                {
+                    i = JOptionPane.showConfirmDialog(null, "Xác nhận sửa sản phẩm","",JOptionPane.YES_NO_OPTION);
+                    if(i == 0)
+                    {
+                        //Lấy dữ liệu từ TextField
+                        String maSP = txtId.getText();
+                        String tenSP = txtName.getText();
+                        int sl = Integer.parseInt(txtSl.getText());
+                        int gia = Integer.parseInt(txtGia.getText());
+                        String DVT = txtDVT.getText();
+                        String maLoai = txtLoai.getText();
+                        String maNsx = txtNSX.getText();
+                        String IMG = maSP+".jpg";
+
+                        //Upload sản phẩm lên DAO và BUS
+                        SanPhamDTO sp = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
+                        spBUS.setSP(sp);
+                        
+                        outModel(model, spBUS.getDssp());// Load lại table
+                        
+                        saveIMG();// Lưu hình ảnh 
+                        
+                        JOptionPane.showMessageDialog(null, "Sửa thành công","Thành công",JOptionPane.INFORMATION_MESSAGE);
+                        
+                    }
+                }
+                
             }
         });
         
@@ -367,8 +422,8 @@ public class SanPhamGUI extends JPanel{
         header.add("Số lượng");
         header.add("Đơn Giá");
         header.add("Đơn Vị Tính");
-        header.add("Mă NSX");
         header.add("Loại");
+        header.add("Mă NSX");
         header.add("IMG"); 
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
@@ -380,7 +435,7 @@ public class SanPhamGUI extends JPanel{
 
         // Chỉnh width các cột 
         tbl.getColumnModel().getColumn(0).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(140);
         tbl.getColumnModel().getColumn(2).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(3).setPreferredWidth(50);
         tbl.getColumnModel().getColumn(4).setPreferredWidth(40);
@@ -413,15 +468,16 @@ public class SanPhamGUI extends JPanel{
              public void mouseClicked(MouseEvent e)
              {
                 int i = tbl.getSelectedRow();
-                //System.out.println(i);
-                Image newImage = new ImageIcon(getClass().getResource("/image/SanPham/"+tbl.getModel().getValueAt(i, 7))).getImage().getScaledInstance(230, 250, Image.SCALE_DEFAULT);
+                String itemImg = "NoImage.jpg";
+                if(!tbl.getModel().getValueAt(i, 7).toString().equals("null")){ itemImg = tbl.getModel().getValueAt(i, 7).toString();}
+                Image newImage = new ImageIcon(getClass().getResource("/image/SanPham/"+itemImg)).getImage().getScaledInstance(250, 300, Image.SCALE_DEFAULT);
                 txtId.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtName.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtSl.setText(tbl.getModel().getValueAt(i, 2).toString()); 
                 txtGia.setText(tbl.getModel().getValueAt(i, 3).toString());
                 txtDVT.setText( tbl.getModel().getValueAt(i, 4).toString());
-                txtNSX.setText(tbl.getModel().getValueAt(i, 5).toString()); 
-                txtLoai.setText(tbl.getModel().getValueAt(i, 6).toString()); 
+                txtLoai.setText(tbl.getModel().getValueAt(i, 5).toString()); 
+                txtNSX.setText(tbl.getModel().getValueAt(i, 6).toString()); 
                 img.setText("");
                 img.setIcon(new ImageIcon(newImage));
              }
@@ -457,8 +513,24 @@ public class SanPhamGUI extends JPanel{
         outModel(m,Sdata);
     }
 */
+    public void saveIMG()
+    {
+        try {
+            if(i != null)
+            {
+                File save = new File("src/image/SanPham/"+ imgName);//Ta5o file
+                ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
+
+                i = null; //Xóa hình trong bộ nhớ 
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void cleanView() //Xóa trắng các TextField
     {
+        txtId.setEditable(true);
+        
         txtId.setText("");
         txtName.setText("");
         txtSl.setText("");
