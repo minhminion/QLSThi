@@ -51,8 +51,11 @@ import javax.swing.JFrame;
  * @author Shadow
  */
 public class SanPhamGUI extends JPanel{
+    private SanPhamBUS spBUS = new SanPhamBUS();
     private JTable tbl;
-    private JTextField txtSearch;
+    private JLabel img;
+    private JTextField txtId,txtName,txtSl,txtGia,txtDVT,txtNSX,txtLoai,txtSearch;
+    private String imgName;
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
     
@@ -81,48 +84,48 @@ public class SanPhamGUI extends JPanel{
         
         /******** Tao Cac Label & TextField ************************/
         JLabel lbId = new JLabel("Mă Sản Phẩm");
-        JTextField txtId = new JTextField("");
+        txtId = new JTextField("");
         lbId.setBounds(new Rectangle(300,0,200,30));
         lbId.setFont(font0);
         txtId.setBounds(new Rectangle(400,0,220,30));
         
         JLabel lbName = new JLabel("Tên Sản Phẩm");
-        JTextField txtName = new JTextField("");
+        txtName = new JTextField("");
         lbName.setBounds(new Rectangle(300,50,200,30));
         lbName.setFont(font0);
         txtName.setBounds(new Rectangle(400,50,220,30));
         
         JLabel lbSl = new JLabel("Số lượng");
-        JTextField txtSl = new JTextField("");
+        txtSl = new JTextField("");
         lbSl.setBounds(new Rectangle(300,100,200,30));
         lbSl.setFont(font0);
         txtSl.setBounds(new Rectangle(400,100,220,30));
         
         JLabel lbGia = new JLabel("Đơn giá (VNĐ)");
-        JTextField txtGia = new JTextField("");
+        txtGia = new JTextField("");
         lbGia.setBounds(new Rectangle(300,150,200,30));
         lbGia.setFont(font0);
         txtGia.setBounds(new Rectangle(400,150,220,30));
         
         JLabel lbDVT = new JLabel("Đơn Vị Tính");
-        JTextField txtDVT= new JTextField("");
+        txtDVT= new JTextField("");
         lbDVT.setBounds(new Rectangle(300,200,200,30));
         lbDVT.setFont(font0);
         txtDVT.setBounds(new Rectangle(400,200,220,30));
   
         JLabel lbNSX = new JLabel("Mă NSX");
-        JTextField txtNSX = new JTextField("");
+        txtNSX = new JTextField("");
         lbNSX.setBounds(new Rectangle(300,250,50,30));
         lbNSX.setFont(font0);
         txtNSX.setBounds(new Rectangle(370,250,80,30));
         
         JLabel lbLoai = new JLabel("Mă Loại");
-        JTextField txtLoai = new JTextField("");
+        txtLoai = new JTextField("");
         lbLoai.setBounds(new Rectangle(470,250,50,30));
         lbLoai.setFont(font0);
         txtLoai.setBounds(new Rectangle(540,250,80,30));
         
-        JLabel img = new JLabel("Image");
+        img = new JLabel("Image");
         img.setBorder(createLineBorder(Color.BLACK));
         img.setBounds(new Rectangle(0,0,250,300));
         
@@ -165,61 +168,41 @@ public class SanPhamGUI extends JPanel{
         
         
         
-        JLabel btnFile = new JLabel(new ImageIcon(getClass().getResource("/image/btnFile.png")));
-        btnFile.setVisible(false);
-        btnFile.setBounds(new Rectangle(700,110,200,50));
-        btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnFile.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e)
-            {
-                JFileChooser fc = new JFileChooser();
-                int result = fc.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) 
-                {
-                    try {
-                        File file = fc.getSelectedFile(); //Lấy URL hình
-                        BufferedImage i = ImageIO.read(file); // Lấy hình
-                        String sname = file.getName(); //Tên hình
-                        
-                        System.out.println(file);
-                        // Thay đổi hình hiển thị
-                        img.setText("");
-                        img.setIcon(new ImageIcon(i.getScaledInstance(230, 250, Image.SCALE_DEFAULT)));
-
-                        URL saveURL = getClass().getResource("/image/SanPham"); //Lấy URL Project (../build/classes/image/SanPham)
-  
-                        File save = new File(saveURL.getPath()+"\\"+sname); //Tạo File
-                        System.out.println(save);                 
-                        ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
-                        JOptionPane.showMessageDialog(null, "Save thành công"); 
-
-                        revalidate();
-                        repaint();
-                    } catch (IOException ex) {
-                        Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });   
+        JLabel btnCofirm= new JLabel(new ImageIcon(getClass().getResource("/image/btnCofirm.png")));
+        btnCofirm.setVisible(false);
+        btnCofirm.setBounds(new Rectangle(700,10,200,50));
+        btnCofirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon(getClass().getResource("/image/btnBack.png")));
         btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(700,210,200,50));
+        btnBack.setBounds(new Rectangle(700,110,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        ItemView.add(btnFile);
+        JLabel btnFile = new JLabel(new ImageIcon(getClass().getResource("/image/btnFile.png")));
+        btnFile.setVisible(false);
+        btnFile.setBounds(new Rectangle(700,210,200,50));
+        btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        ItemView.add(btnCofirm);
         ItemView.add(btnBack);
+        ItemView.add(btnFile);
         
         // MouseClick btnADD
         btnAdd.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e)
             {
+                cleanView();
+                
+                btnAdd.setVisible(false);
                 btnEdit.setVisible(false);
                 btnDelete.setVisible(false);
-                btnFile.setVisible(true);
-                btnBack.setVisible(true);
                 
+                btnCofirm.setVisible(true);
+                btnBack.setVisible(true);
+                btnFile.setVisible(true);
+                
+                tbl.clearSelection();
                 tbl.setEnabled(false);
             }
         });
@@ -227,8 +210,15 @@ public class SanPhamGUI extends JPanel{
         // MouseClick btnDelete
         btnDelete.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
-            {
-                JOptionPane.showMessageDialog(null,"Xóa");
+            {   
+                int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Alert",JOptionPane.YES_NO_OPTION);
+                if(i == 0)
+                {
+                    spBUS.deleteSP(txtId.getText());
+                    cleanView();
+                    tbl.clearSelection();
+                    outModel(model, spBUS.getDssp());
+                }
             }
         });
         
@@ -251,19 +241,16 @@ public class SanPhamGUI extends JPanel{
                     try {
                         File file = fc.getSelectedFile(); //Lấy URL hình
                         BufferedImage i = ImageIO.read(file); // Lấy hình
-                        String sname = file.getName(); //Tên hình
+                        imgName = file.getName(); //Tên hình
                         
-                        System.out.println(file);
                         // Thay đổi hình hiển thị
                         img.setText("");
                         img.setIcon(new ImageIcon(i.getScaledInstance(230, 250, Image.SCALE_DEFAULT)));
 
                         URL saveURL = getClass().getResource("/image/SanPham"); //Lấy URL Project (../build/classes/image/SanPham)
   
-                        File save = new File(saveURL.getPath()+"\\"+sname); //Tạo File
-                        System.out.println(save);                 
+                        File save = new File(saveURL.getPath()+"\\"+imgName); //Tạo File
                         ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
-                        JOptionPane.showMessageDialog(null, "Save thành công"); 
 
                         revalidate();
                         repaint();
@@ -278,14 +265,40 @@ public class SanPhamGUI extends JPanel{
         btnBack.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
+                btnAdd.setVisible(true);
                 btnEdit.setVisible(true);
                 btnDelete.setVisible(true);
-                btnFile.setVisible(false);
+                
+                btnCofirm.setVisible(false);
                 btnBack.setVisible(false);
+                btnFile.setVisible(false);
                 
                 tbl.setEnabled(true);
             }
         });
+        
+        //MouseClick btnCofirm
+        btnCofirm.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
+            {
+                int i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
+                if(i == 0)
+                {
+                    String maSP = txtId.getText();
+                    String tenSP = txtName.getText();
+                    int sl = Integer.parseInt(txtSl.getText());
+                    int gia = Integer.parseInt(txtGia.getText());
+                    String DVT = txtDVT.getText();
+                    String maLoai = txtLoai.getText();
+                    String maNsx = txtNSX.getText();
+                    String IMG = imgName;
+                    SanPhamDTO sp = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
+                    spBUS.addSP(sp);
+                    outModel(model, spBUS.getDssp());
+                }
+            }
+        });
+        
         /****************************************************************/
         
 /**********************************************************************************/
@@ -444,9 +457,23 @@ public class SanPhamGUI extends JPanel{
         outModel(m,Sdata);
     }
 */
+    public void cleanView() //Xóa trắng các TextField
+    {
+        txtId.setText("");
+        txtName.setText("");
+        txtSl.setText("");
+        txtGia.setText("");
+        txtDVT.setText("");
+        txtNSX.setText("");
+        txtLoai.setText("");
+        
+        img.setIcon(null);
+        img.setText("Image");
+    }
     public void outModel(DefaultTableModel model , ArrayList<SanPhamDTO> sp) // Xuất ra Table từ ArrayList
     {
         Vector data;
+        model.setRowCount(0);
         for(SanPhamDTO s:sp)
         {
             data = new Vector();
@@ -464,7 +491,6 @@ public class SanPhamGUI extends JPanel{
     }
     public void listSP() // Chép ArrayList lên table
     {
-        SanPhamBUS spBUS = new SanPhamBUS();
         if(spBUS.getDssp()== null)spBUS.listSP();
         ArrayList<SanPhamDTO> sp = spBUS.getDssp();
         model.setRowCount(0);

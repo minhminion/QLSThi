@@ -53,7 +53,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         //setShape(new RoundRectangle2D.Double(0, 0, DEFALUT_WIDTH, DEFAULT_HEIGHT, 30, 30)); //Bo khung Frame
         
         
-/************ PHẦN HEADER **************************/      
+/************ PHẦN HEADER *************************************/      
         header = new JPanel(null);
         header.setBackground(new Color(27, 27, 30));
         header.setPreferredSize(new Dimension(DEFALUT_WIDTH,40));
@@ -83,7 +83,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         
         header.add(hmain);
         
-/***************************************************/    
+/****************************************************************/    
 
 
 /************ PHẦN NAVIGATION ( MENU ) **************************/  

@@ -32,6 +32,19 @@ public class SanPhamBUS {
         spDAO.addSP(sp);
     }
 
+    public void deleteSP(String idSP)
+    {
+        for(SanPhamDTO sp : dssp )
+        {
+            if(sp.getMaSP().equals(idSP))
+            {
+                dssp.remove(sp);
+                SanPhamDAO spDAO = new SanPhamDAO();
+                spDAO.deleteSP(idSP);
+                return;
+            }
+        }
+    }
     public ArrayList<SanPhamDTO> getDssp() {
         return dssp;
     }

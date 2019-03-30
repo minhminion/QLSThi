@@ -16,7 +16,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Cơ sở dữ liệu: `sieuthimini`
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `chitiethd` (
-  `MAHD` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MASP` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MAHD` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `SOLUONG` int(11) DEFAULT NULL,
   `DONGIA` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -42,12 +42,12 @@ CREATE TABLE `chitiethd` (
 --
 
 CREATE TABLE `hoadon` (
-  `MAHD` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MAKH` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MANV` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MAHD` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MAKH` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MANV` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `NGAYHD` datetime NOT NULL,
   `TONGTIEN` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -56,13 +56,13 @@ CREATE TABLE `hoadon` (
 --
 
 CREATE TABLE `khachhang` (
-  `MAKH` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `HONV` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENLOT` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENKH` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `DIACHI` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MAKH` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `HONV` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TENLOT` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TENKH` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `SDT` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -71,9 +71,9 @@ CREATE TABLE `khachhang` (
 --
 
 CREATE TABLE `loai` (
-  `MALOAI` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENLOAI` char(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `MALOAI` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `TENLOAI` char(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `loai`
@@ -91,9 +91,9 @@ INSERT INTO `loai` (`MALOAI`, `TENLOAI`) VALUES
 --
 
 CREATE TABLE `loaigg` (
-  `MALOAIGG` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MALOAIGG` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `PHANTRAMGG` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -102,11 +102,11 @@ CREATE TABLE `loaigg` (
 --
 
 CREATE TABLE `nhacungcap` (
-  `MANCC` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENNCC` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MANCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `TENNCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `NGAYCC` datetime NOT NULL,
-  `DIACHINCC` char(6) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `DIACHINCC` char(6) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -115,15 +115,15 @@ CREATE TABLE `nhacungcap` (
 --
 
 CREATE TABLE `nhanvien` (
-  `MANV` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `HONV` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENLOT` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENNV` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MANV` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `HONV` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TENLOT` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TENNV` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `NAMSINH` datetime NOT NULL,
-  `PHAI` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `PHAI` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `MUCLUONG` float DEFAULT NULL,
-  `DIACHI` char(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -132,9 +132,9 @@ CREATE TABLE `nhanvien` (
 --
 
 CREATE TABLE `nhasanxuat` (
-  `MANSX` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENNSX` char(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `MANSX` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `TENNSX` char(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `nhasanxuat`
@@ -154,13 +154,13 @@ INSERT INTO `nhasanxuat` (`MANSX`, `TENNSX`) VALUES
 --
 
 CREATE TABLE `phieunhaphang` (
-  `MANCC` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MASP` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MANCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `NGAYNHAP` datetime DEFAULT NULL,
   `DONGIANHAP` int(11) DEFAULT NULL,
   `TONGTIEN` int(11) DEFAULT NULL,
   `SOLUONG` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -169,15 +169,15 @@ CREATE TABLE `phieunhaphang` (
 --
 
 CREATE TABLE `sanpham` (
-  `MASP` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TENSP` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `TENSP` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `SOLUONG` int(11) NOT NULL,
   `GIA` int(11) DEFAULT NULL,
-  `DONVITINH` char(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `MALOAI` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MANSX` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IMG` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `DONVITINH` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MALOAI` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MANSX` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `IMG` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `sanpham`
@@ -195,12 +195,12 @@ INSERT INTO `sanpham` (`MASP`, `TENSP`, `SOLUONG`, `GIA`, `DONVITINH`, `MALOAI`,
 --
 
 CREATE TABLE `thongtingiamgia` (
-  `MALOAIGG` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MASP` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MALOAIGG` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `DOTGG` datetime NOT NULL,
   `BATDAU` datetime NOT NULL,
   `KETTHUC` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -210,11 +210,11 @@ CREATE TABLE `thongtingiamgia` (
 
 CREATE TABLE `user` (
   `userID` int(11) NOT NULL,
-  `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `enable` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ

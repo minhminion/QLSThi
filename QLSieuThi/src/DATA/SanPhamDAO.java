@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class SanPhamDAO {
     private String user = "root";
     private String password="";
-    private String url="jdbc:mysql://localhost/sieuthimini";
+    private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
     private Connection conn;
     private Statement st ;
     public SanPhamDAO(String user , String pass,String url)
@@ -112,18 +112,32 @@ public class SanPhamDAO {
             st = conn.createStatement();
             String sql = "INSERT INTO sanpham VALUES (";
                    sql += "'"+sp.getMaSP()+"',";
-                   sql += "'"+sp.getTenSP()+"',";
+                   sql += "N'"+sp.getTenSP()+"',";
                    sql += "'"+sp.getSl()+"',";
                    sql += "'"+sp.getGia()+"',";
-                   sql += "'"+sp.getDvt()+"',";
+                   sql += "N'"+sp.getDvt()+"',";
                    sql += "'"+sp.getMaLoai()+"',";
                    sql += "'"+sp.getMaNsx()+"',";
                    sql += "'"+sp.getImg()+"')";
+            System.out.println(sql);
+            st.executeUpdate(sql);
             disConnect();
         } catch (SQLException ex) {
             Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public addSP(String )
+
+    public void deleteSP(String idSP)
+    {
+        try {
+            Connect();
+            st = conn.createStatement();
+            String sql = "DELETE FROM sanpham WHERE MaSP='"+idSP+"'";
+            st.executeUpdate(sql);
+            disConnect();
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
