@@ -27,7 +27,7 @@ public class navItem extends JPanel implements MouseListener{
     private boolean active ;
     private String name,img,imgActive,imgHover;
     private Rectangle rec = new Rectangle();
-    public navItem(String s,Rectangle r,String img,String imgActive)
+    public navItem(String s,Rectangle r,String img,String imgActive )
     {
         name = s;
         lb = new JLabel(name);
@@ -57,6 +57,14 @@ public class navItem extends JPanel implements MouseListener{
         rec = r;
         init();
     }
+    
+    public void setColorNormal(Color e)
+    {
+        this.normal = e;
+        setBackground(normal);
+        repaint();   
+    }
+    
     public JPanel isButton()
     {
         icon.setBounds(new Rectangle(rec.width/4 + 2 , rec.height/4, 50, 30));
@@ -115,8 +123,9 @@ public class navItem extends JPanel implements MouseListener{
         active = false;
         icon.setIcon(new ImageIcon(getClass().getResource("/image/"+img)));
         lb.setForeground(Color.WHITE);
-        setBackground(new Color(67, 76, 94));
+        setBackground(normal);
     }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
 

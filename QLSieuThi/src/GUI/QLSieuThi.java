@@ -34,8 +34,10 @@ import javax.swing.plaf.metal.MetalBorders;
  * @author Shadow
  */
 public class QLSieuThi extends JFrame implements MouseListener{
+    private boolean flag = true;
     private JPanel header,nav,main;
     private int DEFAULT_HEIGHT = 730,DEFALUT_WIDTH = 1300 ;
+    private ArrayList<String> navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm
     private ArrayList<navItem> navObj = new ArrayList<>();  //Chứa cái button trên thanh menu
     public QLSieuThi()
     {
@@ -94,7 +96,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         nav.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT));
         
         //Thêm item vào thanh menu (Tên item : icon : icon hover)
-        ArrayList<String> navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
+        navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
         navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
         navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
@@ -102,17 +104,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         navItem.add("Công Cụ:CongCu_20px.png:CongCu_20px_active.png");
         navItem.add("Cái đặt:CaiDat_20px.png:CaiDat_20px_active.png");
         
-        //Gắn cái NavItem vào MENU
-        for(int i = 0 ; i < navItem.size() ; i++)
-        {
-            String s = navItem.get(i).split(":")[0];
-            String icon = navItem.get(i).split(":")[1];
-            String iconActive = navItem.get(i).split(":")[2];
-            navObj.add(new navItem(s, new Rectangle(0,50*i,220,50),icon,iconActive));
-            navObj.get(i).addMouseListener(this);
-            nav.add(navObj.get(i));
-        }
-        
+        outNav();
         
 /************ PHẦN MAIN ( HIỂN THỊ ) **************************/        
         main = new JPanel(null);
@@ -143,8 +135,6 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navItem item = navObj.get(i); // lấy vị trí item trong menu
             if(e.getSource()== item)
             {
-//                URL save = getClass().getClassLoader().getResource("./././");
-//                System.out.println(save);
                 item.doActive(); // Active NavItem đc chọn 
                 changeMainInfo(i); // Hiển thị ra phần main
             }
@@ -157,6 +147,10 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
     public void changeMainInfo(int i) //Đổi Phần hiển thị khi bấm btn trên menu
     {
+        if(flag && i>3 && i<6)
+        {
+            i = i + 2;
+        }
         switch(i)
         {
             case 0: // QUẢN LÝ SẢN PHẨM
@@ -167,7 +161,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
             case 1: // QUẢN LÝ NHÂN VIÊN
                 main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH));
+                main.add(new NhanVienGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
             case 2: // QUẢN LÝ KHÁCH HÀNG
@@ -176,24 +170,72 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.repaint();
             break;
             case 3: //THỐNG KÊ
+                if(flag)
+                {
+                    navItem.add(4, "Bán Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
+                    navItem.add(5, "Nhập Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
+                    flag = false;
+                }
+                else
+                {
+                    navItem.remove(4);
+                    navItem.remove(4);
+                    flag = true;
+                }
+                outNav();
+            break;
+            case 4: //THÔNG KÊ - BÁN HÀNG
+                main.removeAll();
+                main.add(new Page404(DEFALUT_WIDTH, "THỐNG KÊ - BÁN HÀNG"));
+                main.repaint();
+            break;
+            case 5: //THÔNG KÊ - NHẬP HÀNG
+                main.removeAll();
+                main.add(new Page404(DEFALUT_WIDTH, "THỐNG KÊ - NHẬP HÀNG"));
+                main.repaint();
+            break;
+            case 6: //CÔNG CỤ
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
             break;
-            case 4: //CÔNG CỤ
-                main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH));
-                main.repaint();
-            break;
-            case 5: //CÀI ĐẶT
+            case 7: //CÀI ĐẶT
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
             break;
             default:
+            break;
         }
     }
-            
+      
+    public void outNav()
+    {
+        //Gắn cái NavItem vào NavOBJ
+        navObj.clear();
+        for(int i = 0 ; i < navItem.size() ; i++)
+        {
+            String s = navItem.get(i).split(":")[0];
+            String icon = navItem.get(i).split(":")[1];
+            String iconActive = navItem.get(i).split(":")[2];
+            navObj.add(new navItem(s, new Rectangle(0,50*i,220,50),icon,iconActive));
+            navObj.get(i).addMouseListener(this);
+        }
+        if(!flag && navObj.size() > 6)
+        {
+            navObj.get(4).setColorNormal(new Color(86, 94, 127));
+            navObj.get(5).setColorNormal(new Color(86, 94, 127));
+        }
+        
+        //Xuất ra Naigation
+        nav.removeAll();
+        for(navItem n : navObj)
+        {
+            nav.add(n); 
+        }
+        repaint();
+    }
+    
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         

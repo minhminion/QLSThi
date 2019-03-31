@@ -19,9 +19,16 @@ import javax.swing.JSeparator;
  */
 public class Page404 extends JPanel{
     private int DEFALUT_WIDTH;
+    private String title = "HỆ THỐNG ĐANG BẢO TRÌ";
     
     public Page404(int width)
     {
+        DEFALUT_WIDTH = width;
+        init();
+    }
+    public Page404(int width,String title)
+    {
+        this.title = title;
         DEFALUT_WIDTH = width;
         init();
     }
@@ -35,7 +42,7 @@ public class Page404 extends JPanel{
         icon.setBounds(0,300,100,100);
        
         Font font = new Font("Segoe UI",Font.BOLD,60);
-        JLabel lb = new JLabel("HỆ THỐNG ĐANG BẢO TRÌ");
+        JLabel lb = new JLabel(title);
         lb.setForeground(new Color(52,152,219));
         lb.setFont(font);
         lb.setBounds(new Rectangle(100,280,800,100));
