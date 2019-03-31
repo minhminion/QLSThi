@@ -466,9 +466,13 @@ public class NhanVienGUI extends JPanel{
              {
                 int i = tbl.getSelectedRow();
                 imgName = tbl.getModel().getValueAt(i, 7).toString();
-                String itemImg = "NoImage.jpg";
-                if(!imgName.equals("null")){ itemImg = imgName;};
-                Image newImage = new ImageIcon(getClass().getResource("/image/NhanVien/"+itemImg)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                Image newImage ;
+                try{
+                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/"+imgName)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                }catch(NullPointerException E)
+                {
+                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/NoImage")).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtTenNV.setText(tbl.getModel().getValueAt(i, 2).toString()); 

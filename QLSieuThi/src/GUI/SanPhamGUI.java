@@ -475,9 +475,13 @@ public class SanPhamGUI extends JPanel{
              {
                 int i = tbl.getSelectedRow();
                 imgName = tbl.getModel().getValueAt(i, 7).toString();
-                String itemImg = "NoImage.jpg";
-                if(!imgName.equals("null")){ itemImg = imgName;};
-                Image newImage = new ImageIcon(getClass().getResource("/image/SanPham/"+itemImg)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                Image newImage ;
+                try{
+                    newImage = new ImageIcon(getClass().getResource("/image/SanPham/"+imgName)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                }catch(NullPointerException E)
+                {
+                    newImage = new ImageIcon(getClass().getResource("/image/SanPham/NoImage.jpg")).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                }
                 txtId.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtSl.setText(tbl.getModel().getValueAt(i, 2).toString()); 
