@@ -2,10 +2,10 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 29, 2019 lúc 04:15 PM
--- Phiên bản máy phục vụ: 10.1.36-MariaDB
--- Phiên bản PHP: 7.2.10
+-- Host: 127.0.0.1
+-- Generation Time: Mar 31, 2019 at 04:22 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -16,16 +16,16 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `sieuthimini`
+-- Database: `sieuthimini`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitiethd`
+-- Table structure for table `chitiethd`
 --
 
 CREATE TABLE `chitiethd` (
@@ -38,7 +38,7 @@ CREATE TABLE `chitiethd` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hoadon`
+-- Table structure for table `hoadon`
 --
 
 CREATE TABLE `hoadon` (
@@ -52,7 +52,7 @@ CREATE TABLE `hoadon` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khachhang`
+-- Table structure for table `khachhang`
 --
 
 CREATE TABLE `khachhang` (
@@ -67,7 +67,7 @@ CREATE TABLE `khachhang` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `loai`
+-- Table structure for table `loai`
 --
 
 CREATE TABLE `loai` (
@@ -76,7 +76,7 @@ CREATE TABLE `loai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `loai`
+-- Dumping data for table `loai`
 --
 
 INSERT INTO `loai` (`MALOAI`, `TENLOAI`) VALUES
@@ -87,7 +87,7 @@ INSERT INTO `loai` (`MALOAI`, `TENLOAI`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `loaigg`
+-- Table structure for table `loaigg`
 --
 
 CREATE TABLE `loaigg` (
@@ -98,7 +98,7 @@ CREATE TABLE `loaigg` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhacungcap`
+-- Table structure for table `nhacungcap`
 --
 
 CREATE TABLE `nhacungcap` (
@@ -111,24 +111,31 @@ CREATE TABLE `nhacungcap` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhanvien`
+-- Table structure for table `nhanvien`
 --
 
 CREATE TABLE `nhanvien` (
   `MANV` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `HONV` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `TENLOT` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `TENNV` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `NAMSINH` datetime NOT NULL,
+  `NAMSINH` int(4) NOT NULL,
   `PHAI` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `MUCLUONG` float DEFAULT NULL,
-  `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL
+  `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `IMG` varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `nhanvien`
+--
+
+INSERT INTO `nhanvien` (`MANV`, `HONV`, `TENNV`, `NAMSINH`, `PHAI`, `MUCLUONG`, `DIACHI`, `IMG`) VALUES
+('001', 'Lưu Bảo', 'Minh', 1999, 'Nam', 5000000, '282 Nguyễn Tri Phương', '001.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhasanxuat`
+-- Table structure for table `nhasanxuat`
 --
 
 CREATE TABLE `nhasanxuat` (
@@ -137,7 +144,7 @@ CREATE TABLE `nhasanxuat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `nhasanxuat`
+-- Dumping data for table `nhasanxuat`
 --
 
 INSERT INTO `nhasanxuat` (`MANSX`, `TENNSX`) VALUES
@@ -150,7 +157,7 @@ INSERT INTO `nhasanxuat` (`MANSX`, `TENNSX`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phieunhaphang`
+-- Table structure for table `phieunhaphang`
 --
 
 CREATE TABLE `phieunhaphang` (
@@ -165,12 +172,12 @@ CREATE TABLE `phieunhaphang` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `sanpham`
+-- Table structure for table `sanpham`
 --
 
 CREATE TABLE `sanpham` (
   `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `TENSP` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `TENSP` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `SOLUONG` int(11) NOT NULL,
   `GIA` int(11) DEFAULT NULL,
   `DONVITINH` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -180,18 +187,21 @@ CREATE TABLE `sanpham` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `sanpham`
+-- Dumping data for table `sanpham`
 --
 
 INSERT INTO `sanpham` (`MASP`, `TENSP`, `SOLUONG`, `GIA`, `DONVITINH`, `MALOAI`, `MANSX`, `IMG`) VALUES
 ('001', 'CocaCola Light', 100, 8000, 'Lon', '002', '003', '001.jpg'),
 ('002', 'CocaCola', 100, 8000, 'Lon', '002', '003', '002.jpg'),
-('003', 'Socola KitKat', 30, 5000, 'Gói', '001', '005', '003.jpg');
+('003', 'KitKat Classic', 70, 10000, 'Gói', '001', '005', '003.jpg'),
+('004', 'Nivea Man Deep White Oil Clear', 50, 27000, 'Tuýp', '001', '003', '004.jpg'),
+('005', 'Lotte Xylitol hương Fresh Mint', 50, 25000, 'Hộp', '001', '001', '005.jpg'),
+('006', 'asdhasd', 12, 1200, 'asdsa', '001', '001', 'null');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `thongtingiamgia`
+-- Table structure for table `thongtingiamgia`
 --
 
 CREATE TABLE `thongtingiamgia` (
@@ -205,7 +215,7 @@ CREATE TABLE `thongtingiamgia` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -217,18 +227,18 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `chitiethd`
+-- Indexes for table `chitiethd`
 --
 ALTER TABLE `chitiethd`
   ADD PRIMARY KEY (`MAHD`,`MASP`),
   ADD KEY `FK_CTHD` (`MASP`);
 
 --
--- Chỉ mục cho bảng `hoadon`
+-- Indexes for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD PRIMARY KEY (`MAHD`,`MAKH`,`MANV`),
@@ -236,50 +246,50 @@ ALTER TABLE `hoadon`
   ADD KEY `FK_HD_1` (`MANV`);
 
 --
--- Chỉ mục cho bảng `khachhang`
+-- Indexes for table `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD PRIMARY KEY (`MAKH`);
 
 --
--- Chỉ mục cho bảng `loai`
+-- Indexes for table `loai`
 --
 ALTER TABLE `loai`
   ADD PRIMARY KEY (`MALOAI`);
 
 --
--- Chỉ mục cho bảng `loaigg`
+-- Indexes for table `loaigg`
 --
 ALTER TABLE `loaigg`
   ADD PRIMARY KEY (`MALOAIGG`);
 
 --
--- Chỉ mục cho bảng `nhacungcap`
+-- Indexes for table `nhacungcap`
 --
 ALTER TABLE `nhacungcap`
   ADD PRIMARY KEY (`MANCC`);
 
 --
--- Chỉ mục cho bảng `nhanvien`
+-- Indexes for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`MANV`);
 
 --
--- Chỉ mục cho bảng `nhasanxuat`
+-- Indexes for table `nhasanxuat`
 --
 ALTER TABLE `nhasanxuat`
   ADD PRIMARY KEY (`MANSX`);
 
 --
--- Chỉ mục cho bảng `phieunhaphang`
+-- Indexes for table `phieunhaphang`
 --
 ALTER TABLE `phieunhaphang`
   ADD PRIMARY KEY (`MANCC`,`MASP`),
   ADD KEY `FK_PHN_1` (`MASP`);
 
 --
--- Chỉ mục cho bảng `sanpham`
+-- Indexes for table `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD PRIMARY KEY (`MASP`),
@@ -287,62 +297,62 @@ ALTER TABLE `sanpham`
   ADD KEY `FK_SP_1` (`MANSX`);
 
 --
--- Chỉ mục cho bảng `thongtingiamgia`
+-- Indexes for table `thongtingiamgia`
 --
 ALTER TABLE `thongtingiamgia`
   ADD PRIMARY KEY (`MALOAIGG`,`MASP`),
   ADD KEY `FK_TTGG_1` (`MASP`);
 
 --
--- Chỉ mục cho bảng `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`userID`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `chitiethd`
+-- Constraints for table `chitiethd`
 --
 ALTER TABLE `chitiethd`
   ADD CONSTRAINT `FK_CTHD` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`),
   ADD CONSTRAINT `FK_CTHD_1` FOREIGN KEY (`MAHD`) REFERENCES `hoadon` (`MAHD`);
 
 --
--- Các ràng buộc cho bảng `hoadon`
+-- Constraints for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `FK_HD` FOREIGN KEY (`MAKH`) REFERENCES `khachhang` (`MAKH`),
   ADD CONSTRAINT `FK_HD_1` FOREIGN KEY (`MANV`) REFERENCES `nhanvien` (`MANV`);
 
 --
--- Các ràng buộc cho bảng `phieunhaphang`
+-- Constraints for table `phieunhaphang`
 --
 ALTER TABLE `phieunhaphang`
   ADD CONSTRAINT `FK_PHN` FOREIGN KEY (`MANCC`) REFERENCES `nhacungcap` (`MANCC`),
   ADD CONSTRAINT `FK_PHN_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`);
 
 --
--- Các ràng buộc cho bảng `sanpham`
+-- Constraints for table `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD CONSTRAINT `FK_SP` FOREIGN KEY (`MALOAI`) REFERENCES `loai` (`MALOAI`),
   ADD CONSTRAINT `FK_SP_1` FOREIGN KEY (`MANSX`) REFERENCES `nhasanxuat` (`MANSX`);
 
 --
--- Các ràng buộc cho bảng `thongtingiamgia`
+-- Constraints for table `thongtingiamgia`
 --
 ALTER TABLE `thongtingiamgia`
   ADD CONSTRAINT `FK_TTGG` FOREIGN KEY (`MALOAIGG`) REFERENCES `loaigg` (`MALOAIGG`),
