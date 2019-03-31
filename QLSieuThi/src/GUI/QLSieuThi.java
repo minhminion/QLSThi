@@ -147,7 +147,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
     public void changeMainInfo(int i) //Đổi Phần hiển thị khi bấm btn trên menu
     {
-        if(flag && i>3 && i<6)
+        if(flag && i>3 && i<6) // Thay đổi nếu Thông kế đang dropdown
         {
             i = i + 2;
         }
@@ -172,17 +172,21 @@ public class QLSieuThi extends JFrame implements MouseListener{
             case 3: //THỐNG KÊ
                 if(flag)
                 {
+                    // Thêm 2 btn vào dưới thống kê
                     navItem.add(4, "Bán Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
                     navItem.add(5, "Nhập Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false;
+                    
+                    flag = false; // Thông báo là đang Dropdown thống kê
                 }
                 else
                 {
+                    // Xóa 2 btn của thống kê
                     navItem.remove(4);
                     navItem.remove(4);
-                    flag = true;
+                    
+                    flag = true;  // Thông báo là Dropdown thống kê đă ẩn
                 }
-                outNav();
+                outNav(); //Load lại phần Navigation
             break;
             case 4: //THÔNG KÊ - BÁN HÀNG
                 main.removeAll();
@@ -221,7 +225,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navObj.add(new navItem(s, new Rectangle(0,50*i,220,50),icon,iconActive));
             navObj.get(i).addMouseListener(this);
         }
-        if(!flag && navObj.size() > 6)
+        if(!flag && navObj.size() > 6) //Đổi màu phần DropDown của thống kê
         {
             navObj.get(4).setColorNormal(new Color(86, 94, 127));
             navObj.get(5).setColorNormal(new Color(86, 94, 127));
