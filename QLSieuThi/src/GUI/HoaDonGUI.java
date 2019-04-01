@@ -109,7 +109,7 @@ public class HoaDonGUI extends JPanel{
         itemView.add(txtTongTien);
 
         add(itemView);
-        /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
+        /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
 
         JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit.png")));
         btnEdit.setBounds(new Rectangle(500,0,200,50));
@@ -132,6 +132,14 @@ public class HoaDonGUI extends JPanel{
         itemView.add(btnDelete);
         itemView.add(btnView);
         itemView.add(btnBill);
+        
+        btnView.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                ChiTietHDGUI chitiet = new ChiTietHDGUI();
+            }
+        });
         
         /*************************************************************************/
 /****************** TẠO MODEL VÀ HEADER *********************************************/

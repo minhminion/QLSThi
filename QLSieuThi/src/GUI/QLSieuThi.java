@@ -56,7 +56,6 @@ public class QLSieuThi extends JFrame implements MouseListener{
         setUndecorated(true);
         //setShape(new RoundRectangle2D.Double(0, 0, DEFALUT_WIDTH, DEFAULT_HEIGHT, 30, 30)); //Bo khung Frame
         
-        
 /************ PHẦN HEADER *************************************/      
         header = new JPanel(null);
         header.setBackground(new Color(27, 27, 30));
@@ -97,6 +96,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         
         //Thêm item vào thanh menu (Tên item : icon : icon hover)
         navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
+        navItem.add("Bán hàng:Shop_20px.png:Shop_20px_active.png");
         navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
         navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
         navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
@@ -147,63 +147,68 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
     public void changeMainInfo(int i) //Đổi Phần hiển thị khi bấm btn trên menu
     {
-        if(flag && i>3 && i<6) // Thay đổi nếu Thông kế đang dropdown
+        if(flag && i>4 && i<7) // Thay đổi nếu Thông kế đang dropdown
         {
             i = i + 2;
         }
         switch(i)
         {
-            case 0: // QUẢN LÝ SẢN PHẨM
+            case 0: //  BÁN HÀNG 
+                main.removeAll();
+                main.add(new Page404(DEFALUT_WIDTH,"BÁN HÀNG"));
+                main.repaint();
+            break;
+            case 1: // QUẢN LÝ SẢN PHẨM
                 main.removeAll();
                 main.add(new SanPhamGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
 
-            case 1: // QUẢN LÝ NHÂN VIÊN
+            case 2: // QUẢN LÝ NHÂN VIÊN
                 main.removeAll();
                 main.add(new NhanVienGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
-            case 2: // QUẢN LÝ KHÁCH HÀNG
+            case 3: // QUẢN LÝ KHÁCH HÀNG
                 main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH));
+                main.add(new KhachHangGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
-            case 3: //THỐNG KÊ
+            case 4: //THỐNG KÊ
                 if(flag)
                 {
                     // Thêm 2 btn vào dưới thống kê
-                    navItem.add(4, "Bán Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(5, "Nhập Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
+                    navItem.add(5, "Bán Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
+                    navItem.add(6, "Nhập Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
                     
                     flag = false; // Thông báo là đang Dropdown thống kê
                 }
                 else
                 {
                     // Xóa 2 btn của thống kê
-                    navItem.remove(4);
-                    navItem.remove(4);
+                    navItem.remove(5);
+                    navItem.remove(5);
                     
                     flag = true;  // Thông báo là Dropdown thống kê đă ẩn
                 }
                 outNav(); //Load lại phần Navigation
             break;
-            case 4: //THÔNG KÊ - BÁN HÀNG
+            case 5: //THÔNG KÊ - BÁN HÀNG
                 main.removeAll();
                 main.add(new HoaDonGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
-            case 5: //THÔNG KÊ - NHẬP HÀNG
+            case 6: //THÔNG KÊ - NHẬP HÀNG
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH, "THỐNG KÊ - NHẬP HÀNG"));
                 main.repaint();
             break;
-            case 6: //CÔNG CỤ
+            case 7: //CÔNG CỤ
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
             break;
-            case 7: //CÀI ĐẶT
+            case 8: //CÀI ĐẶT
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
@@ -225,10 +230,10 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navObj.add(new navItem(s, new Rectangle(0,50*i,220,50),icon,iconActive));
             navObj.get(i).addMouseListener(this);
         }
-        if(!flag && navObj.size() > 6) //Đổi màu phần DropDown của thống kê
+        if(!flag && navObj.size() > 7) //Đổi màu phần DropDown của thống kê
         {
-            navObj.get(4).setColorNormal(new Color(86, 94, 127));
             navObj.get(5).setColorNormal(new Color(86, 94, 127));
+            navObj.get(6).setColorNormal(new Color(86, 94, 127));
         }
         
         //Xuất ra Naigation
