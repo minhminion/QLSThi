@@ -208,7 +208,7 @@ public class NhanVienGUI extends JPanel{
                 int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Alert",JOptionPane.YES_NO_OPTION);
                 if(i == 0)
                 {
-                    nvBUS.deleteSP(txtMaNV.getText());
+                    nvBUS.deleteNV(txtMaNV.getText());
                     cleanView();
                     tbl.clearSelection();
                     outModel(model, nvBUS.getDssp());
@@ -471,7 +471,7 @@ public class NhanVienGUI extends JPanel{
                     newImage = new ImageIcon(getClass().getResource("/image/NhanVien/"+imgName)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
                 }catch(NullPointerException E)
                 {
-                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/NoImage")).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/NoImage.jpg")).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
                 }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
@@ -570,7 +570,7 @@ public class NhanVienGUI extends JPanel{
     {
         if(nvBUS.getDssp()== null)nvBUS.listSP();
         ArrayList<NhanVienDTO> nv = nvBUS.getDssp();
-        model.setRowCount(0);
+//        model.setRowCount(0);
         outModel(model,nv);
     }
 }

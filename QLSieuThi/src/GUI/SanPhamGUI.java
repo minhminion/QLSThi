@@ -34,7 +34,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
-import com.sun.org.apache.xml.internal.resolver.helpers.FileURL;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -532,6 +531,8 @@ public class SanPhamGUI extends JPanel{
             {
                 File save = new File("src/image/SanPham/"+ imgName);//Ta5o file
                 ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
+                URL url = getClass().getResource("/image/SanPham");
+                ImageIO.write(i,"jpg",new File(url.getPath()+"/"+imgName)); // Lưu hình i vào đường dẫn file save
 
                 i = null; //Xóa hình trong bộ nhớ 
             }

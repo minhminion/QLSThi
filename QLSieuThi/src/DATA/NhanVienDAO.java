@@ -105,4 +105,39 @@ public class NhanVienDAO {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void addNV(NhanVienDTO nv) {
+        try {
+            Connect();
+            st = conn.createStatement();
+            String sql = "INSERT INTO nhanvien VALUES (";
+                   sql += "'"+nv.getMaNV()+"',";
+                   sql += "'"+nv.getHoNV()+"',";
+                   sql += "'"+nv.getTenNV()+"',";
+                   sql += "'"+nv.getNamSinh()+"',";
+                   sql += "'"+nv.getPhai()+"',";
+                   sql += "'"+nv.getMucLuong()+"',";
+                   sql += "'"+nv.getDiaChi()+"',";
+                   sql += "'"+nv.getImg()+"')";
+            System.out.println(sql);
+            st.executeUpdate(sql);
+            disConnect();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteNV(String MaNV)
+    {
+        try {
+            Connect();
+            st = conn.createStatement();
+            String sql = "DELETE FROM nhanvien WHERE MANV='"+MaNV+"'";
+            st.executeUpdate(sql);
+            System.out.println(sql);
+            disConnect();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

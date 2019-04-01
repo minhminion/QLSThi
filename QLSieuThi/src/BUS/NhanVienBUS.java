@@ -29,18 +29,18 @@ public class NhanVienBUS {
     {
         dsnv.add(sp);
         NhanVienDAO spDAO = new NhanVienDAO();
-//        spDAO.addNV(sp);
+        spDAO.addNV(sp);
     }
 
-    public void deleteSP(String idSP)
+    public void deleteNV(String MaNV)
     {
         for(NhanVienDTO sp : dsnv )
         {
-            if(sp.getMaNV().equals(idSP))
+            if(sp.getMaNV().equals(MaNV))
             {
                 dsnv.remove(sp);
                 NhanVienDAO spDAO = new NhanVienDAO();
-//                spDAO.deleteSP(idSP);
+                spDAO.deleteNV(MaNV);
                 return;
             }
         }

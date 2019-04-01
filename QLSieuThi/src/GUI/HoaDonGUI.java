@@ -40,7 +40,7 @@ public class HoaDonGUI extends JPanel{
     private JTextField txtMaHD,txtMaKH,txtMaNV,txtNgayHD,txtTongTien;
     private JTextField txtMinPrice,txtMaxPrice;
     private DefaultTableModel model;
-    private Choice yearChoice,monthChoice;
+    private Choice yearChoice,monthChoice,AD;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
     
@@ -212,7 +212,7 @@ public class HoaDonGUI extends JPanel{
             monthChoice.add("Tháng "+i);
         }
         monthChoice.select(month);
-        monthChoice.setBounds(new Rectangle(80,42,100,40));
+        monthChoice.setBounds(new Rectangle(80,42,80,40));
         sort.add(monthChoice);
         // Choice Năm
         int year = Calendar.getInstance().get(Calendar.YEAR);//Lấy năm hiện tại
@@ -223,32 +223,46 @@ public class HoaDonGUI extends JPanel{
             yearChoice.add(String.valueOf(i));
         }
         yearChoice.select(0);
-        yearChoice.setBounds(new Rectangle(200,42,100,40));
+        yearChoice.setBounds(new Rectangle(170,42,80,40));
         sort.add(yearChoice);
         /*************************************/
         
         /************ SORT THEO GIÁ ***************/
         JLabel sortPrice = new JLabel("Giá (VNĐ) :");
         sortPrice.setFont(font0);
-        sortPrice.setBounds(350,40,80,30);
+        sortPrice.setBounds(300,40,80,30);
         sort.add(sortPrice);
         
         txtMinPrice = new JTextField();
         txtMinPrice.setFont(font0);
-        txtMinPrice.setBounds(new Rectangle(430,42,100,26));
+        txtMinPrice.setBounds(new Rectangle(380,42,100,26));
         sort.add(txtMinPrice);
         
         JSeparator sepPrice = new JSeparator(JSeparator.HORIZONTAL);
-        sepPrice.setBounds(540, 56, 10, 6);
+        sepPrice.setBounds(490, 56, 10, 6);
         sort.add(sepPrice);
         
         txtMaxPrice = new JTextField();
         txtMaxPrice.setFont(font0);
-        txtMaxPrice.setBounds(new Rectangle(560,42,100,26));
+        txtMaxPrice.setBounds(new Rectangle(510,42,100,26));
         sort.add(txtMaxPrice);
           
         /******************************************/
-        
+        /************ SORT ASC-DESC ***************/
+        JLabel sortAD = new JLabel("Sắp xếp theo :");
+        sortAD.setFont(font0);
+        sortAD.setBounds(650,40,100,30);
+        sort.add(sortAD);
+        AD = new Choice();
+        AD.setFont(font0);
+        String[]itemAD ={"Mới nhất","Giá cao - thấp","Giá thấp - cao"};
+        for(String s:itemAD)
+        {
+            AD.add(s);
+        }
+        AD.setBounds(750, 40, 150, 40);
+        sort.add(AD);
+        /******************************************/
         add(sort);
 
 /****************************************************************/
