@@ -82,11 +82,11 @@ public class ChiTietHDGUI extends JFrame{
         itemView.add(txtDonGia);
 /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
 
-        JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit_150px.png")));
+        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit_150px.png"));
         btnEdit.setBounds(new Rectangle(20,160,150,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
               
-        JLabel btnDelete = new JLabel(new ImageIcon(getClass().getResource("/image/btnDelete_150px.png")));
+        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete_150px.png"));
         btnDelete.setBounds(new Rectangle(180,160,150,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));    
         

@@ -6,6 +6,7 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -15,6 +16,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +38,7 @@ public class KhachHangGUI extends JPanel{
 //    private NhanVienBUS khBUS = new NhanVienBUS();
     private JTable tbl;
     private JTextField txtMaKH,txtHoKH,txtTenKH,txtDiaChi,txtSDT;
+    private JTextField sortMaKH,sortHoKH,sortTenKH;
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
@@ -55,8 +59,8 @@ public class KhachHangGUI extends JPanel{
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel itemView = new JPanel(null);
-        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 300));
-        itemView.setBackground(Color.WHITE);
+        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 250));
+        itemView.setBackground(null);
         
         /******** Tao Cac Label & TextField ************************/
         JLabel lbMaKH = new JLabel("Mă khách hàng");
@@ -104,17 +108,17 @@ public class KhachHangGUI extends JPanel{
         add(itemView);
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
-        JLabel btnAdd = new JLabel(new ImageIcon(getClass().getResource("/image/btnAdd.png")));
+        JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
         btnAdd.setBounds(new Rectangle(500,0,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
-        JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit.png")));
+        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
         btnEdit.setBounds(new Rectangle(500,90,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
-        JLabel btnDelete = new JLabel(new ImageIcon(getClass().getResource("/image/btnDelete.png")));
+        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
         btnDelete.setBounds(new Rectangle(500,180,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
@@ -124,12 +128,12 @@ public class KhachHangGUI extends JPanel{
         
         
         
-        JLabel btnCofirm= new JLabel(new ImageIcon(getClass().getResource("/image/btnCofirm.png")));
+        JLabel btnCofirm= new JLabel(new ImageIcon("./src/image/btnCofirm.png"));
         btnCofirm.setVisible(false);
         btnCofirm.setBounds(new Rectangle(700,10,200,50));
         btnCofirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnBack = new JLabel(new ImageIcon(getClass().getResource("/image/btnBack.png")));
+        JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
         btnBack.setBounds(new Rectangle(700,110,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -194,6 +198,51 @@ public class KhachHangGUI extends JPanel{
                 txtSDT.setText( tbl.getModel().getValueAt(i, 4).toString());        
              }
         });
+/*********************** SORT TABLE *****************************/
+        JPanel sort = new JPanel(null);
+        sort.setBackground(null);
+        sort.setBounds(30,300,this.DEFALUT_WIDTH - 400,140);
+        
+        JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
+        sortTitle.setFont(font1);
+        sortTitle.setBounds(new Rectangle(0,0,this.DEFALUT_WIDTH - 400,30));
+        sort.add(sortTitle);
+        
+        /******** SORT MAKH **************/
+        JLabel lbSortMaKH = new JLabel("Mă KH :");
+        lbSortMaKH.setFont(font0);
+        lbSortMaKH.setBounds(0,40,60,30);
+        sort.add(lbSortMaKH);
+        
+        sortMaKH = new JTextField();
+        sortMaKH.setBounds(new Rectangle(60,42,100,30));
+        sort.add(sortMaKH);
+        /*************************************/
+        
+        /******** SORT HOKH **************/
+        JLabel lbSortHoKH = new JLabel("Họ KH :");
+        lbSortHoKH.setFont(font0);
+        lbSortHoKH.setBounds(200,40,60,30);
+        sort.add(lbSortHoKH);
+        
+        sortHoKH = new JTextField();
+        sortHoKH.setBounds(new Rectangle(260,42,100,30));
+        sort.add(sortHoKH);
+        /*************************************/
+        
+        /******** SORT TENKH **************/
+        JLabel lbSortTenKH = new JLabel("Tên KH :");
+        lbSortTenKH.setFont(font0);
+        lbSortTenKH.setBounds(400,40,60,30);
+        sort.add(lbSortTenKH);
+        
+        sortTenKH = new JTextField();
+        sortTenKH.setBounds(new Rectangle(460,42,200,30));
+        sort.add(sortTenKH);
+        /*************************************/
+        
+        add(sort);
+/******************************************************************/
     }
 }
 

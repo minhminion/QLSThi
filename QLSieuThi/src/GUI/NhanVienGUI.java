@@ -140,17 +140,17 @@ public class NhanVienGUI extends JPanel{
         /************************************************************/
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
-        JLabel btnAdd = new JLabel(new ImageIcon(getClass().getResource("/image/btnAdd.png")));
+        JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
         btnAdd.setBounds(new Rectangle(700,10,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
-        JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit.png")));
+        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
         btnEdit.setBounds(new Rectangle(700,110,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
-        JLabel btnDelete = new JLabel(new ImageIcon(getClass().getResource("/image/btnDelete.png")));
+        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
         btnDelete.setBounds(new Rectangle(700,210,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
@@ -160,17 +160,17 @@ public class NhanVienGUI extends JPanel{
         
         
         
-        JLabel btnCofirm= new JLabel(new ImageIcon(getClass().getResource("/image/btnCofirm.png")));
+        JLabel btnCofirm= new JLabel(new ImageIcon("./src/image/btnCofirm.png"));
         btnCofirm.setVisible(false);
         btnCofirm.setBounds(new Rectangle(700,10,200,50));
         btnCofirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnBack = new JLabel(new ImageIcon(getClass().getResource("/image/btnBack.png")));
+        JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
         btnBack.setBounds(new Rectangle(700,110,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnFile = new JLabel(new ImageIcon(getClass().getResource("/image/btnFile.png")));
+        JLabel btnFile = new JLabel(new ImageIcon("./src/image/btnFile.png"));
         btnFile.setVisible(false);
         btnFile.setBounds(new Rectangle(700,210,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -371,7 +371,7 @@ public class NhanVienGUI extends JPanel{
         txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
         
         // Custem Icon search
-        JLabel searchIcon = new JLabel(new ImageIcon(getClass().getResource("/image/search_25px.png")));
+        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
         searchIcon.setBounds(new Rectangle(400,-9,50,50));
         searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
@@ -384,12 +384,12 @@ public class NhanVienGUI extends JPanel{
             @Override
             public void focusGained(FocusEvent e) 
             {
-                searchIcon.setIcon(new ImageIcon(getClass().getResource("/image/search_25px_focus.png"))); //Đổi màu icon
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
                 searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
             }
             public void focusLost(FocusEvent e) //Trờ về như cũ
             {
-                searchIcon.setIcon(new ImageIcon(getClass().getResource("/image/search_25px.png")));
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
                 searchBox.setBorder(createLineBorder(Color.BLACK));
             }
         });
@@ -468,10 +468,10 @@ public class NhanVienGUI extends JPanel{
                 imgName = tbl.getModel().getValueAt(i, 7).toString();
                 Image newImage ;
                 try{
-                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/"+imgName)).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                    newImage = new ImageIcon("./src/image/NhanVien/"+imgName).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
                 }catch(NullPointerException E)
                 {
-                    newImage = new ImageIcon(getClass().getResource("/image/NhanVien/NoImage.jpg")).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                    newImage = new ImageIcon("./src/image/NhanVien/NoImage.jpg").getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
                 }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());

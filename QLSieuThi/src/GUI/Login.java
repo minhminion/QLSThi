@@ -83,13 +83,13 @@ public class Login extends JFrame{
         btnLogin.setkAllowTab(false);
         btnLogin.setBounds(100, 400, 200, 40);
         
-        JLabel exit = new JLabel(new ImageIcon(getClass().getResource("/image/exit_25px.png")),JLabel.CENTER);
+        JLabel exit = new JLabel(new ImageIcon("./src/image/exit_25px.png"),JLabel.CENTER);
         exit.setBounds(DEFAULT_WIDTH - 40, 10, 30, 30);
         exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel lbUser = new JLabel(new ImageIcon(getClass().getResource("/image/user_30px.png")),JLabel.CENTER);
+        JLabel lbUser = new JLabel(new ImageIcon("./src/image/user_30px.png"),JLabel.CENTER);
         lbUser.setBounds(80, 197, 30, 30);
-        JLabel lbPass = new JLabel(new ImageIcon(getClass().getResource("/image/pwd_30px.png")),JLabel.CENTER);
+        JLabel lbPass = new JLabel(new ImageIcon("./src/image/pwd_30px.png"),JLabel.CENTER);
         lbPass.setBounds(80, 277, 30, 30);
         
         user = new JTextField("Username");
