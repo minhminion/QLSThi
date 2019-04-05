@@ -111,20 +111,20 @@ public class HoaDonGUI extends JPanel{
         add(itemView);
         /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
 
-        JLabel btnEdit = new JLabel(new ImageIcon(getClass().getResource("/image/btnEdit.png")));
+        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
         btnEdit.setBounds(new Rectangle(500,0,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
-        JLabel btnDelete = new JLabel(new ImageIcon(getClass().getResource("/image/btnDelete.png")));
+        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
         btnDelete.setBounds(new Rectangle(500,70,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnView = new JLabel(new ImageIcon(getClass().getResource("/image/btnView.png")));
+        JLabel btnView = new JLabel(new ImageIcon("./src/image/btnView.png"));
         btnView.setBounds(new Rectangle(730,0,200,50));
         btnView.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnBill = new JLabel(new ImageIcon(getClass().getResource("/image/btnBill.png")));
+        JLabel btnBill = new JLabel(new ImageIcon("./src/image/btnBill.png"));
         btnBill.setBounds(new Rectangle(730,70,200,50));
         btnBill.setCursor(new Cursor(Cursor.HAND_CURSOR));
         

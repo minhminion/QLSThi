@@ -20,65 +20,35 @@ import java.util.logging.Logger;
  * @author Shadow
  */
 public class SanPhamDAO {
-    private String user = "root";
-    private String password="";
-    private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
-    private Connection conn;
-    private Statement st ;
-    private ResultSet rs = null;
-    public SanPhamDAO(String user , String pass,String url)
-    {
-        this.user = user;
-        this.password = pass;
-        this.url = url;
-    }
+
 
     public SanPhamDAO() {
        
     }
-    public void Connect()
-    {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void disConnect()
-    { 
-        try{
-            st.close();
-            conn.close();
-        }catch (SQLException E){}
-    }
-    public boolean checkAcc(String user,String password)
-    {
-        boolean kq = false;
-        try {
-            Connect();
-            String sql = "SELECT * FROM user WHERE user='"+user+"' "
-                    + "AND pass='"+password+"'";
-            st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            kq = rs.next();
-            rs.close();
-            disConnect();  
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return kq;
-    }
+//    public boolean checkAcc(String user,String password)
+//    {
+//        boolean kq = false;
+//        try {
+//            Connect();
+//            String sql = "SELECT * FROM user WHERE user='"+user+"' "
+//                    + "AND pass='"+password+"'";
+//            st = conn.createStatement();
+//            ResultSet rs = st.executeQuery(sql);
+//            kq = rs.next();
+//            rs.close();
+//            disConnect();  
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return kq;
+//    }
     public ArrayList<SanPhamDTO> listSP()
     {
         ArrayList<SanPhamDTO> sp = new ArrayList<>();
         try {
-            Connect();
+            MySQLConnect mySQL = new MySQLConnect();
             String sql = "SELECT * FROM sanpham WHERE 1";
-            st = this.conn.createStatement();
-            rs = st.executeQuery(sql);
+            ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
 //            System.out.println(rs.getInt("dongiaSP"));
@@ -95,7 +65,6 @@ public class SanPhamDAO {
                 sp.add(s);
             }
             rs.close();
-            disConnect();
 //        for(SanPhamDTO s:sp)
 //        {
 //            System.out.print(s.getPrice());
@@ -111,44 +80,30 @@ public class SanPhamDAO {
     }
     public void addSP(SanPhamDTO sp)
     {
-        try {
-            Connect();
-            st = conn.createStatement();
-            String sql = "INSERT INTO sanpham VALUES (";
-                   sql += "'"+sp.getMaSP()+"',";
-                   sql += "N'"+sp.getTenSP()+"',";
-                   sql += "'"+sp.getSl()+"',";
-                   sql += "'"+sp.getGia()+"',";
-                   sql += "N'"+sp.getDvt()+"',";
-                   sql += "'"+sp.getMaLoai()+"',";
-                   sql += "'"+sp.getMaNsx()+"',";
-                   sql += "'"+sp.getImg()+"')";
-            System.out.println(sql);
-            st.executeUpdate(sql);
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "INSERT INTO sanpham VALUES (";
+               sql += "'"+sp.getMaSP()+"',";
+               sql += "N'"+sp.getTenSP()+"',";
+               sql += "'"+sp.getSl()+"',";
+               sql += "'"+sp.getGia()+"',";
+               sql += "N'"+sp.getDvt()+"',";
+               sql += "'"+sp.getMaLoai()+"',";
+               sql += "'"+sp.getMaNsx()+"',";
+               sql += "'"+sp.getImg()+"')";
+        System.out.println(sql);
+        mySQL.executeUpdate(sql);
     }
 
     public void deleteSP(String idSP)
     {
-        try {
-            Connect();
-            st = conn.createStatement();
-            String sql = "DELETE FROM sanpham WHERE MaSP='"+idSP+"'";
-            st.executeUpdate(sql);
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "DELETE FROM sanpham WHERE MaSP='"+idSP+"'";
+        mySQL.executeUpdate(sql);
     }
     
     public void setSP(SanPhamDTO sp)
     {
-        try {
-            Connect();
-            st = conn.createStatement();
+            MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE sanpham SET ";
             sql += "TENSP='"+sp.getTenSP()+"', ";
             sql += "SOLUONG='"+sp.getSl()+"', ";
@@ -158,13 +113,7 @@ public class SanPhamDAO {
             sql += "MANSX='"+sp.getMaNsx()+"', ";
             sql += "IMG='"+sp.getImg()+"' ";
             sql += "WHERE MASP='"+sp.getMaSP()+"'";
-            System.out.println(sql);
-            
-            st.executeUpdate(sql);
-            
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            System.out.println(sql);          
+            mySQL.executeUpdate(sql);
     }
 }
