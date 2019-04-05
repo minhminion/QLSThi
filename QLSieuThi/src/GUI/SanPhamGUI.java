@@ -44,7 +44,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JSeparator;
 
 /**
  *
@@ -60,10 +59,6 @@ public class SanPhamGUI extends JPanel{
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
-    private JTextField sortMaSP;
-    private JTextField sortTenSP;
-    private JTextField txtMaxPrice;
-    private JTextField txtMinPrice;
     
     //        
 
@@ -80,7 +75,7 @@ public class SanPhamGUI extends JPanel{
     }
     public void init() throws ClassNotFoundException, SQLException
     {
-        Font font0 = new Font("Segoe UI",Font.PLAIN,14);
+        Font font0 = new Font("Segoe UI",Font.PLAIN,13);
         Font font1 = new Font("Segoe UI",Font.BOLD,13);
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
@@ -94,49 +89,42 @@ public class SanPhamGUI extends JPanel{
         lbId.setBounds(new Rectangle(300,0,200,30));
         lbId.setFont(font0);
         txtId.setBounds(new Rectangle(400,0,220,30));
-        txtId.setFont(font0);
         
         JLabel lbName = new JLabel("Tên Sản Phẩm");
         txtHoNV = new JTextField("");
         lbName.setBounds(new Rectangle(300,50,200,30));
         lbName.setFont(font0);
         txtHoNV.setBounds(new Rectangle(400,50,220,30));
-        txtHoNV.setFont(font0);
         
         JLabel lbSl = new JLabel("Số lượng");
         txtSl = new JTextField("");
         lbSl.setBounds(new Rectangle(300,100,200,30));
         lbSl.setFont(font0);
         txtSl.setBounds(new Rectangle(400,100,220,30));
-        txtSl.setFont(font0);
         
         JLabel lbGia = new JLabel("Đơn giá (VNĐ)");
         txtGia = new JTextField("");
         lbGia.setBounds(new Rectangle(300,150,200,30));
         lbGia.setFont(font0);
         txtGia.setBounds(new Rectangle(400,150,220,30));
-        txtGia.setFont(font0);
         
         JLabel lbDVT = new JLabel("Đơn Vị Tính");
         txtDVT= new JTextField("");
         lbDVT.setBounds(new Rectangle(300,200,200,30));
         lbDVT.setFont(font0);
         txtDVT.setBounds(new Rectangle(400,200,220,30));
-        txtDVT.setFont(font0);
   
         JLabel lbNSX = new JLabel("Mă NSX");
         txtNSX = new JTextField("");
         lbNSX.setBounds(new Rectangle(300,250,50,30));
         lbNSX.setFont(font0);
         txtNSX.setBounds(new Rectangle(370,250,80,30));
-        txtNSX.setFont(font0);
         
         JLabel lbLoai = new JLabel("Mă Loại");
         txtLoai = new JTextField("");
         lbLoai.setBounds(new Rectangle(470,250,50,30));
         lbLoai.setFont(font0);
         txtLoai.setBounds(new Rectangle(540,250,80,30));
-        txtLoai.setFont(font0);
         
         img = new JLabel("Image");
         img.setBorder(createLineBorder(Color.BLACK));
@@ -375,120 +363,58 @@ public class SanPhamGUI extends JPanel{
         
 /**********************************************************************************/
 
-/*********************** SEARCH TABLE *****************************/
-        JPanel sort = new JPanel(null);
-        sort.setBackground(null);
-        sort.setBounds(30,350,this.DEFALUT_WIDTH - 400,100);
+/********************* THANH SEARCH ***********************************************/
         
-        JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
-        sortTitle.setFont(font1);
-        sortTitle.setBounds(new Rectangle(0,0,this.DEFALUT_WIDTH - 400,30));
-        sort.add(sortTitle);
+        // Tạo Search Box
+        JPanel searchBox = new JPanel(null);
+        searchBox.setBackground(null);
+        searchBox.setBounds(new Rectangle(30, 350,450, 30)); 
+        searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
         
-        /******** SORT MAKH **************/
-        JLabel lbSortMaSP = new JLabel("Mă SP :");
-        lbSortMaSP.setFont(font0);
-        lbSortMaSP.setBounds(0,40,60,30);
-        sort.add(lbSortMaSP);
+        //Phần TextField 
+        txtSearch = new JTextField();
+        txtSearch.setBounds(new Rectangle(5,0,400,30));
+        txtSearch.setBorder(null);
+        txtSearch.setOpaque(false);
+        txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
         
-        sortMaSP = new JTextField();
-        sortMaSP.setBounds(new Rectangle(60,42,100,30));
-        sort.add(sortMaSP);
-        /*************************************/
+        // Custem Icon search
+        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
+        searchIcon.setBounds(new Rectangle(400,-9,50,50));
+        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        /************ SORT THEO GIÁ ***************/
-        JLabel sortPrice = new JLabel("Giá (VNĐ) :");
-        sortPrice.setFont(font0);
-        sortPrice.setBounds(180,40,80,30);
-        sort.add(sortPrice);
-        
-        txtMinPrice = new JTextField();
-        txtMinPrice.setFont(font0);
-        txtMinPrice.setBounds(new Rectangle(260,42,100,26));
-        sort.add(txtMinPrice);
-        
-        JSeparator sepPrice = new JSeparator(JSeparator.HORIZONTAL);
-        sepPrice.setBounds(370, 56, 10, 6);
-        sort.add(sepPrice);
-        
-        txtMaxPrice = new JTextField();
-        txtMaxPrice.setFont(font0);
-        txtMaxPrice.setBounds(new Rectangle(390,42,100,26));
-        sort.add(txtMaxPrice);
-          
-        /******************************************/
-        
-        /******** SORT TENSP **************/
-        JLabel lbSortTenSP = new JLabel("Tên SP :");
-        lbSortTenSP.setFont(font0);
-        lbSortTenSP.setBounds(510,40,50,30);
-        sort.add(lbSortTenSP);
-        
-        sortTenSP = new JTextField();
-        sortTenSP.setBounds(new Rectangle(570,42,240,30));
-        sort.add(sortTenSP);
-        /*************************************/
-        
-        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_200px.png"));
-        btnSearch.setBounds(new Rectangle(820,30,63,63));
-        btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        sort.add(btnSearch);
-        
-        add(sort);
-/******************************************************************/
+        // Add tất cả vào search box
+        searchBox.add(searchIcon);
+        searchBox.add(txtSearch);
 
-///********************* THANH SEARCH ***********************************************/
-//        
-//        // Tạo Search Box
-//        JPanel searchBox = new JPanel(null);
-//        searchBox.setBackground(null);
-//        searchBox.setBounds(new Rectangle(30, 350,450, 30)); 
-//        searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
-//        
-//        //Phần TextField 
-//        txtSearch = new JTextField();
-//        txtSearch.setBounds(new Rectangle(5,0,400,30));
-//        txtSearch.setBorder(null);
-//        txtSearch.setOpaque(false);
-//        txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
-//        
-//        // Custem Icon search
-//        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
-//        searchIcon.setBounds(new Rectangle(400,-9,50,50));
-//        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//        
-//        // Add tất cả vào search box
-//        searchBox.add(searchIcon);
-//        searchBox.add(txtSearch);
-//
-//        //bắt sự kiện Focus vào search box
-//        txtSearch.addFocusListener(new FocusAdapter(){
-//            @Override
-//            public void focusGained(FocusEvent e) 
-//            {
-//                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
-//                searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
-//            }
-//            public void focusLost(FocusEvent e) //Trờ về như cũ
-//            {
-//                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
-//                searchBox.setBorder(createLineBorder(Color.BLACK));
-//            }
-//        });
-//        
-//        // Khi nhấn phím ở search box
-//        txtSearch.addKeyListener(new KeyAdapter (){
-//            public void keyPressed(KeyEvent e) 
-//            {
-//                if(e.getKeyCode() == KeyEvent.VK_ENTER) //Khi nhất Enter
-//                {
-////                    txtSearchKeyPressed();
-//                }
-//            }
-//        } ); 
-//        add(searchBox);
-//        
-///**********************************************************************************************/
+        //bắt sự kiện Focus vào search box
+        txtSearch.addFocusListener(new FocusAdapter(){
+            @Override
+            public void focusGained(FocusEvent e) 
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
+                searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
+            }
+            public void focusLost(FocusEvent e) //Trờ về như cũ
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
+                searchBox.setBorder(createLineBorder(Color.BLACK));
+            }
+        });
+        
+        // Khi nhấn phím ở search box
+        txtSearch.addKeyListener(new KeyAdapter (){
+            public void keyPressed(KeyEvent e) 
+            {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) //Khi nhất Enter
+                {
+//                    txtSearchKeyPressed();
+                }
+            }
+        } ); 
+        add(searchBox);
+        
+/**********************************************************************************************/
         
         setLayout(null);
         setBackground(null);

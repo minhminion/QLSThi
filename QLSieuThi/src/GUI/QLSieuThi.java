@@ -26,7 +26,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.net.URL;
-import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.metal.MetalBorders;
 
@@ -223,15 +222,12 @@ public class QLSieuThi extends JFrame implements MouseListener{
     {
         //Gắn cái NavItem vào NavOBJ
         navObj.clear();
-        JLabel profile = new JLabel(new ImageIcon("./src/image/profile_150px.png"));
-        profile.setBounds(0,0,220,200);
-        
         for(int i = 0 ; i < navItem.size() ; i++)
         {
             String s = navItem.get(i).split(":")[0];
             String icon = navItem.get(i).split(":")[1];
             String iconActive = navItem.get(i).split(":")[2];
-            navObj.add(new navItem(s, new Rectangle(0,200+50*i,220,50),icon,iconActive));
+            navObj.add(new navItem(s, new Rectangle(0,50*i,220,50),icon,iconActive));
             navObj.get(i).addMouseListener(this);
         }
         if(!flag && navObj.size() > 7) //Đổi màu phần DropDown của thống kê
@@ -242,7 +238,6 @@ public class QLSieuThi extends JFrame implements MouseListener{
         
         //Xuất ra Naigation
         nav.removeAll();
-        nav.add(profile);
         for(navItem n : navObj)
         {
             nav.add(n); 
