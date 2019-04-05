@@ -198,7 +198,7 @@ public class KhachHangGUI extends JPanel{
                 txtSDT.setText( tbl.getModel().getValueAt(i, 4).toString());        
              }
         });
-/*********************** SORT TABLE *****************************/
+/*********************** SEARCH TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
         sort.setBounds(30,300,this.DEFALUT_WIDTH - 400,140);

@@ -58,6 +58,10 @@ public class SanPhamBUS {
             }
         }
     }
+    public void searchSP(String maSP)
+    {
+        
+    }
     public ArrayList<SanPhamDTO> getDssp() {
         return dssp;
     }
