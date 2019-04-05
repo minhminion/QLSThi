@@ -47,14 +47,14 @@ public class QLSieuThi extends JFrame implements MouseListener{
     public void init()
     {
         setTitle("Quản Lý siêu thị ");
-        ImageIcon logo = new ImageIcon("./src/image/SieuThi_25px.png");
+        ImageIcon logo = new ImageIcon(getClass().getResource("/image/SieuThi_25px.png"));
         setIconImage(logo.getImage());
         setLayout(new BorderLayout());
         setSize(DEFALUT_WIDTH,DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
-//        setShape(new RoundRectangle2D.Double(0, 0, DEFALUT_WIDTH, DEFAULT_HEIGHT, 50, 50)); //Bo khung Frame
+        //setShape(new RoundRectangle2D.Double(0, 0, DEFALUT_WIDTH, DEFAULT_HEIGHT, 30, 30)); //Bo khung Frame
         
 /************ PHẦN HEADER *************************************/      
         header = new JPanel(null);
