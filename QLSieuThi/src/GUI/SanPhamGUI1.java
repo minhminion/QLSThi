@@ -41,10 +41,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
@@ -440,6 +443,7 @@ public class SanPhamGUI1 extends JPanel{
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
         listSP(); //Đọc từ database lên table 
+
 /********************* THANH SEARCH ***********************************************/   
 
         JPanel searchBox = new JPanel(null);
@@ -496,7 +500,7 @@ public class SanPhamGUI1 extends JPanel{
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 1));
                 }
             }
 

@@ -161,7 +161,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
             break;
             case 1: // QUẢN LÝ SẢN PHẨM
                 main.removeAll();
-                main.add(new SanPhamGUI1(DEFALUT_WIDTH));
+                main.add(new SanPhamGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
 
