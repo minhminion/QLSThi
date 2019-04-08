@@ -77,7 +77,7 @@ public class SanPhamBUS {
         }
         return search;
     }
-    public ArrayList<SanPhamDTO> getDssp() {
+    public ArrayList<SanPhamDTO> getList() {
         return dssp;
     }
     

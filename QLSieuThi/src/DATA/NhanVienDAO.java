@@ -6,12 +6,8 @@
 package DATA;
 
 import DTO.NhanVienDTO;
-import DTO.SanPhamDTO;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,19 +17,18 @@ import java.util.logging.Logger;
  * @author Shadow
  */
 public class NhanVienDAO {
-
+    private  MySQLConnect mySQL = new MySQLConnect();
     public NhanVienDAO() {
     }
     public ArrayList<NhanVienDTO> listNV()
     {
         ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
         try {
-            MySQLConnect mySQL = new MySQLConnect();
+           
             String sql = "SELECT * FROM nhanvien WHERE 1";
             ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
-
                 String maNV = rs.getString("MANV");
                 String hoNV = rs.getString("HONV");
                 String tenNV = rs.getString("TENNV");
@@ -47,7 +42,8 @@ public class NhanVienDAO {
                 dsnv.add(nv);
             }
             rs.close();
-
+            mySQL.disConnect();
+            
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,7 +51,7 @@ public class NhanVienDAO {
         return dsnv;
     }
 
-    public void setSP(NhanVienDTO nv) {
+    public void setLoai(NhanVienDTO nv) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE nhanvien SET ";
             sql += "HONV='"+nv.getHoNV()+"', ";

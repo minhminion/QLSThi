@@ -277,8 +277,8 @@ class RemindSanPham extends JDialog{
     }
     public void listSP() // Chép ArrayList lên table
     {
-        if(spBUS.getDssp()== null)spBUS.listSP();
-        ArrayList<SanPhamDTO> nv = spBUS.getDssp();
+        if(spBUS.getList()== null)spBUS.listSP();
+        ArrayList<SanPhamDTO> nv = spBUS.getList();
         model.setRowCount(0);
         outModel(model,nv);
     }

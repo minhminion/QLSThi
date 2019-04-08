@@ -5,7 +5,7 @@
  */
 package BUS;
 
-import DATA.SanPhamDAO;
+import DATA.LoaiDAO;
 import DTO.LoaiDTO;
 import java.util.ArrayList;
 
@@ -19,65 +19,72 @@ public class LoaiBUS {
     {
         
     }
-    public void listSP()
+    public void listLoai()
     {
-        SanPhamDAO loaiDAO = new SanPhamDAO();
+        LoaiDAO loaiDAO = new LoaiDAO();
         dsLoai = new ArrayList<>();
-        dsLoai = loaiDAO.listSP();
+        dsLoai = loaiDAO.listLoai();
     }
-    public void addSP(LoaiDTO loai)
+    public void addLoai(LoaiDTO loai)
     {
         dsLoai.add(loai);
-        SanPhamDAO loaiDAO = new SanPhamDAO();
-        loaiDAO.addSP(loai);
+        LoaiDAO loaiDAO = new LoaiDAO();
+        loaiDAO.addLoai(loai);
     }
 
-    public void deleteSP(String idSP)
+    public void deleteLoai(String idLoai)
     {
         for(LoaiDTO loai : dsLoai )
         {
-            if(loai.getMaSP().equals(idSP))
+            if(loai.getMaLoai().equals(idLoai))
             {
                 dsLoai.remove(loai);
-                SanPhamDAO loaiDAO = new SanPhamDAO();
-                loaiDAO.deleteSP(idSP);
+                LoaiDAO loaiDAO = new LoaiDAO();
+                loaiDAO.deleteLoai(idLoai);
                 return;
             }
         }
     }
-    public void setSP(LoaiDTO s)
+    public void setLoai(LoaiDTO s)
     {
         for(int i = 0 ; i < dsLoai.size() ; i++)
         {
             if(dsLoai.get(i).getMaLoai().equals(s.getMaLoai()))
             {
                 dsLoai.set(i, s);
-                SanPhamDAO loaiDAO = new SanPhamDAO();
-                loaiDAO.setSP(s);
+                LoaiDAO loaiDAO = new LoaiDAO();
+                loaiDAO.setLoai(s);
                 return;
             }
         }
     }
-    public ArrayList<LoaiDTO> searchSP(String maloai,String maloai,String mansx,int max,int min)
+    public LoaiDTO searchMaLoai(String maloai)
+    {
+        for(LoaiDTO loai : dsLoai)
+        {
+            if( loai.getMaLoai().equals(maloai))
+            {
+                return loai;
+            }
+        }
+        return null;
+    }
+    public ArrayList<LoaiDTO> searchLoai(String maloai,String tenloai)
     {
         ArrayList<LoaiDTO> search = new ArrayList<>();
         maloai = maloai.isEmpty()?maloai = "": maloai;
-        maloai = maloai.isEmpty()?maloai = "": maloai;
-        mansx = mansx.isEmpty()?mansx = "": mansx;
+        tenloai = tenloai.isEmpty()?tenloai = "": tenloai;
         for(LoaiDTO loai : dsLoai)
         {
-            if( loai.getMaSP().contains(maloai) && 
-                loai.getMaLoai().contains(maloai) &&
-                loai.getMaNsx().contains(mansx) &&
-                loai.getGia() >= min && 
-                loai.getGia() <= max)
+            if( loai.getMaLoai().contains(maloai) && 
+                loai.getTenLoai().contains(tenloai))
             {
                 search.add(loai);
             }
         }
         return search;
     }
-    public ArrayList<LoaiDTO> getDsloai() {
+    public ArrayList<LoaiDTO> getList() {
         return dsLoai;
     }
 }

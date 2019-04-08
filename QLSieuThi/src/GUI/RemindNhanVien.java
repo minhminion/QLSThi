@@ -276,8 +276,8 @@ public class RemindNhanVien extends JDialog{
     }
     public void listSP() // Chép ArrayList lên table
     {
-        if(nvBUS.getDssp()== null)nvBUS.listSP();
-        ArrayList<NhanVienDTO> nv = nvBUS.getDssp();
+        if(nvBUS.getList()== null)nvBUS.listNV();
+        ArrayList<NhanVienDTO> nv = nvBUS.getList();
         model.setRowCount(0);
         outModel(model,nv);
     }

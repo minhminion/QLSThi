@@ -220,7 +220,7 @@ public class NhanVienGUI extends JPanel{
                     nvBUS.deleteNV(txtMaNV.getText());
                     cleanView();
                     tbl.clearSelection();
-                    outModel(model, nvBUS.getDssp());
+                    outModel(model, nvBUS.getList());
                 }
             }
         });
@@ -320,9 +320,9 @@ public class NhanVienGUI extends JPanel{
 
                         //Upload sản phẩm lên DAO và BUS
                         NhanVienDTO sp = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
-                        nvBUS.addSP(sp);
+                        nvBUS.addNV(sp);
 
-                        outModel(model, nvBUS.getDssp());// Load lại table
+                        outModel(model, nvBUS.getList());// Load lại table
 
                         saveIMG();// Lưu hình ảnh 
 
@@ -346,9 +346,9 @@ public class NhanVienGUI extends JPanel{
 
                         //Upload sản phẩm lên DAO và BUS
                         NhanVienDTO sp = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
-                        nvBUS.setSP(sp);
+                        nvBUS.setNV(sp);
                         
-                        outModel(model, nvBUS.getDssp());// Load lại table
+                        outModel(model, nvBUS.getList());// Load lại table
                         
                         saveIMG();// Lưu hình ảnh 
                         
@@ -511,7 +511,7 @@ public class NhanVienGUI extends JPanel{
                String ten = sortTenNV.getText();
                String phai = sortPhai.getSelectedIndex()!= 0 ? sortPhai.getSelectedItem() : "";
                
-               outModel(model, nvBUS.searchSP(manv, ho, ten, phai));
+               outModel(model, nvBUS.searchNV(manv, ho, ten, phai));
            }
         });
         sort.add(btnSearch);
@@ -571,8 +571,8 @@ public class NhanVienGUI extends JPanel{
     }
     public void listSP() // Chép ArrayList lên table
     {
-        if(nvBUS.getDssp()== null)nvBUS.listSP();
-        ArrayList<NhanVienDTO> nv = nvBUS.getDssp();
+        if(nvBUS.getList()== null)nvBUS.listNV();
+        ArrayList<NhanVienDTO> nv = nvBUS.getList();
 //        model.setRowCount(0);
         outModel(model,nv);
     }

@@ -22,17 +22,14 @@ public class MySQLConnect {
     private String password="";
     private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
     private Connection conn;
-    private Statement st;
-    private ResultSet rs;
+    private Statement st = null;
     
     public void Connect()
     {
          try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -46,11 +43,11 @@ public class MySQLConnect {
     
     public ResultSet executeQuery(String sql)
     {
+        ResultSet rs = null;
         try {
             Connect();
             st = conn.createStatement();
             rs = st.executeQuery(sql);
-            disConnect();
         } catch (SQLException ex) {
             Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
         }

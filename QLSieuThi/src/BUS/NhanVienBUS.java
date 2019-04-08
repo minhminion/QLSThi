@@ -19,13 +19,13 @@ public class NhanVienBUS {
     {
         
     }
-    public void listSP()
+    public void listNV()
     {
         NhanVienDAO spDAO = new NhanVienDAO();
         dsnv = new ArrayList<>();
         dsnv = spDAO.listNV();
     }
-    public void addSP(NhanVienDTO sp)
+    public void addNV(NhanVienDTO sp)
     {
         dsnv.add(sp);
         NhanVienDAO spDAO = new NhanVienDAO();
@@ -45,7 +45,7 @@ public class NhanVienBUS {
             }
         }
     }
-    public void setSP(NhanVienDTO s)
+    public void setNV(NhanVienDTO s)
     {
         for(int i = 0 ; i < dsnv.size() ; i++)
         {
@@ -53,12 +53,12 @@ public class NhanVienBUS {
             {
                 dsnv.set(i, s);
                 NhanVienDAO spDAO = new NhanVienDAO();
-                spDAO.setSP(s);
+                spDAO.setLoai(s);
                 return;
             }
         }
     }
-    public ArrayList<NhanVienDTO> searchSP(String manv,String ho,String ten,String phai)
+    public ArrayList<NhanVienDTO> searchNV(String manv,String ho,String ten,String phai)
     {
         ArrayList<NhanVienDTO> search = new ArrayList<>();
         manv = manv.isEmpty()?manv = "": manv;
@@ -76,7 +76,7 @@ public class NhanVienBUS {
         }
         return search;
     }
-    public ArrayList<NhanVienDTO> getDssp() {
+    public ArrayList<NhanVienDTO> getList() {
         return dsnv;
     }
 }
