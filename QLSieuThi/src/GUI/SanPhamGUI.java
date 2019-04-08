@@ -432,7 +432,7 @@ public class SanPhamGUI extends JPanel{
         JScrollPane scroll = new JScrollPane(tbl);
         scroll.setBounds(new Rectangle(30, 430, this.DEFALUT_WIDTH - 400 , 230));
         scroll.setBackground(null);
-        
+        scroll.getVerticalScrollBar().setPreferredSize(new Dimension(5,100));
         add(scroll);
         add(ItemView);
 /*****************************************************************************************/

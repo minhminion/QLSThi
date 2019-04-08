@@ -62,7 +62,7 @@ public class RemindNhanVien extends JDialog{
         setSize(DWIDTH,700);
         getContentPane().setBackground(new Color(55, 63, 81));
         setLayout(null);
-        setLocation(250, 150);
+        setLocationRelativeTo(null);
         
         Font ftitle = new Font("Segoe UI",Font.BOLD,25);
         Font font0 = new Font("Segoe UI",Font.PLAIN,14);

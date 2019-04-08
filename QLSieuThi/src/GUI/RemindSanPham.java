@@ -57,7 +57,7 @@ class RemindSanPham extends JDialog{
         setSize(DWIDTH,700);
         getContentPane().setBackground(new Color(55, 63, 81));
         setLayout(null);
-        setLocation(250, 150);
+        setLocationRelativeTo(null);
         
         Font font0 = new Font("Segoe UI",Font.PLAIN,14);
         Font font1 = new Font("Segoe UI",Font.BOLD,13);

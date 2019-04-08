@@ -5,12 +5,15 @@
  */
 package GUI;
 
+import DTO.ChiTietHDDTO;
+import DTO.SanPhamDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +33,7 @@ import javax.swing.table.TableRowSorter;
  * @author Shadow
  */
 public class BanHangGUI extends JPanel implements ActionListener{
+    private ArrayList<ChiTietHDDTO> dsct = new ArrayList<>();
     private int DEFALUT_WIDTH;
     private JTextField txtMaHD;
     private JTextField txtMaKH;
@@ -254,16 +258,51 @@ public class BanHangGUI extends JPanel implements ActionListener{
                 return;
             }
             int gia = Integer.parseInt(txtCTGia.getText());
-            System.out.println("click");
-            Vector row = new Vector();
-            row.add(txtMaSP.getText());
-            row.add(txtCTTenSP.getText());
-            row.add(gia);
-            row.add(sl);
-            model.addRow(row);
-            int tong = txtTongTien.getText().equals("")?Integer.parseInt(txtCTGia.getText()):0;
-            tong += sl*gia;
-            txtTongTien.setText(String.valueOf(tong));
+            System.out.println(sl);
+            boolean flag = true;
+            for(ChiTietHDDTO sp : dsct )
+            {
+                System.out.println(sp.getMaSP()+" "+txtMaSP.getText());
+                if(sp.getMaSP().equals(txtMaSP.getText()))
+                {
+                    int old = sp.getSl();
+                    sp.setSl(sl + old);
+                    flag = false ;
+                    break;
+                }
+            }
+            if(flag)
+            {
+               dsct.add(new ChiTietHDDTO(txtMaHD.getText(),txtMaSP.getText(),txtCTTenSP.getText(), gia, sl)); 
+            }
+            outModel(model, dsct);
+            txtTongTien.setText(String.valueOf(sumHD()));
         }
+    }
+    public void outModel(DefaultTableModel model , ArrayList<ChiTietHDDTO> ds) // Xuất ra Table từ ArrayList
+    {
+        Vector data;
+        model.setRowCount(0);
+        for(ChiTietHDDTO sp:ds)
+        {
+            data = new Vector();
+            data.add(sp.getMaSP());
+            data.add(sp.getTenSP());
+            data.add(sp.getGia());
+            data.add(sp.getSl());
+            model.addRow(data);
+        }
+        tbl.setModel(model);
+    }
+    public int sumHD()
+    {   
+        int sum = 0;
+        for(ChiTietHDDTO sp : dsct)
+        {
+            int sl = sp.getSl();
+            int gia = sp.getGia();
+            sum += sl*gia;
+        }
+        return sum;
     }
 }
