@@ -21,43 +21,16 @@ import java.util.logging.Logger;
  * @author Shadow
  */
 public class NhanVienDAO {
-    private String user = "root";
-    private String password="";
-    private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
-    private Connection conn;
-    private Statement st ;
-    private ResultSet rs = null;
 
     public NhanVienDAO() {
     }
-    
-    public void Connect()
-    {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void disConnect()
-    { 
-        try{
-            st.close();
-            conn.close();
-        }catch (SQLException E){}
-    }
-    
     public ArrayList<NhanVienDTO> listNV()
     {
         ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
         try {
-            Connect();
+            MySQLConnect mySQL = new MySQLConnect();
             String sql = "SELECT * FROM nhanvien WHERE 1";
-            st = this.conn.createStatement();
-            rs = st.executeQuery(sql);
+            ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
 
@@ -74,7 +47,6 @@ public class NhanVienDAO {
                 dsnv.add(nv);
             }
             rs.close();
-            disConnect();
 
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,9 +56,7 @@ public class NhanVienDAO {
     }
 
     public void setSP(NhanVienDTO nv) {
-        try {
-            Connect();
-            st = conn.createStatement();
+            MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE nhanvien SET ";
             sql += "HONV='"+nv.getHoNV()+"', ";
             sql += "TENNV='"+nv.getTenNV()+"', ";
@@ -95,49 +65,32 @@ public class NhanVienDAO {
             sql += "MUCLUONG='"+nv.getMucLuong()+"', ";
             sql += "DIACHI='"+nv.getDiaChi()+"', ";
             sql += "IMG='"+nv.getImg()+"' ";
-            sql += "WHERE MANV='"+nv.getMaNV()+"'";
+            sql += " WHERE MANV='"+nv.getMaNV()+"'";
             System.out.println(sql);
             
-            st.executeUpdate(sql);
-            
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            mySQL.executeUpdate(sql);
     }
 
     public void addNV(NhanVienDTO nv) {
-        try {
-            Connect();
-            st = conn.createStatement();
-            String sql = "INSERT INTO nhanvien VALUES (";
-                   sql += "'"+nv.getMaNV()+"',";
-                   sql += "'"+nv.getHoNV()+"',";
-                   sql += "'"+nv.getTenNV()+"',";
-                   sql += "'"+nv.getNamSinh()+"',";
-                   sql += "'"+nv.getPhai()+"',";
-                   sql += "'"+nv.getMucLuong()+"',";
-                   sql += "'"+nv.getDiaChi()+"',";
-                   sql += "'"+nv.getImg()+"')";
-            System.out.println(sql);
-            st.executeUpdate(sql);
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MySQLConnect mySQL = new MySQLConnect();
+         String sql = "INSERT INTO nhanvien VALUES (";
+                sql += "'"+nv.getMaNV()+"',";
+                sql += "'"+nv.getHoNV()+"',";
+                sql += "'"+nv.getTenNV()+"',";
+                sql += "'"+nv.getNamSinh()+"',";
+                sql += "'"+nv.getPhai()+"',";
+                sql += "'"+nv.getMucLuong()+"',";
+                sql += "'"+nv.getDiaChi()+"',";
+                sql += "'"+nv.getImg()+"')";
+         System.out.println(sql);
+         mySQL.executeUpdate(sql);
     }
     
     public void deleteNV(String MaNV)
     {
-        try {
-            Connect();
-            st = conn.createStatement();
-            String sql = "DELETE FROM nhanvien WHERE MANV='"+MaNV+"'";
-            st.executeUpdate(sql);
-            System.out.println(sql);
-            disConnect();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "DELETE FROM nhanvien WHERE MANV='"+MaNV+"'";
+        mySQL.executeUpdate(sql);
+        System.out.println(sql);
     }
 }
