@@ -58,6 +58,24 @@ public class NhanVienBUS {
             }
         }
     }
+    public ArrayList<NhanVienDTO> searchSP(String manv,String ho,String ten,String phai)
+    {
+        ArrayList<NhanVienDTO> search = new ArrayList<>();
+        manv = manv.isEmpty()?manv = "": manv;
+        ho = ho.isEmpty()?ho = "": ho;
+        ten = ten.isEmpty()?ten = "": ten;
+        for(NhanVienDTO nv : dsnv)
+        {
+            if( nv.getMaNV().contains(manv) && 
+                nv.getHoNV().contains(ho) &&
+                nv.getTenNV().contains(ten) &&
+                nv.getPhai().contains(phai))
+            {
+                search.add(nv);
+            }
+        }
+        return search;
+    }
     public ArrayList<NhanVienDTO> getDssp() {
         return dsnv;
     }

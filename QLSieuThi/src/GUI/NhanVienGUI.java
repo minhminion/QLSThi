@@ -7,6 +7,7 @@ package GUI;
 
 import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
+import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -35,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +55,10 @@ public class NhanVienGUI extends JPanel{
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
+    private JTextField sortMaNV;
+    private JTextField sortHoNV;
+    private JTextField sortTenNV;
+    private Choice sortPhai;
     public NhanVienGUI(int width)
     {
         DEFALUT_WIDTH = width;
@@ -66,12 +72,15 @@ public class NhanVienGUI extends JPanel{
     }
     public void init() throws ClassNotFoundException, SQLException
     {
-        Font font0 = new Font("Segoe UI",Font.PLAIN,13);
+        setLayout(null);
+        setBackground(null);
+        setBounds(new Rectangle(50, 0, this.DEFALUT_WIDTH - 220, 1000));
+        Font font0 = new Font("Segoe UI",Font.PLAIN,14);
         Font font1 = new Font("Segoe UI",Font.BOLD,13);
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 300));
+        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 300));
         ItemView.setBackground(Color.WHITE);
         
         /******** Tao Cac Label & TextField ************************/
@@ -354,64 +363,7 @@ public class NhanVienGUI extends JPanel{
         /****************************************************************/
         
 /**********************************************************************************/
-
-/********************* THANH SEARCH ***********************************************/
-        
-        // Tạo Search Box
-        JPanel searchBox = new JPanel(null);
-        searchBox.setBackground(null);
-        searchBox.setBounds(new Rectangle(30, 350,450, 30)); 
-        searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
-        
-        //Phần TextField 
-        txtSearch = new JTextField();
-        txtSearch.setBounds(new Rectangle(5,0,400,30));
-        txtSearch.setBorder(null);
-        txtSearch.setOpaque(false);
-        txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
-        
-        // Custem Icon search
-        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
-        searchIcon.setBounds(new Rectangle(400,-9,50,50));
-        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
-        // Add tất cả vào search box
-        searchBox.add(searchIcon);
-        searchBox.add(txtSearch);
-
-        //bắt sự kiện Focus vào search box
-        txtSearch.addFocusListener(new FocusAdapter(){
-            @Override
-            public void focusGained(FocusEvent e) 
-            {
-                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
-                searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
-            }
-            public void focusLost(FocusEvent e) //Trờ về như cũ
-            {
-                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
-                searchBox.setBorder(createLineBorder(Color.BLACK));
-            }
-        });
-        
-        // Khi nhấn phím ở search box
-        txtSearch.addKeyListener(new KeyAdapter (){
-            public void keyPressed(KeyEvent e) 
-            {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER) //Khi nhất Enter
-                {
-//                    txtSearchKeyPressed();
-                }
-            }
-        } ); 
-        add(searchBox);
-        
-/**********************************************************************************************/
-        
-        setLayout(null);
-        setBackground(null);
-        setBounds(new Rectangle(50, 0, this.DEFALUT_WIDTH - 220, 1000));
-        
+     
 /************** TẠO MODEL VÀ HEADER *********************/
         Vector header = new Vector();
         header.add("Mă NV");
@@ -485,37 +437,88 @@ public class NhanVienGUI extends JPanel{
                 
              }
         });
-    }
-/*
-    public void txtSearchKeyPressed()
-    {
-        ArrayList<SanPham> Sdata = new ArrayList<>();
-        String s = txtSearch.getText();
-//        System.out.println(tbl.getModel().getRowCount());
-        DefaultTableModel m = new DefaultTableModel();
-        m = (DefaultTableModel) tbl.getModel();
-        m.setRowCount(0);
-        if(s.isEmpty())
-        {
-            outModel(m,sp);
-            return;
-        }
-        
-        for(NhanVienDTO sp:sp)
-        {
-            String info = sp.getName();
-            //System.out.println(sp.getName());
-            //System.out.println(s.indexOf(sp.getName()));
-            if(info.indexOf(s) >= 0)
-            {
-                Sdata.add(sp);
-                System.out.println(sp.getName());
-            }
-        }
+        /*********************** PHẦN SEARCH TABLE *****************************/
+        JPanel sort = new JPanel(null);
+        sort.setBackground(null);
+        sort.setBounds(30,330,this.DEFALUT_WIDTH - 400,100);
 
-        outModel(m,Sdata);
+        JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
+        sortTitle.setFont(font1);
+        sortTitle.setBounds(new Rectangle(0,0,this.DEFALUT_WIDTH - 400,30));
+        sort.add(sortTitle);
+
+        /******** SORT MAKH **************/
+        JLabel lbSortMaNV = new JLabel("Mă NV :");
+        lbSortMaNV.setFont(font0);
+        lbSortMaNV.setBounds(0,40,50,30);
+        sort.add(lbSortMaNV);
+
+        sortMaNV = new JTextField();
+        sortMaNV.setFont(font0);
+        sortMaNV.setBounds(new Rectangle(50,42,100,30));
+        sort.add(sortMaNV);
+        /*************************************/
+
+        /******** SORT HONV **************/
+        JLabel lbSortHoNV = new JLabel("Họ :");
+        lbSortHoNV.setFont(font0);
+        lbSortHoNV.setBounds(170,40,30,30);
+        sort.add(lbSortHoNV);
+
+        sortHoNV = new JTextField();
+        sortHoNV.setFont(font0);
+        sortHoNV.setBounds(new Rectangle(200,42,100,30));
+        sort.add(sortHoNV);
+        /*************************************/
+        
+        /******** SORT TEN NV **************/
+        JLabel lbSortTenNV = new JLabel("Tên :");
+        lbSortTenNV.setFont(font0);
+        lbSortTenNV.setBounds(320,40,30,30);
+        sort.add(lbSortTenNV);
+
+        sortTenNV = new JTextField();
+        sortTenNV.setFont(font0);
+        sortTenNV.setBounds(new Rectangle(350,42,100,30));
+        sort.add(sortTenNV);
+        /*************************************/
+        /************ SORT PHÁI **************/
+        JLabel lbSortPhai = new JLabel("Phái :");
+        lbSortPhai.setFont(font0);
+        lbSortPhai.setBounds(470,40,35,30);
+        sort.add(lbSortPhai);
+        
+        sortPhai = new Choice();
+        sortPhai.addItem("Tất cả");
+        sortPhai.addItem("Nam");
+        sortPhai.addItem("Nữ");
+        sortPhai.setFont(font0);
+        sortPhai.setBounds(new Rectangle(505,43,100,30));
+        sort.add(sortPhai);
+        /*************************************/
+        /******************************************/
+
+        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_200px.png"));
+        btnSearch.setBounds(new Rectangle(840,30,63,63));
+        btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSearch.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e)
+           {
+               System.out.println(sortPhai.getSelectedItem());
+               System.out.println(sortPhai.getSelectedIndex());
+               String manv = sortMaNV.getText();
+               String ho = sortHoNV.getText();
+               String ten = sortTenNV.getText();
+               String phai = sortPhai.getSelectedIndex()!= 0 ? sortPhai.getSelectedItem() : "";
+               
+               outModel(model, nvBUS.searchSP(manv, ho, ten, phai));
+           }
+        });
+        sort.add(btnSearch);
+        
+        add(sort);
+/*******************************************************************/
     }
-*/
     public void saveIMG()
     {
         try {

@@ -11,16 +11,11 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,15 +42,10 @@ public class HoaDonGUI extends JPanel{
     public HoaDonGUI(int width)
     {
         DEFALUT_WIDTH = width;
-        try {
-            init();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        init();
+
     }
-    public void init() throws ClassNotFoundException, SQLException
+    public void init()
     {        
         setLayout(null);
         setBackground(null);

@@ -58,6 +58,25 @@ public class SanPhamBUS {
             }
         }
     }
+    public ArrayList<SanPhamDTO> searchSP(String masp,String maloai,String mansx,int max,int min)
+    {
+        ArrayList<SanPhamDTO> search = new ArrayList<>();
+        masp = masp.isEmpty()?masp = "": masp;
+        maloai = maloai.isEmpty()?maloai = "": maloai;
+        mansx = mansx.isEmpty()?mansx = "": mansx;
+        for(SanPhamDTO sp : dssp)
+        {
+            if( sp.getMaSP().contains(masp) && 
+                sp.getMaLoai().contains(maloai) &&
+                sp.getMaNsx().contains(mansx) &&
+                sp.getGia() >= min && 
+                sp.getGia() <= max)
+            {
+                search.add(sp);
+            }
+        }
+        return search;
+    }
     public ArrayList<SanPhamDTO> getDssp() {
         return dssp;
     }

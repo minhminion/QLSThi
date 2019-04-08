@@ -69,6 +69,8 @@ public class SanPhamGUI extends JPanel{
     private JTextField txtMaxPrice;
     private JTextField sortMaSP;
     private JTextField txtMinPrice;
+    private JTextField sortMaLoai;
+    private JTextField sortMaNSX;
     
     //        
 
@@ -88,7 +90,7 @@ public class SanPhamGUI extends JPanel{
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 300));
+        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 300));
         ItemView.setBackground(Color.WHITE);
         
         /******** Tao Cac Label & TextField ************************/
@@ -384,7 +386,7 @@ public class SanPhamGUI extends JPanel{
         
         /****************************************************************/
         
-/**********************************************************************************/
+/************************* PHẦN TABLE *************************************/
 /************** TẠO MODEL VÀ HEADER *********************/
         Vector header = new Vector();
         header.add("Mă Sản Phẩm");
@@ -428,7 +430,7 @@ public class SanPhamGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 450, this.DEFALUT_WIDTH - 400 , 210));
+        scroll.setBounds(new Rectangle(30, 430, this.DEFALUT_WIDTH - 400 , 230));
         scroll.setBackground(null);
         
         add(scroll);
@@ -460,10 +462,10 @@ public class SanPhamGUI extends JPanel{
                 
              }
         });
-/*********************** SEARCH TABLE *****************************/
+/*********************** PHẦN SEARCH TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
-        sort.setBounds(30,350,this.DEFALUT_WIDTH - 400,100);
+        sort.setBounds(30,330,this.DEFALUT_WIDTH - 400,100);
 
         JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
         sortTitle.setFont(font1);
@@ -473,110 +475,118 @@ public class SanPhamGUI extends JPanel{
         /******** SORT MAKH **************/
         JLabel lbSortMaSP = new JLabel("Mă SP :");
         lbSortMaSP.setFont(font0);
-        lbSortMaSP.setBounds(0,40,60,30);
+        lbSortMaSP.setBounds(0,40,50,30);
         sort.add(lbSortMaSP);
 
         sortMaSP = new JTextField();
-        sortMaSP.setBounds(new Rectangle(60,42,100,30));
+        sortMaSP.setFont(font0);
+        sortMaSP.setBounds(new Rectangle(50,42,100,30));
         sort.add(sortMaSP);
-        sortMaSP.getDocument().addDocumentListener(new DocumentListener(){
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = sortMaSP.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = sortMaSP.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text,0));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-            
-        });
         /*************************************/
 
+        /******** SORT MALOAI **************/
+        JLabel lbSortMaLoai = new JLabel("Mă Loại :");
+        lbSortMaLoai.setFont(font0);
+        lbSortMaLoai.setBounds(170,40,60,30);
+        sort.add(lbSortMaLoai);
+
+        sortMaLoai = new JTextField();
+        sortMaLoai.setFont(font0);
+        sortMaLoai.setBounds(new Rectangle(230,42,100,30));
+        sort.add(sortMaLoai);
+        /*************************************/
+        
+        /******** SORT MANSX **************/
+        JLabel lbSortMaNSX = new JLabel("Mă NSX :");
+        lbSortMaNSX.setFont(font0);
+        lbSortMaNSX.setBounds(340,40,60,30);
+        sort.add(lbSortMaNSX);
+
+        sortMaNSX = new JTextField();
+        sortMaNSX.setFont(font0);
+        sortMaNSX.setBounds(new Rectangle(400,42,100,30));
+        sort.add(sortMaNSX);
+        /*************************************/
+        
         /************ SORT THEO GIÁ ***************/
         JLabel sortPrice = new JLabel("Giá (VNĐ) :");
         sortPrice.setFont(font0);
-        sortPrice.setBounds(180,40,80,30);
+        sortPrice.setBounds(510,40,70,30);
         sort.add(sortPrice);
 
         txtMinPrice = new JTextField();
         txtMinPrice.setFont(font0);
-        txtMinPrice.setBounds(new Rectangle(260,42,100,26));
+        txtMinPrice.setBounds(new Rectangle(580,42,100,30));
         sort.add(txtMinPrice);
 
         JSeparator sepPrice = new JSeparator(JSeparator.HORIZONTAL);
-        sepPrice.setBounds(370, 56, 10, 6);
+        sepPrice.setBounds(690, 56, 10, 6);
         sort.add(sepPrice);
 
         txtMaxPrice = new JTextField();
         txtMaxPrice.setFont(font0);
-        txtMaxPrice.setBounds(new Rectangle(390,42,100,26));
+        txtMaxPrice.setBounds(new Rectangle(710,42,100,30));
         sort.add(txtMaxPrice);
 
         /******************************************/
 
-        /******** SORT TENSP **************/
-        JLabel lbSortTenSP = new JLabel("Tên SP :");
-        lbSortTenSP.setFont(font0);
-        lbSortTenSP.setBounds(510,40,50,30);
-        sort.add(lbSortTenSP);
-
-        sortTenSP = new JTextField();
-        sortTenSP.setBounds(new Rectangle(570,42,240,30));
-        sort.add(sortTenSP);
-        sortTenSP.getDocument().addDocumentListener(new DocumentListener(){
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = sortTenSP.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 1));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = sortTenSP.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-            
-        });
-        /*************************************/
+//        /******** SORT TENSP **************/
+//        JLabel lbSortTenSP = new JLabel("Tên SP :");
+//        lbSortTenSP.setFont(font0);
+//        lbSortTenSP.setBounds(510,40,50,30);
+//        sort.add(lbSortTenSP);
+//
+//        sortTenSP = new JTextField();
+//        sortTenSP.setBounds(new Rectangle(570,42,240,30));
+//        sort.add(sortTenSP);
+//        sortTenSP.getDocument().addDocumentListener(new DocumentListener(){
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                String text = sortTenSP.getText();
+//
+//                if (text.trim().length() == 0) {
+//                    rowSorter.setRowFilter(null);
+//                } else {
+//                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", 1));
+//                }
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                String text = sortTenSP.getText();
+//
+//                if (text.trim().length() == 0) {
+//                    rowSorter.setRowFilter(null);
+//                } else {
+//                    rowSorter.setRowFilter(RowFilter.regexFilter("Tên Sản Phẩm LIKE '"+text+"*'", 1));
+//                }
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//            
+//        });
+//        /*************************************/
 
         JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_200px.png"));
-        btnSearch.setBounds(new Rectangle(820,30,63,63));
+        btnSearch.setBounds(new Rectangle(840,30,63,63));
         btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSearch.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e)
+           {
+               String masp = sortMaSP.getText();
+               String maloai = sortMaLoai.getText();
+               String mansx = sortMaNSX.getText();
+               int max = txtMaxPrice.getText().equals("") ? 999999 : Integer.parseInt(txtMaxPrice.getText());
+               int min = txtMinPrice.getText().equals("") ? 0      : Integer.parseInt(txtMinPrice.getText());
+               
+               outModel(model,spBUS.searchSP(masp, maloai, mansx, max, min));
+           }
+        });
         sort.add(btnSearch);
-
+        
         add(sort);
 /*******************************************************************/
 

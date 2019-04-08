@@ -5,10 +5,16 @@
         <group>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/NhanVienDAO.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI1.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/HoaDonGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhanVienGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/RemindNhanVien.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/QLSieuThi.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/BanHangGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/SanPhamDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/ChiTietHDGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/SanPhamBUS.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/NhanVienBUS.java</file>
         </group>
     </open-files>
 </project-private>

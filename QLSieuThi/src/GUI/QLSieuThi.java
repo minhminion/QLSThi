@@ -156,7 +156,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         {
             case 0: //  BÁN HÀNG 
                 main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH,"BÁN HÀNG"));
+                main.add(new BanHangGUI(DEFALUT_WIDTH));
                 main.repaint();
             break;
             case 1: // QUẢN LÝ SẢN PHẨM
