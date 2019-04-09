@@ -9,6 +9,6 @@ package GUI;
  *
  * @author Minh Minion
  */
-public class RemindKhachHang {
+public class SuggestKhachHang {
     
 }

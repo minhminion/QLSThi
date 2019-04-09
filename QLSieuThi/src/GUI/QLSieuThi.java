@@ -110,6 +110,8 @@ public class QLSieuThi extends JFrame implements MouseListener{
 /************ PHẦN MAIN ( HIỂN THỊ ) **************************/        
         main = new JPanel(null);
         main.setBackground(Color.WHITE);
+        navObj.get(0).doActive();
+        changeMainInfo(0);
 /**************************************************************/   
 
         add(header,BorderLayout.NORTH);

@@ -37,7 +37,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Shadow
  */
-class RemindSanPham extends JDialog{
+class SuggestSanPham extends JDialog{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private JTextField txtMaSP,txtTenSP,txtGia,txtSL,txtDVT;
     private DefaultTableModel model;
@@ -46,7 +46,7 @@ class RemindSanPham extends JDialog{
     private JTextField txtSearch;
 
     
-    public RemindSanPham()
+    public SuggestSanPham()
     {
         setModal(true);
         init();
@@ -110,22 +110,28 @@ class RemindSanPham extends JDialog{
         
 /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
 
-        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit_150px.png"));
-        btnEdit.setBounds(new Rectangle(20,320,150,50));
-        btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnEdit.addMouseListener(new MouseAdapter(){
+        JLabel btnConfirm = new JLabel(new ImageIcon("./src/image/btnConfirm_150px.png"));
+        btnConfirm.setBounds(new Rectangle(20,320,150,50));
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnConfirm.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
                 dispose();
             }
         });
               
-        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete_150px.png"));
-        btnDelete.setBounds(new Rectangle(180,320,150,50));
-        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));    
+        JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack_150px.png"));
+        btnBack.setBounds(new Rectangle(180,320,150,50));
+        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));    
+        btnBack.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                dispose();
+            }
+        });
         
-        itemView.add(btnEdit);
-        itemView.add(btnDelete);
+        itemView.add(btnConfirm);
+        itemView.add(btnBack);
 /*************************************************************************/
 
 /**************** TẠO TABLE ************************************************************/

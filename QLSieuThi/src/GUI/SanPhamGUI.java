@@ -197,10 +197,10 @@ public class SanPhamGUI extends JPanel{
         
         
         
-        JLabel btnCofirm= new JLabel(new ImageIcon("./src/image/btnCofirm.png"));
-        btnCofirm.setVisible(false);
-        btnCofirm.setBounds(new Rectangle(700,10,200,50));
-        btnCofirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
+        btnConfirm.setVisible(false);
+        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
@@ -212,7 +212,7 @@ public class SanPhamGUI extends JPanel{
         btnFile.setBounds(new Rectangle(700,210,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        ItemView.add(btnCofirm);
+        ItemView.add(btnConfirm);
         ItemView.add(btnBack);
         ItemView.add(btnFile);
         
@@ -229,7 +229,7 @@ public class SanPhamGUI extends JPanel{
                 btnEdit.setVisible(false);
                 btnDelete.setVisible(false);
                 
-                btnCofirm.setVisible(true);
+                btnConfirm.setVisible(true);
                 btnBack.setVisible(true);
                 btnFile.setVisible(true);
                 
@@ -272,7 +272,7 @@ public class SanPhamGUI extends JPanel{
                 btnEdit.setVisible(false);
                 btnDelete.setVisible(false);
                 
-                btnCofirm.setVisible(true);
+                btnConfirm.setVisible(true);
                 btnBack.setVisible(true);
                 btnFile.setVisible(true);
                 
@@ -317,7 +317,7 @@ public class SanPhamGUI extends JPanel{
                 btnEdit.setVisible(true);
                 btnDelete.setVisible(true);
                 
-                btnCofirm.setVisible(false);
+                btnConfirm.setVisible(false);
                 btnBack.setVisible(false);
                 btnFile.setVisible(false);
                 
@@ -325,8 +325,8 @@ public class SanPhamGUI extends JPanel{
             }
         });
         
-        //MouseClick btnCofirm
-        btnCofirm.addMouseListener(new MouseAdapter() {
+        //MouseClick btnConfirm
+        btnConfirm.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
                 int i;

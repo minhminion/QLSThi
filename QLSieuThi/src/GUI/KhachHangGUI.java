@@ -128,17 +128,17 @@ public class KhachHangGUI extends JPanel{
         
         
         
-        JLabel btnCofirm= new JLabel(new ImageIcon("./src/image/btnCofirm.png"));
-        btnCofirm.setVisible(false);
-        btnCofirm.setBounds(new Rectangle(700,10,200,50));
-        btnCofirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
+        btnConfirm.setVisible(false);
+        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
         btnBack.setBounds(new Rectangle(700,110,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        itemView.add(btnCofirm);
+        itemView.add(btnConfirm);
         itemView.add(btnBack);
 /***************************************************************/
 /************************************************************************************************************/       

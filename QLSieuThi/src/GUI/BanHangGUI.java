@@ -14,6 +14,8 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,6 +74,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         lbMaHD.setFont(font0);
         lbMaHD.setBounds(0,0,55,30);
         txtMaHD = new JTextField();
+        txtMaHD.setHorizontalAlignment(JTextField.CENTER);
         txtMaHD.setFont(font0);
         txtMaHD.setBounds(new Rectangle(55,0,120,30));
         hdView.add(lbMaHD);
@@ -81,6 +84,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         lbMaKH.setFont(font0);
         lbMaKH.setBounds(195,0,60,30);
         txtMaKH = new JTextField();
+        txtMaKH.setHorizontalAlignment(JTextField.CENTER);
         txtMaKH.setFont(font0);
         txtMaKH.setBounds(new Rectangle(255,0,120,30));
         hdView.add(lbMaKH);
@@ -90,6 +94,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         lbMaNV.setFont(font0);
         lbMaNV.setBounds(395,0,60,30);
         txtMaNV = new JTextField();
+        txtMaNV.setHorizontalAlignment(JTextField.CENTER);
         txtMaNV.setFont(font0);
         txtMaNV.setBounds(new Rectangle(455,0,120,30));
         hdView.add(lbMaNV);
@@ -99,12 +104,14 @@ public class BanHangGUI extends JPanel implements ActionListener{
         btnMaNV.addActionListener(this);
         hdView.add(btnMaNV);
         
-        JLabel lbTongTien = new JLabel("Tổng Tiền");
+        JLabel lbTongTien = new JLabel("Tổng Tiền (VNĐ)");
         lbTongTien.setFont(font0);
-        lbTongTien.setBounds(625,0,60,30);
+        lbTongTien.setBounds(625,0,120,30);
         txtTongTien = new JTextField();
+        txtTongTien.setEditable(false);
+        txtTongTien.setHorizontalAlignment(JTextField.CENTER);
         txtTongTien.setFont(font0);
-        txtTongTien.setBounds(new Rectangle(695,0,150,30));
+        txtTongTien.setBounds(new Rectangle(745,0,150,30));
         hdView.add(lbTongTien);
         hdView.add(txtTongTien);
 
@@ -112,6 +119,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         lbNgayHD.setFont(font0);
         lbNgayHD.setBounds(0,50,60,30);
         txtNgayHD = new JTextField();
+        txtNgayHD.setHorizontalAlignment(JTextField.CENTER);
         txtNgayHD.setFont(font0);
         txtNgayHD.setBounds(new Rectangle(80,50,350,30));
         hdView.add(lbNgayHD);
@@ -120,6 +128,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         btnNewHD = new JButton("Tạo hóa đơn");
         btnNewHD.setFont(font0);
         btnNewHD.setBounds(new Rectangle(500,50,200,30));
+        btnNewHD.addActionListener(this);
         hdView.add(btnNewHD);
         
         JSeparator sepHD = new JSeparator(0);
@@ -232,22 +241,21 @@ public class BanHangGUI extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnMaNV)
+        if(e.getSource() == btnMaNV) // Suggest Nhan Vien
         {
-            RemindNhanVien rm = new RemindNhanVien();
+            SuggestNhanVien rm = new SuggestNhanVien();
             String s = rm.getTextFieldContent();
             txtMaNV.setText(s);
-//            System.out.println(s);
         }
-        if(e.getSource().equals(btnMaSP))
+        if(e.getSource().equals(btnMaSP)) // Suggest San Pham
         {
-            RemindSanPham rm = new RemindSanPham();
+            SuggestSanPham rm = new SuggestSanPham();
             String[] s = rm.getTextFieldContent().split("%");
             txtMaSP.setText(s[0]);
             txtCTTenSP.setText(s[1]);
             txtCTGia.setText(s[2]);
         }
-        if(e.getSource().equals(btnAddCT))
+        if(e.getSource().equals(btnAddCT)) // Thêm Sản Phẩm
         {
             int sl = 0;
             try{
@@ -277,6 +285,12 @@ public class BanHangGUI extends JPanel implements ActionListener{
             }
             outModel(model, dsct);
             txtTongTien.setText(String.valueOf(sumHD()));
+        }
+        
+        if(e.getSource().equals(btnNewHD))
+        {
+            Date date = Calendar.getInstance().getTime();
+            txtNgayHD.setText(date.toString());
         }
     }
     public void outModel(DefaultTableModel model , ArrayList<ChiTietHDDTO> ds) // Xuất ra Table từ ArrayList
