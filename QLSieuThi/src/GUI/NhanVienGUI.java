@@ -317,7 +317,11 @@ public class NhanVienGUI extends JPanel{
                         int mucLuong = Integer.parseInt(txtMucLuong.getText());
                         String diaChi = txtDiaChi.getText();
                         String IMG = imgName;
-
+                        if(nvBUS.checkManv(maNV))
+                        {
+                            JOptionPane.showMessageDialog(null, "Mã nhân viên đă tồn tại !!!");
+                            return;
+                        }
                         //Upload sản phẩm lên DAO và BUS
                         NhanVienDTO sp = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
                         nvBUS.addNV(sp);
@@ -498,8 +502,8 @@ public class NhanVienGUI extends JPanel{
         /*************************************/
         /******************************************/
 
-        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_200px.png"));
-        btnSearch.setBounds(new Rectangle(840,30,63,63));
+        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
+        btnSearch.setBounds(new Rectangle(840,26,63,63));
         btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnSearch.addMouseListener(new MouseAdapter() {
            public void mouseClicked(MouseEvent e)

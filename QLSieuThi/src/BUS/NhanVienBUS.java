@@ -58,6 +58,17 @@ public class NhanVienBUS {
             }
         }
     }
+    public boolean checkManv(String manv)
+    {
+        for(NhanVienDTO sp : dsnv)
+        {
+            if(sp.getMaNV().equals(manv))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public ArrayList<NhanVienDTO> searchNV(String manv,String ho,String ten,String phai)
     {
         ArrayList<NhanVienDTO> search = new ArrayList<>();

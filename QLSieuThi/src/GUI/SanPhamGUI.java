@@ -33,6 +33,7 @@ import DTO.SanPhamDTO;
 import BUS.SanPhamBUS;
 import DTO.LoaiDTO;
 import DTO.NsxDTO;
+import java.awt.Choice;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class SanPhamGUI extends JPanel{
     private JComboBox cmbNSX;
     private JComboBox cmbSortLoai;
     private JComboBox cmbSortNSX;
+    private JComboBox cmbDVT;
     
     
     //        
@@ -124,9 +126,14 @@ public class SanPhamGUI extends JPanel{
         JLabel lbDVT = new JLabel("Đơn Vị Tính");
         lbDVT.setBounds(new Rectangle(300,200,200,30));
         lbDVT.setFont(font0);
+        String[] DVT ={"Lon","Hộp","Chai","Gói","Cái","Tuýp"};
+        cmbDVT = new JComboBox(DVT);
+        cmbDVT.setBounds(new Rectangle(400,200,220,30));
+        cmbDVT.setFont(font0);
+        
         txtDVT= new JTextField("");
-        txtDVT.setBounds(new Rectangle(400,200,220,30));
-        txtDVT.setFont(font0);
+//        txtDVT.setBounds(new Rectangle(400,200,220,30));
+//        txtDVT.setFont(font0);
 
         JLabel lbNSX = new JLabel("Mă NSX");
         lbNSX.setBounds(new Rectangle(300,250,50,30));
@@ -167,7 +174,8 @@ public class SanPhamGUI extends JPanel{
         ItemView.add(lbGia);
         ItemView.add(txtGia);
         ItemView.add(lbDVT);
-        ItemView.add(txtDVT);
+        ItemView.add(cmbDVT);
+//        ItemView.add(txtDVT);
         ItemView.add(lbNSX);
         ItemView.add(cmbNSX);
 //        ItemView.add(txtNSX);
@@ -340,13 +348,17 @@ public class SanPhamGUI extends JPanel{
                         String tenSP = txtHoNV.getText();
                         int sl = Integer.parseInt(txtSl.getText());
                         int gia = Integer.parseInt(txtGia.getText());
-                        String DVT = txtDVT.getText();
+                        String DVT = cmbDVT.getSelectedItem().toString();
                         LoaiDTO loai = (LoaiDTO) cmbLoai.getSelectedItem();
                         String maLoai = loai.getMaLoai();
                         NsxDTO nsx = (NsxDTO) cmbNSX.getSelectedItem();
                         String maNsx = nsx.getMaNSX();
                         String IMG = imgName;
-
+                        if(spBUS.checkMasp(maSP))
+                        {
+                            JOptionPane.showMessageDialog(null, "Mã sản phẩm đă tồn tại !!!");
+                            return;
+                        }
                         //Upload sản phẩm lên DAO và BUS
                         SanPhamDTO sp = new SanPhamDTO(maSP, tenSP, DVT, maLoai, maNsx, IMG, sl, gia);
                         spBUS.addSP(sp);
@@ -368,7 +380,7 @@ public class SanPhamGUI extends JPanel{
                         String tenSP = txtHoNV.getText();
                         int sl = Integer.parseInt(txtSl.getText());
                         int gia = Integer.parseInt(txtGia.getText());
-                        String DVT = txtDVT.getText();
+                        String DVT = cmbDVT.getSelectedItem().toString();
                         LoaiDTO loai = (LoaiDTO) cmbLoai.getSelectedItem();
                         String maLoai = loai.getMaLoai();
 //                        String maLoai = txtLoai.getText();
@@ -411,7 +423,6 @@ public class SanPhamGUI extends JPanel{
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
         listSP(); //Đọc từ database lên table 
-        
 /*********************************************************/
         
 /**************** TẠO TABLE ************************************************************/
@@ -463,9 +474,8 @@ public class SanPhamGUI extends JPanel{
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtSl.setText(tbl.getModel().getValueAt(i, 2).toString()); 
                 txtGia.setText(tbl.getModel().getValueAt(i, 3).toString());
-                txtDVT.setText( tbl.getModel().getValueAt(i, 4).toString());
-//                txtLoai.setText(tbl.getModel().getValueAt(i, 5).toString()); 
-//                txtNSX.setText(tbl.getModel().getValueAt(i, 6).toString()); 
+//                txtDVT.setText( tbl.getModel().getValueAt(i, 4).toString());
+                cmbDVT.setSelectedItem(tbl.getModel().getValueAt(i, 4).toString());
                 cmbLoai.setSelectedItem(loaiBUS.searchMaLoai(tbl.getModel().getValueAt(i, 5).toString()));
                 cmbNSX.setSelectedItem(nsxBUS.searchMaNsx(tbl.getModel().getValueAt(i, 6).toString()));
                 
@@ -555,7 +565,6 @@ public class SanPhamGUI extends JPanel{
         txtMaxPrice.setFont(font0);
         txtMaxPrice.setBounds(new Rectangle(710,42,100,30));
         sort.add(txtMaxPrice);
-
         /******************************************/
 
 //        /******** SORT TENSP **************/

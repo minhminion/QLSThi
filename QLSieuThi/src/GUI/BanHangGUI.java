@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import BUS.SanPhamBUS;
 import DTO.ChiTietHDDTO;
 import DTO.SanPhamDTO;
 import java.awt.Color;
@@ -35,6 +36,7 @@ import javax.swing.table.TableRowSorter;
  * @author Shadow
  */
 public class BanHangGUI extends JPanel implements ActionListener{
+    private SanPhamBUS spBUS = new SanPhamBUS();
     private ArrayList<ChiTietHDDTO> dsct = new ArrayList<>();
     private int DEFALUT_WIDTH;
     private JTextField txtMaHD;
@@ -56,6 +58,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
     public BanHangGUI(int width)
     {
         DEFALUT_WIDTH = width;
+        spBUS.listSP();
         init();
     }
     public void init()
@@ -262,9 +265,10 @@ public class BanHangGUI extends JPanel implements ActionListener{
                 sl = Integer.parseInt(txtCTSL.getText()); 
             }catch(NumberFormatException E)
             {
-                JOptionPane.showMessageDialog(null, "Nhập sai số lượng");
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng");
                 return;
             }
+            spBUS.updateSL(txtMaSP.getText(), sl);
             int gia = Integer.parseInt(txtCTGia.getText());
             System.out.println(sl);
             boolean flag = true;

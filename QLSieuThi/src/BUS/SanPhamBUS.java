@@ -58,6 +58,33 @@ public class SanPhamBUS {
             }
         }
     }
+    public boolean checkMasp(String masp)
+    {
+        for(SanPhamDTO sp : dssp)
+        {
+            if(sp.getMaSP().equals(masp))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void updateSL(String masp,int sl)
+    {
+         for(SanPhamDTO sp : dssp)
+         {
+             if(sp.getMaSP().equals(masp))
+             {
+                 System.out.println("RUN");
+                int old = sp.getSl()-sl;
+                sp.setSl(old);
+                SanPhamDAO spDAO = new SanPhamDAO();
+                spDAO.setSP(sp);
+                System.out.println(sp.getSl());
+                return;
+             }
+         }
+    }
     public ArrayList<SanPhamDTO> searchSP(String masp,String maloai,String mansx,int max,int min)
     {
         ArrayList<SanPhamDTO> search = new ArrayList<>();

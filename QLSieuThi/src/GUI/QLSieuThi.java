@@ -20,15 +20,9 @@ import GUI.model.Page404;
 import GUI.model.header;
 import GUI.model.navItem;
 import java.awt.Frame;
-import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.io.File;
-import java.net.URL;
 import javax.swing.JLabel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.plaf.metal.MetalBorders;
 
 /**
  *
