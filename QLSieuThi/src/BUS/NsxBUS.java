@@ -24,13 +24,13 @@ public class NsxBUS {
     {
         NsxDAO nsxDAO = new NsxDAO();
         dsNsx = new ArrayList<>();
-        dsNsx = nsxDAO.listNsx();
+        dsNsx = nsxDAO.list();
     }
     public void addNsx(NsxDTO nsx)
     {
         dsNsx.add(nsx);
         NsxDAO nsxDAO = new NsxDAO();
-        nsxDAO.addNsx(nsx);
+        nsxDAO.add(nsx);
     }
 
     public void deleteNsx(String idNsx)
@@ -41,7 +41,7 @@ public class NsxBUS {
             {
                 dsNsx.remove(nsx);
                 NsxDAO nsxDAO = new NsxDAO();
-                nsxDAO.deleteNsx(idNsx);
+                nsxDAO.delete(idNsx);
                 return;
             }
         }
@@ -54,7 +54,7 @@ public class NsxBUS {
             {
                 dsNsx.set(i, s);
                 NsxDAO nsxDAO = new NsxDAO();
-                nsxDAO.setNsx(s);
+                nsxDAO.set(s);
                 return;
             }
         }

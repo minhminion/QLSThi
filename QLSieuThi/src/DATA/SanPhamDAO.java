@@ -24,25 +24,7 @@ public class SanPhamDAO {
     public SanPhamDAO() {
        
     }
-    
-//    public boolean checkAcc(String user,String password)
-//    {
-//        boolean kq = false;
-//        try {
-//            Connect();
-//            String sql = "SELECT * FROM user WHERE user='"+user+"' "
-//                    + "AND pass='"+password+"'";
-//            st = conn.createStatement();
-//            ResultSet rs = st.executeQuery(sql);
-//            kq = rs.next();
-//            rs.close();
-//            disConnect();  
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SanPhamDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return kq;
-//    }
-    public ArrayList<SanPhamDTO> listSP()
+    public ArrayList<SanPhamDTO> list()
     {
         ArrayList<SanPhamDTO> sp = new ArrayList<>();
         try {
@@ -70,7 +52,7 @@ public class SanPhamDAO {
 
         return sp;
     }
-    public void addSP(SanPhamDTO sp)
+    public void add(SanPhamDTO sp)
     {
         String sql = "INSERT INTO sanpham VALUES (";
         sql += "'"+sp.getMaSP()+"',";
@@ -85,13 +67,13 @@ public class SanPhamDAO {
         mySQL.executeUpdate(sql);
     }
 
-    public void deleteSP(String idSP)
+    public void delete(String idSP)
     {
         String sql = "DELETE FROM sanpham WHERE MaSP='"+idSP+"'";
         mySQL.executeUpdate(sql);
     }
     
-    public void setSP(SanPhamDTO sp)
+    public void set(SanPhamDTO sp)
     {
         String sql = "UPDATE sanpham SET ";
         sql += "TENSP='"+sp.getTenSP()+"', ";

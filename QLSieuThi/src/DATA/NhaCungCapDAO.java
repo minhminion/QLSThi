@@ -20,7 +20,7 @@ public class NhaCungCapDAO {
     private MySQLConnect mySQL = new MySQLConnect();
     public NhaCungCapDAO(){}
     
-    public ArrayList<NhaCungCapDTO> listNCC(){
+    public ArrayList<NhaCungCapDTO> list(){
         ArrayList<NhaCungCapDTO> dsncc = new ArrayList<>();
         try {
            
@@ -47,7 +47,7 @@ public class NhaCungCapDAO {
         return dsncc;
     }
 
-    public void setNCC(NhaCungCapDTO ncc) {
+    public void set(NhaCungCapDTO ncc) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE nhacungcap SET ";
             sql += "TENNCC='"+ncc.getTenNCC()+"', ";
@@ -60,7 +60,7 @@ public class NhaCungCapDAO {
             mySQL.executeUpdate(sql);
     }
 
-    public void addNCC(NhaCungCapDTO ncc) {
+    public void add(NhaCungCapDTO ncc) {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO nhacungcap VALUES (";
                 sql += "'"+ncc.getMaNCC()+"',";
@@ -72,7 +72,7 @@ public class NhaCungCapDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void deleteNCC(String maNCC)
+    public void delete(String maNCC)
     {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "DELETE FROM nhacungcap WHERE MANCC='"+maNCC+"'";

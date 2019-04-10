@@ -23,13 +23,13 @@ public class LoaiBUS {
     {
         LoaiDAO loaiDAO = new LoaiDAO();
         dsLoai = new ArrayList<>();
-        dsLoai = loaiDAO.listLoai();
+        dsLoai = loaiDAO.list();
     }
     public void addLoai(LoaiDTO loai)
     {
         dsLoai.add(loai);
         LoaiDAO loaiDAO = new LoaiDAO();
-        loaiDAO.addLoai(loai);
+        loaiDAO.add(loai);
     }
 
     public void deleteLoai(String idLoai)
@@ -40,7 +40,7 @@ public class LoaiBUS {
             {
                 dsLoai.remove(loai);
                 LoaiDAO loaiDAO = new LoaiDAO();
-                loaiDAO.deleteLoai(idLoai);
+                loaiDAO.delete(idLoai);
                 return;
             }
         }
@@ -53,7 +53,7 @@ public class LoaiBUS {
             {
                 dsLoai.set(i, s);
                 LoaiDAO loaiDAO = new LoaiDAO();
-                loaiDAO.setLoai(s);
+                loaiDAO.set(s);
                 return;
             }
         }

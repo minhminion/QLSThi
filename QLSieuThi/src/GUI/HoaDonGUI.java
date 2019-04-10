@@ -5,7 +5,9 @@
  */
 package GUI;
 
-import BUS.SanPhamBUS;
+import BUS.HoaDonBUS;
+import DTO.HoaDonDTO;
+import DTO.HoaDonDTO;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -14,6 +16,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 import javax.swing.ImageIcon;
@@ -30,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Shadow
  */
 public class HoaDonGUI extends JPanel{
-    private SanPhamBUS spBUS = new SanPhamBUS();
+    private HoaDonBUS hdBUS = new HoaDonBUS();
     private JTable tbl;
     private JTextField txtMaHD,txtMaKH,txtMaNV,txtNgayHD,txtTongTien;
     private JTextField txtMinPrice,txtMaxPrice;
@@ -127,7 +130,7 @@ public class HoaDonGUI extends JPanel{
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                ChiTietHDGUI chitiet = new ChiTietHDGUI();
+                ChiTietHDGUI chitiet = new ChiTietHDGUI(txtMaHD.getText());
             }
         });
         
@@ -141,7 +144,7 @@ public class HoaDonGUI extends JPanel{
         header.add("Tổng Tiền");
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
-//        listSP(); //Đọc từ database lên table 
+        list(); //Đọc từ database lên table 
         
 /*********************************************************/
         
@@ -180,7 +183,14 @@ public class HoaDonGUI extends JPanel{
              {
                 int i = tbl.getSelectedRow();
                 txtMaHD.setText(tbl.getModel().getValueAt(i, 0).toString());
-                txtMaHD.setText(tbl.getModel().getValueAt(i, 1).toString());
+                try
+                {
+                    txtMaKH.setText(tbl.getModel().getValueAt(i, 1).toString());
+                }
+                catch(NullPointerException ex)
+                {
+                    txtMaKH.setText("");
+                }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 2).toString()); 
                 txtNgayHD.setText(tbl.getModel().getValueAt(i, 3).toString());
                 txtTongTien.setText( tbl.getModel().getValueAt(i, 4).toString());
@@ -266,5 +276,27 @@ public class HoaDonGUI extends JPanel{
 /****************************************************************/
         
     }
-
+    public void outModel(DefaultTableModel model , ArrayList<HoaDonDTO> hd) // Xuất ra Table từ ArrayList
+    {
+        Vector data;
+        model.setRowCount(0);
+        for(HoaDonDTO h:hd)
+        {
+            data = new Vector();
+            data.add(h.getMaHD());
+            data.add(h.getMaKH());
+            data.add(h.getMaNV());
+            data.add(h.getNgayHD());
+            data.add(h.getTongTien());
+            model.addRow(data);
+        }
+        tbl.setModel(model);
+    }
+    public void list() // Chép ArrayList lên table
+    {
+        if(hdBUS.getList()== null)hdBUS.list();
+        ArrayList<HoaDonDTO> hd = hdBUS.getList();
+        model.setRowCount(0);
+        outModel(model,hd);
+    }
 }

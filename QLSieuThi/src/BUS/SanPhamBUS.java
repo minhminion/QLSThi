@@ -23,13 +23,13 @@ public class SanPhamBUS {
     {
         SanPhamDAO spDAO = new SanPhamDAO();
         dssp = new ArrayList<>();
-        dssp = spDAO.listSP();
+        dssp = spDAO.list();
     }
     public void addSP(SanPhamDTO sp)
     {
         dssp.add(sp);
         SanPhamDAO spDAO = new SanPhamDAO();
-        spDAO.addSP(sp);
+        spDAO.add(sp);
     }
 
     public void deleteSP(String idSP)
@@ -40,7 +40,7 @@ public class SanPhamBUS {
             {
                 dssp.remove(sp);
                 SanPhamDAO spDAO = new SanPhamDAO();
-                spDAO.deleteSP(idSP);
+                spDAO.delete(idSP);
                 return;
             }
         }
@@ -53,7 +53,7 @@ public class SanPhamBUS {
             {
                 dssp.set(i, s);
                 SanPhamDAO spDAO = new SanPhamDAO();
-                spDAO.setSP(s);
+                spDAO.set(s);
                 return;
             }
         }
@@ -79,7 +79,7 @@ public class SanPhamBUS {
                 int old = sp.getSl()-sl;
                 sp.setSl(old);
                 SanPhamDAO spDAO = new SanPhamDAO();
-                spDAO.setSP(sp);
+                spDAO.set(sp);
                 System.out.println(sp.getSl());
                 return;
              }

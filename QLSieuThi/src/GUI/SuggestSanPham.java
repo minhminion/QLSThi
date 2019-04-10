@@ -186,6 +186,10 @@ class SuggestSanPham extends JDialog{
              public void mouseClicked(MouseEvent e)
              {
                 int i = tbl.getSelectedRow();
+                if(tbl.getRowSorter() != null)
+                {
+                    i = tbl.getRowSorter().convertRowIndexToModel(i);
+                }
                 txtMaSP.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtTenSP.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtGia.setText(tbl.getModel().getValueAt(i, 2).toString()); 

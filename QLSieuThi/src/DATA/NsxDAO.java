@@ -22,7 +22,7 @@ public class NsxDAO {
     {
         
     }
-    public ArrayList<NsxDTO> listNsx()
+    public ArrayList<NsxDTO> list()
     {
         ArrayList<NsxDTO> dsnv = new ArrayList<>();
         try {
@@ -47,7 +47,7 @@ public class NsxDAO {
         return dsnv;
     }
 
-    public void setNsx(NsxDTO nv) {
+    public void set(NsxDTO nv) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE nhasanxuat SET ";
             sql += "TENNSX='"+nv.getTenNSX()+"', ";
@@ -57,7 +57,7 @@ public class NsxDAO {
             mySQL.executeUpdate(sql);
     }
 
-    public void addNsx(NsxDTO nv) {
+    public void add(NsxDTO nv) {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "INSERT INTO nhasanxuat VALUES (";
                sql += "'"+nv.getMaNSX()+"',";
@@ -66,7 +66,7 @@ public class NsxDAO {
         mySQL.executeUpdate(sql);
     }
     
-    public void deleteNsx(String MaNV)
+    public void delete(String MaNV)
     {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "DELETE FROM nhasanxuat WHERE MANV='"+MaNV+"'";

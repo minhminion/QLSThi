@@ -22,7 +22,7 @@ public class LoaiDAO {
     {
         
     }
-    public ArrayList<LoaiDTO> listLoai()
+    public ArrayList<LoaiDTO> list()
     {
         ArrayList<LoaiDTO> dsnv = new ArrayList<>();
         try {
@@ -47,7 +47,7 @@ public class LoaiDAO {
         return dsnv;
     }
 
-    public void setLoai(LoaiDTO nv) {
+    public void set(LoaiDTO nv) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE loai SET ";
             sql += "TENLOAI='"+nv.getTenLoai()+"', ";
@@ -57,7 +57,7 @@ public class LoaiDAO {
             mySQL.executeUpdate(sql);
     }
 
-    public void addLoai(LoaiDTO nv) {
+    public void add(LoaiDTO nv) {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "INSERT INTO loai VALUES (";
                sql += "'"+nv.getMaLoai()+"',";
@@ -66,7 +66,7 @@ public class LoaiDAO {
         mySQL.executeUpdate(sql);
     }
     
-    public void deleteLoai(String MaNV)
+    public void delete(String MaNV)
     {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "DELETE FROM loai WHERE MANV='"+MaNV+"'";

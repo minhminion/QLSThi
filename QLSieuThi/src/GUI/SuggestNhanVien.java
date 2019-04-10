@@ -183,6 +183,10 @@ public class SuggestNhanVien extends JDialog{
              public void mouseClicked(MouseEvent e)
              {
                 int i = tbl.getSelectedRow();
+                if(tbl.getRowSorter() != null)
+                {
+                    i = tbl.getRowSorter().convertRowIndexToModel(i);
+                }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHo.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtTen.setText(tbl.getModel().getValueAt(i, 2).toString()); 

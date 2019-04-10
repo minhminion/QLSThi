@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import BUS.HoaDonBUS;
 import BUS.SanPhamBUS;
 import DTO.ChiTietHDDTO;
 import DTO.SanPhamDTO;
@@ -14,6 +15,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +40,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class BanHangGUI extends JPanel implements ActionListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
+    private HoaDonBUS hdBUS = new HoaDonBUS();
     private ArrayList<ChiTietHDDTO> dsct = new ArrayList<>();
     private int DEFALUT_WIDTH;
     private JTextField txtMaHD;
@@ -58,6 +62,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
     public BanHangGUI(int width)
     {
         DEFALUT_WIDTH = width;
+        hdBUS.list();
         spBUS.listSP();
         init();
     }
@@ -293,8 +298,19 @@ public class BanHangGUI extends JPanel implements ActionListener{
         
         if(e.getSource().equals(btnNewHD))
         {
-            Date date = Calendar.getInstance().getTime();
+            Date date = Timestamp.valueOf(LocalDateTime.now());
+            if(txtMaHD.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập mã hóa đơn");
+                return;
+            }
+            else if(hdBUS.check(txtMaHD.getText()))
+            {
+                JOptionPane.showMessageDialog(null, "Mã hóa đơn đă tồn tại");
+                return;
+            }
             txtNgayHD.setText(date.toString());
+            blockHD(false);
         }
     }
     public void outModel(DefaultTableModel model , ArrayList<ChiTietHDDTO> ds) // Xuất ra Table từ ArrayList
@@ -322,5 +338,13 @@ public class BanHangGUI extends JPanel implements ActionListener{
             sum += sl*gia;
         }
         return sum;
+    }
+    public void blockHD(boolean flag)
+    {
+        txtMaHD.setEditable(flag);
+        txtMaKH.setEditable(flag);
+        txtMaNV.setEditable(flag);
+        txtNgayHD.setEditable(flag);
+        btnMaNV.setEnabled(flag);
     }
 }

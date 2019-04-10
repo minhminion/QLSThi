@@ -86,49 +86,49 @@ public class SanPhamGUI extends JPanel{
         setLayout(null);
         setBackground(null);
         setBounds(new Rectangle(50, 0, this.DEFALUT_WIDTH - 220, 1000));
-        Font font0 = new Font("Segoe UI",Font.PLAIN,14);
+        Font font0 = new Font("Segoe UI",Font.PLAIN,13);
         Font font1 = new Font("Segoe UI",Font.BOLD,13);
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 300));
+        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 250));
         ItemView.setBackground(Color.WHITE);
         
         /******** Tao Cac Label & TextField ************************/
         JLabel lbId = new JLabel("Mă Sản Phẩm");
-        lbId.setBounds(new Rectangle(300,0,200,30));
+        lbId.setBounds(new Rectangle(250,0,200,30));
         lbId.setFont(font0);
         txtId = new JTextField("");
-        txtId.setBounds(new Rectangle(400,0,220,30));
+        txtId.setBounds(new Rectangle(350,0,220,30));
         txtId.setFont(font0);
 
         JLabel lbName = new JLabel("Tên Sản Phẩm");
-        lbName.setBounds(new Rectangle(300,50,200,30));
+        lbName.setBounds(new Rectangle(250,40,200,30));
         lbName.setFont(font0);
         txtHoNV = new JTextField("");
-        txtHoNV.setBounds(new Rectangle(400,50,220,30));
+        txtHoNV.setBounds(new Rectangle(350,40,220,30));
         txtHoNV.setFont(font0);
 
         JLabel lbSl = new JLabel("Số lượng");
-        lbSl.setBounds(new Rectangle(300,100,200,30));
+        lbSl.setBounds(new Rectangle(250,80,200,30));
         lbSl.setFont(font0);
         txtSl = new JTextField("");
-        txtSl.setBounds(new Rectangle(400,100,220,30));
+        txtSl.setBounds(new Rectangle(350,80,220,30));
         txtSl.setFont(font0);
 
         JLabel lbGia = new JLabel("Đơn giá (VNĐ)");
-        lbGia.setBounds(new Rectangle(300,150,200,30));
+        lbGia.setBounds(new Rectangle(250,120,200,30));
         lbGia.setFont(font0);
         txtGia = new JTextField("");
-        txtGia.setBounds(new Rectangle(400,150,220,30));
+        txtGia.setBounds(new Rectangle(350,120,220,30));
         txtGia.setFont(font0);
 
         JLabel lbDVT = new JLabel("Đơn Vị Tính");
-        lbDVT.setBounds(new Rectangle(300,200,200,30));
+        lbDVT.setBounds(new Rectangle(250,160,200,30));
         lbDVT.setFont(font0);
         String[] DVT ={"Lon","Hộp","Chai","Gói","Cái","Tuýp"};
         cmbDVT = new JComboBox(DVT);
-        cmbDVT.setBounds(new Rectangle(400,200,220,30));
+        cmbDVT.setBounds(new Rectangle(350,160,220,30));
         cmbDVT.setFont(font0);
         
         txtDVT= new JTextField("");
@@ -136,24 +136,24 @@ public class SanPhamGUI extends JPanel{
 //        txtDVT.setFont(font0);
 
         JLabel lbNSX = new JLabel("Mă NSX");
-        lbNSX.setBounds(new Rectangle(300,250,50,30));
+        lbNSX.setBounds(new Rectangle(250,200,50,30));
         lbNSX.setFont(font0);
         cmbNSX = new JComboBox();
 //        cmbNSX.setEditable(true);
         cmbNSX.setFont(font0);
-        cmbNSX.setBounds(new Rectangle(370,250,120,30));
+        cmbNSX.setBounds(new Rectangle(320,200,100,30));
         listNSX(cmbNSX);
 //        txtNSX = new JTextField("");
 //        txtNSX.setBounds(new Rectangle(370,250,80,30));
 //        txtNSX.setFont(font0);
 
         JLabel lbLoai = new JLabel("Loại");
-        lbLoai.setBounds(new Rectangle(500,250,40,30));
+        lbLoai.setBounds(new Rectangle(430,200,40,30));
         lbLoai.setFont(font0);
         cmbLoai = new JComboBox();
 //        cmbLoai.setEditable(true);
         cmbLoai.setFont(font0);
-        cmbLoai.setBounds(new Rectangle(540,250,120,30));
+        cmbLoai.setBounds(new Rectangle(470,200,100,30));
         listLoai(cmbLoai);
 //        txtLoai = new JTextField("");
 //        txtLoai.setBounds(new Rectangle(540,250,80,30));
@@ -161,7 +161,7 @@ public class SanPhamGUI extends JPanel{
         
         img = new JLabel("Image");
         img.setBorder(createLineBorder(Color.BLACK));
-        img.setBounds(new Rectangle(0,0,270,300));
+        img.setBounds(new Rectangle(0,0,200,230));
         
         // THÊM VÀO PHẦN HIỂN THỊ
         ItemView.add(img);
@@ -186,17 +186,17 @@ public class SanPhamGUI extends JPanel{
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
         JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
-        btnAdd.setBounds(new Rectangle(700,10,200,50));
+        btnAdd.setBounds(new Rectangle(620,0,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
         JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
-        btnEdit.setBounds(new Rectangle(700,110,200,50));
+        btnEdit.setBounds(new Rectangle(620,70,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
         JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
-        btnDelete.setBounds(new Rectangle(700,210,200,50));
+        btnDelete.setBounds(new Rectangle(620,140,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         ItemView.add(btnAdd);
@@ -207,17 +207,17 @@ public class SanPhamGUI extends JPanel{
         
         JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
         btnConfirm.setVisible(false);
-        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setBounds(new Rectangle(620,0,200,50));
         btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(700,110,200,50));
+        btnBack.setBounds(new Rectangle(620,70,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnFile = new JLabel(new ImageIcon("./src/image/btnFile.png"));
         btnFile.setVisible(false);
-        btnFile.setBounds(new Rectangle(700,210,200,50));
+        btnFile.setBounds(new Rectangle(620,140,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         ItemView.add(btnConfirm);
@@ -304,7 +304,7 @@ public class SanPhamGUI extends JPanel{
                         
                         // Thay đổi hình hiển thị
                         img.setText("");
-                        img.setIcon(new ImageIcon(i.getScaledInstance(270, 300, Image.SCALE_DEFAULT)));
+                        img.setIcon(new ImageIcon(i.getScaledInstance(200, 230, Image.SCALE_DEFAULT)));
                         
                         revalidate();
                         repaint();
@@ -450,7 +450,7 @@ public class SanPhamGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 430, this.DEFALUT_WIDTH - 400 , 230));
+        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 400 , 300));
         scroll.setBackground(null);
         scroll.getVerticalScrollBar().setPreferredSize(new Dimension(5,100));
         add(scroll);
@@ -465,10 +465,10 @@ public class SanPhamGUI extends JPanel{
                 imgName = tbl.getModel().getValueAt(i, 7).toString();
                 Image newImage ;
                 try{
-                    newImage = new ImageIcon("./src/image/SanPham/"+imgName).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                    newImage = new ImageIcon("./src/image/SanPham/"+imgName).getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT);
                 }catch(NullPointerException E)
                 {
-                    newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                    newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT); 
                 }
                 txtId.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
@@ -487,7 +487,7 @@ public class SanPhamGUI extends JPanel{
 /*********************** PHẦN SEARCH TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
-        sort.setBounds(30,330,this.DEFALUT_WIDTH - 400,100);
+        sort.setBounds(30,265,this.DEFALUT_WIDTH - 400,100);
 
         JLabel sortTitle = new JLabel("--------------------------------------------------------------------------- TÌM KIẾM THÔNG TIN ---------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 74 dấu ( - )
         sortTitle.setFont(font1);
@@ -566,46 +566,6 @@ public class SanPhamGUI extends JPanel{
         txtMaxPrice.setBounds(new Rectangle(710,42,100,30));
         sort.add(txtMaxPrice);
         /******************************************/
-
-//        /******** SORT TENSP **************/
-//        JLabel lbSortTenSP = new JLabel("Tên SP :");
-//        lbSortTenSP.setFont(font0);
-//        lbSortTenSP.setBounds(510,40,50,30);
-//        sort.add(lbSortTenSP);
-//
-//        sortTenSP = new JTextField();
-//        sortTenSP.setBounds(new Rectangle(570,42,240,30));
-//        sort.add(sortTenSP);
-//        sortTenSP.getDocument().addDocumentListener(new DocumentListener(){
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                String text = sortTenSP.getText();
-//
-//                if (text.trim().length() == 0) {
-//                    rowSorter.setRowFilter(null);
-//                } else {
-//                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", 1));
-//                }
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                String text = sortTenSP.getText();
-//
-//                if (text.trim().length() == 0) {
-//                    rowSorter.setRowFilter(null);
-//                } else {
-//                    rowSorter.setRowFilter(RowFilter.regexFilter("Tên Sản Phẩm LIKE '"+text+"*'", 1));
-//                }
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//            
-//        });
-//        /*************************************/
 
         JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
         btnSearch.setBounds(new Rectangle(840,26,63,63));

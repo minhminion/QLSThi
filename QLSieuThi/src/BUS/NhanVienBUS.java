@@ -21,26 +21,26 @@ public class NhanVienBUS {
     }
     public void listNV()
     {
-        NhanVienDAO spDAO = new NhanVienDAO();
+        NhanVienDAO nvDAO = new NhanVienDAO();
         dsnv = new ArrayList<>();
-        dsnv = spDAO.listNV();
+        dsnv = nvDAO.list();
     }
     public void addNV(NhanVienDTO sp)
     {
         dsnv.add(sp);
-        NhanVienDAO spDAO = new NhanVienDAO();
-        spDAO.addNV(sp);
+        NhanVienDAO nvDAO = new NhanVienDAO();
+        nvDAO.add(sp);
     }
 
     public void deleteNV(String MaNV)
     {
-        for(NhanVienDTO sp : dsnv )
+        for(NhanVienDTO nv : dsnv )
         {
-            if(sp.getMaNV().equals(MaNV))
+            if(nv.getMaNV().equals(MaNV))
             {
-                dsnv.remove(sp);
-                NhanVienDAO spDAO = new NhanVienDAO();
-                spDAO.deleteNV(MaNV);
+                dsnv.remove(nv);
+                NhanVienDAO nvDAO = new NhanVienDAO();
+                nvDAO.delete(MaNV);
                 return;
             }
         }
@@ -52,24 +52,24 @@ public class NhanVienBUS {
             if(dsnv.get(i).getMaNV().equals(s.getMaNV()))
             {
                 dsnv.set(i, s);
-                NhanVienDAO spDAO = new NhanVienDAO();
-                spDAO.setLoai(s);
+                NhanVienDAO nvDAO = new NhanVienDAO();
+                nvDAO.set(s);
                 return;
             }
         }
     }
     public boolean checkManv(String manv)
     {
-        for(NhanVienDTO sp : dsnv)
+        for(NhanVienDTO nv : dsnv)
         {
-            if(sp.getMaNV().equals(manv))
+            if(nv.getMaNV().equals(manv))
             {
                 return true;
             }
         }
         return false;
     }
-    public ArrayList<NhanVienDTO> searchNV(String manv,String ho,String ten,String phai)
+    public ArrayList<NhanVienDTO> search(String manv,String ho,String ten,String phai)
     {
         ArrayList<NhanVienDTO> search = new ArrayList<>();
         manv = manv.isEmpty()?manv = "": manv;

@@ -82,58 +82,58 @@ public class NhanVienGUI extends JPanel{
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 300));
+        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220 , 250));
         ItemView.setBackground(Color.WHITE);
         
         /******** Tao Cac Label & TextField ************************/
         JLabel lbMaNV = new JLabel("Mă nhân viên");
         txtMaNV = new JTextField("");
-        lbMaNV.setBounds(new Rectangle(300,0,200,30));
+        lbMaNV.setBounds(new Rectangle(250,0,200,30));
         lbMaNV.setFont(font0);
-        txtMaNV.setBounds(new Rectangle(400,0,220,30));
+        txtMaNV.setBounds(new Rectangle(350,0,220,30));
         
         JLabel lbHoNV = new JLabel("Họ");
         txtHoNV = new JTextField("");
-        lbHoNV.setBounds(new Rectangle(300,50,200,30));
+        lbHoNV.setBounds(new Rectangle(250,40,200,30));
         lbHoNV.setFont(font0);
-        txtHoNV.setBounds(new Rectangle(400,50,220,30));
+        txtHoNV.setBounds(new Rectangle(350,40,220,30));
         
         JLabel lbTenNV = new JLabel("Tên nhân viên");
         txtTenNV = new JTextField("");
-        lbTenNV.setBounds(new Rectangle(300,100,200,30));
+        lbTenNV.setBounds(new Rectangle(250,80,200,30));
         lbTenNV.setFont(font0);
-        txtTenNV.setBounds(new Rectangle(400,100,220,30)); 
+        txtTenNV.setBounds(new Rectangle(350,80,220,30)); 
   
         JLabel lbMucLuong = new JLabel("Mức lương");
         txtMucLuong = new JTextField("");
-        lbMucLuong.setBounds(new Rectangle(300,150,200,30));
+        lbMucLuong.setBounds(new Rectangle(250,120,200,30));
         lbMucLuong.setFont(font0);
-        txtMucLuong.setBounds(new Rectangle(400,150,220,30));
+        txtMucLuong.setBounds(new Rectangle(350,120,220,30));
         
         JLabel lbDiaChi = new JLabel("Địa chỉ");
         txtDiaChi = new JTextField("");
-        lbDiaChi.setBounds(new Rectangle(300,200,200,30));
+        lbDiaChi.setBounds(new Rectangle(250,160,200,30));
         lbDiaChi.setFont(font0);
-        txtDiaChi.setBounds(new Rectangle(400,200,220,30));
+        txtDiaChi.setBounds(new Rectangle(350,160,220,30));
         
         JLabel lbNamSinh = new JLabel("Năm sinh");
         txtNamSinh = new JTextField("");
-        lbNamSinh.setBounds(new Rectangle(460,250,80,30));
+        lbNamSinh.setBounds(new Rectangle(420,200,80,30));
         lbNamSinh.setFont(font0);
-        txtNamSinh.setBounds(new Rectangle(540,250,80,30));
+        txtNamSinh.setBounds(new Rectangle(490,200,80,30));
         
         JLabel lbPhai = new JLabel("Phái");
-        lbPhai.setBounds(new Rectangle(300,250,30,30));
+        lbPhai.setBounds(new Rectangle(250,200,30,30));
         lbPhai.setFont(font0);
         String []phai = {"Nam","Nữ"};
         cmbPhai = new JComboBox(phai);
-        cmbPhai.setBounds(new Rectangle(360,250,80,30));
+        cmbPhai.setBounds(new Rectangle(310,200,80,30));
 //        txtPhai= new JTextField("");
 //        txtPhai.setBounds(new Rectangle(360,250,80,30));
         
         img = new JLabel("Image");
         img.setBorder(createLineBorder(Color.BLACK));
-        img.setBounds(new Rectangle(0,0,270,300));
+        img.setBounds(new Rectangle(0,0,200,230));
         
         // THÊM VÀO PHẦN HIỂN THỊ
         ItemView.add(img);
@@ -156,17 +156,17 @@ public class NhanVienGUI extends JPanel{
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
         JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
-        btnAdd.setBounds(new Rectangle(700,10,200,50));
+        btnAdd.setBounds(new Rectangle(620,0,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
         JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
-        btnEdit.setBounds(new Rectangle(700,110,200,50));
+        btnEdit.setBounds(new Rectangle(620,70,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
         JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
-        btnDelete.setBounds(new Rectangle(700,210,200,50));
+        btnDelete.setBounds(new Rectangle(620,140,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         ItemView.add(btnAdd);
@@ -177,17 +177,17 @@ public class NhanVienGUI extends JPanel{
         
         JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
         btnConfirm.setVisible(false);
-        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setBounds(new Rectangle(620,0,200,50));
         btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(700,110,200,50));
+        btnBack.setBounds(new Rectangle(620,70,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnFile = new JLabel(new ImageIcon("./src/image/btnFile.png"));
         btnFile.setVisible(false);
-        btnFile.setBounds(new Rectangle(700,210,200,50));
+        btnFile.setBounds(new Rectangle(620,140,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         ItemView.add(btnConfirm);
@@ -275,7 +275,7 @@ public class NhanVienGUI extends JPanel{
                         
                         // Thay đổi hình hiển thị
                         img.setText("");
-                        img.setIcon(new ImageIcon(i.getScaledInstance(270, 300, Image.SCALE_DEFAULT)));
+                        img.setIcon(new ImageIcon(i.getScaledInstance(200, 230, Image.SCALE_DEFAULT)));
                         
                         revalidate();
                         repaint();
@@ -415,7 +415,7 @@ public class NhanVienGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 430, this.DEFALUT_WIDTH - 400 , 210));
+        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 400 , 300));
         scroll.setBackground(null);
         
         add(scroll);
@@ -430,10 +430,10 @@ public class NhanVienGUI extends JPanel{
                 imgName = tbl.getModel().getValueAt(i, 7).toString();
                 Image newImage ;
                 try{
-                    newImage = new ImageIcon("./src/image/NhanVien/"+imgName).getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT);
+                    newImage = new ImageIcon("./src/image/NhanVien/"+imgName).getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT);
                 }catch(NullPointerException E)
                 {
-                    newImage = new ImageIcon("./src/image/NhanVien/NoImage.jpg").getImage().getScaledInstance(270, 300, Image.SCALE_DEFAULT); 
+                    newImage = new ImageIcon("./src/image/NhanVien/NoImage.jpg").getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT); 
                 }
                 txtMaNV.setText(tbl.getModel().getValueAt(i, 0).toString());
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
@@ -451,7 +451,7 @@ public class NhanVienGUI extends JPanel{
         /*********************** PHẦN SEARCH TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
-        sort.setBounds(30,330,this.DEFALUT_WIDTH - 400,100);
+        sort.setBounds(30,265,this.DEFALUT_WIDTH - 400,100);
 
         JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
         sortTitle.setFont(font1);
@@ -522,7 +522,7 @@ public class NhanVienGUI extends JPanel{
                String ten = sortTenNV.getText();
                String phai = sortPhai.getSelectedIndex()!= 0 ? sortPhai.getSelectedItem() : "";
                
-               outModel(model, nvBUS.searchNV(manv, ho, ten, phai));
+               outModel(model, nvBUS.search(manv, ho, ten, phai));
            }
         });
         sort.add(btnSearch);

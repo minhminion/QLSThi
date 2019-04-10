@@ -20,7 +20,7 @@ public class NhanVienDAO {
     private  MySQLConnect mySQL = new MySQLConnect();
     public NhanVienDAO() {
     }
-    public ArrayList<NhanVienDTO> listNV()
+    public ArrayList<NhanVienDTO> list()
     {
         ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
         try {
@@ -51,7 +51,7 @@ public class NhanVienDAO {
         return dsnv;
     }
 
-    public void setLoai(NhanVienDTO nv) {
+    public void set(NhanVienDTO nv) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE nhanvien SET ";
             sql += "HONV='"+nv.getHoNV()+"', ";
@@ -67,7 +67,7 @@ public class NhanVienDAO {
             mySQL.executeUpdate(sql);
     }
 
-    public void addNV(NhanVienDTO nv) {
+    public void add(NhanVienDTO nv) {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO nhanvien VALUES (";
                 sql += "'"+nv.getMaNV()+"',";
@@ -82,7 +82,7 @@ public class NhanVienDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void deleteNV(String MaNV)
+    public void delete(String MaNV)
     {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "DELETE FROM nhanvien WHERE MANV='"+MaNV+"'";

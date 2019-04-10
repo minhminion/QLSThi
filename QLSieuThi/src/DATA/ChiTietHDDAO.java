@@ -24,7 +24,7 @@ public class ChiTietHDDAO {
     {
         
     }
-    public ArrayList<ChiTietHDDTO> listChiTietHD()
+    public ArrayList<ChiTietHDDTO> list()
     {
         ArrayList<ChiTietHDDTO> dsct = new ArrayList<>();
         try {
@@ -62,7 +62,7 @@ public class ChiTietHDDAO {
 //            mySQL.executeUpdate(sql);
 //    }
 
-    public void addChiTietHD(ChiTietHDDTO ct) {
+    public void add(ChiTietHDDTO ct) {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "INSERT INTO chitiethd VALUES (";
                sql += "'"+ct.getMaHD()+"',";
@@ -74,7 +74,7 @@ public class ChiTietHDDAO {
         mySQL.executeUpdate(sql);
     }
     
-    public void deleteChiTietHD(String MaHD)
+    public void delete(String MaHD)
     {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "DELETE FROM chitiethd WHERE MAHD='"+MaHD+"'";

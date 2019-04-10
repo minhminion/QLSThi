@@ -19,20 +19,20 @@ public class ChiTietHDBUS {
     {
         
     }
-    public void listChiTietHD()
+    public void list()
     {
         ChiTietHDDAO loaiDAO = new ChiTietHDDAO();
         dsChiTietHD = new ArrayList<>();
-        dsChiTietHD = loaiDAO.listChiTietHD();
+        dsChiTietHD = loaiDAO.list();
     }
-    public void addChiTietHD(ChiTietHDDTO loai)
+    public void add(ChiTietHDDTO loai)
     {
         dsChiTietHD.add(loai);
         ChiTietHDDAO loaiDAO = new ChiTietHDDAO();
-        loaiDAO.addChiTietHD(loai);
+        loaiDAO.add(loai);
     }
 
-    public void deleteChiTietHD(String idChiTietHD)
+    public void delete(String idChiTietHD)
     {
         for(ChiTietHDDTO ct : dsChiTietHD )
         {
@@ -40,12 +40,12 @@ public class ChiTietHDBUS {
             {
                 dsChiTietHD.remove(ct);
                 ChiTietHDDAO loaiDAO = new ChiTietHDDAO();
-                loaiDAO.deleteChiTietHD(idChiTietHD);
+                loaiDAO.delete(idChiTietHD);
                 return;
             }
         }
     }
-    public void setChiTietHD(ChiTietHDDTO s)
+    public void set(ChiTietHDDTO s)
     {
         for(int i = 0 ; i < dsChiTietHD.size() ; i++)
         {
@@ -58,7 +58,7 @@ public class ChiTietHDBUS {
             }
         }
     }
-    public ChiTietHDDTO searchMaChiTietHD(String maHD)
+    public ChiTietHDDTO search(String maHD)
     {
         for(ChiTietHDDTO ct : dsChiTietHD)
         {
@@ -68,6 +68,18 @@ public class ChiTietHDBUS {
             }
         }
         return null;
+    }
+    public ArrayList<ChiTietHDDTO> getListHD(String maHD)
+    {
+        ArrayList<ChiTietHDDTO> ds = new ArrayList<>();
+        for(ChiTietHDDTO ct : dsChiTietHD)
+        {
+            if( ct.getMaHD().equals(maHD))
+            {
+                ds.add(ct);
+            }
+        }
+        return ds; 
     }
     public ArrayList<ChiTietHDDTO> getList() {
         return dsChiTietHD;

@@ -13,10 +13,10 @@ import java.util.Date;
  */
 public class HoaDonDTO {
     private String maHD,maKH,maNV;
-    private Date ngayHD;
+    private String ngayHD;
     private double tongTien;
 
-    public HoaDonDTO(String maHD, String maKH, String maNV, Date ngayHD, double tongTien) {
+    public HoaDonDTO(String maHD, String maKH, String maNV, String ngayHD, double tongTien) {
         this.maHD = maHD;
         this.maKH = maKH;
         this.maNV = maNV;
@@ -48,11 +48,11 @@ public class HoaDonDTO {
         this.maNV = maNV;
     }
 
-    public Date getNgayHD() {
+    public String getNgayHD() {
         return ngayHD;
     }
 
-    public void setNgayHD(Date ngayHD) {
+    public void setNgayHD(String ngayHD) {
         this.ngayHD = ngayHD;
     }
 

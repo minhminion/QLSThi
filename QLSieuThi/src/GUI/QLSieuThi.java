@@ -96,7 +96,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
         navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
         navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
-        navItem.add("Công Cụ:CongCu_20px.png:CongCu_20px_active.png");
+        navItem.add("Nhà cung cấp:CongCu_20px.png:CongCu_20px_active.png");
         navItem.add("Cái đặt:CaiDat_20px.png:CaiDat_20px_active.png");
         
         outNav();
@@ -206,9 +206,9 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.repaint();
                 main.revalidate();
             break;
-            case 7: //CÔNG CỤ
+            case 7: //NHÀ CUNG CẤP
                 main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH));
+                main.add(new NhaCungCapGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
             break;

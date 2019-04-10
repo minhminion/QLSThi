@@ -20,14 +20,14 @@ public class NhaCungCapBUS {
     public void listNCC(){
         NhaCungCapDAO nccDAO = new NhaCungCapDAO();
         dsncc = new ArrayList<>();
-        dsncc = nccDAO.listNCC();
+        dsncc = nccDAO.list();
     }
     
        public void addNCC(NhaCungCapDTO ncc)
     {
         dsncc.add(ncc);
         NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-        nccDAO.addNCC(ncc);
+        nccDAO.add(ncc);
     }
 
     public void deleteNCC(String MaNCC)
@@ -38,7 +38,7 @@ public class NhaCungCapBUS {
             {
                 dsncc.remove(ncc);
                 NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-                nccDAO.deleteNCC(MaNCC);
+                nccDAO.delete(MaNCC);
                 return;
             }
         }
@@ -51,7 +51,7 @@ public class NhaCungCapBUS {
             {
                 dsncc.set(i, s);
                 NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-                nccDAO.setNCC(s);
+                nccDAO.set(s);
                 return;
             }
         }
