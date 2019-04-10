@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import static javax.swing.BorderFactory.createLineBorder;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -59,6 +60,7 @@ public class NhanVienGUI extends JPanel{
     private JTextField sortHoNV;
     private JTextField sortTenNV;
     private Choice sortPhai;
+    private JComboBox cmbPhai;
     public NhanVienGUI(int width)
     {
         DEFALUT_WIDTH = width;
@@ -121,10 +123,13 @@ public class NhanVienGUI extends JPanel{
         txtNamSinh.setBounds(new Rectangle(540,250,80,30));
         
         JLabel lbPhai = new JLabel("Phái");
-        txtPhai= new JTextField("");
         lbPhai.setBounds(new Rectangle(300,250,30,30));
         lbPhai.setFont(font0);
-        txtPhai.setBounds(new Rectangle(360,250,80,30));
+        String []phai = {"Nam","Nữ"};
+        cmbPhai = new JComboBox(phai);
+        cmbPhai.setBounds(new Rectangle(360,250,80,30));
+//        txtPhai= new JTextField("");
+//        txtPhai.setBounds(new Rectangle(360,250,80,30));
         
         img = new JLabel("Image");
         img.setBorder(createLineBorder(Color.BLACK));
@@ -141,7 +146,8 @@ public class NhanVienGUI extends JPanel{
         ItemView.add(lbNamSinh);
         ItemView.add(txtNamSinh);
         ItemView.add(lbPhai);
-        ItemView.add(txtPhai);
+        ItemView.add(cmbPhai);
+//        ItemView.add(txtPhai);
         ItemView.add(lbMucLuong);
         ItemView.add(txtMucLuong);
         ItemView.add(lbDiaChi);
@@ -313,7 +319,7 @@ public class NhanVienGUI extends JPanel{
                         String hoNV = txtHoNV.getText();
                         String tenNV = txtTenNV.getText();
                         int namSinh = Integer.parseInt(txtNamSinh.getText());
-                        String phai = txtPhai.getText();
+                        String phai = cmbPhai.getSelectedItem().toString();
                         int mucLuong = Integer.parseInt(txtMucLuong.getText());
                         String diaChi = txtDiaChi.getText();
                         String IMG = imgName;
@@ -343,7 +349,7 @@ public class NhanVienGUI extends JPanel{
                         String hoNV = txtHoNV.getText();
                         String tenNV = txtTenNV.getText();
                         int namSinh = Integer.parseInt(txtNamSinh.getText());
-                        String phai = txtPhai.getText();
+                        String phai = cmbPhai.getSelectedItem().toString();
                         int mucLuong = Integer.parseInt(txtMucLuong.getText());
                         String diaChi = txtDiaChi.getText();
                         String IMG = imgName;
@@ -433,7 +439,8 @@ public class NhanVienGUI extends JPanel{
                 txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtTenNV.setText(tbl.getModel().getValueAt(i, 2).toString()); 
                 txtNamSinh.setText(tbl.getModel().getValueAt(i, 3).toString());
-                txtPhai.setText( tbl.getModel().getValueAt(i, 4).toString());
+                cmbPhai.setSelectedItem(tbl.getModel().getValueAt(i, 4).toString());
+//                txtPhai.setText( tbl.getModel().getValueAt(i, 4).toString());
                 txtMucLuong.setText(tbl.getModel().getValueAt(i, 5).toString()); 
                 txtDiaChi.setText(tbl.getModel().getValueAt(i, 6).toString()); 
                 img.setText("");

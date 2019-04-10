@@ -154,22 +154,26 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.removeAll();
                 main.add(new BanHangGUI(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             case 1: // QUẢN LÝ SẢN PHẨM
                 main.removeAll();
                 main.add(new SanPhamGUI(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
 
             case 2: // QUẢN LÝ NHÂN VIÊN
                 main.removeAll();
                 main.add(new NhanVienGUI(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             case 3: // QUẢN LÝ KHÁCH HÀNG
                 main.removeAll();
                 main.add(new KhachHangGUI(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             case 4: //THỐNG KÊ
                 if(flag)
@@ -194,21 +198,25 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.removeAll();
                 main.add(new HoaDonGUI(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             case 6: //THÔNG KÊ - NHẬP HÀNG
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH, "THỐNG KÊ - NHẬP HÀNG"));
                 main.repaint();
+                main.revalidate();
             break;
             case 7: //CÔNG CỤ
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             case 8: //CÀI ĐẶT
                 main.removeAll();
                 main.add(new Page404(DEFALUT_WIDTH));
                 main.repaint();
+                main.revalidate();
             break;
             default:
             break;
@@ -243,6 +251,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
             nav.add(n); 
         }
         repaint();
+        revalidate();
     }
     
     @Override
