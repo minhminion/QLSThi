@@ -40,7 +40,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -386,6 +391,8 @@ public class NhanVienGUI extends JPanel{
         header.add("IMG"); 
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
+        tbl.setRowSorter(rowSorter);
         listSP(); //Đọc từ database lên table 
         
 /*********************************************************/
@@ -448,6 +455,75 @@ public class NhanVienGUI extends JPanel{
                 
              }
         });
+/********************* THANH SEARCH ***********************************************/
+        
+//         Tạo Search Box
+        JPanel searchBox = new JPanel(null);
+        searchBox.setBackground(null);
+        searchBox.setBounds(new Rectangle(620,200,250, 30)); 
+        searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
+        
+        //Phần TextField 
+        txtSearch = new JTextField();
+        txtSearch.setBounds(new Rectangle(5,0,200,30));
+        txtSearch.setBorder(null);
+        txtSearch.setOpaque(false);
+        txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
+        
+        // Custem Icon search
+        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
+        searchIcon.setBounds(new Rectangle(200,-9,50,50));
+        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        // Add tất cả vào search box
+        searchBox.add(searchIcon);
+        searchBox.add(txtSearch);
+
+        //bắt sự kiện Focus vào search box
+        txtSearch.addFocusListener(new FocusAdapter(){
+            @Override
+            public void focusGained(FocusEvent e) 
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
+                searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
+            }
+            public void focusLost(FocusEvent e) //Trờ về như cũ
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
+                searchBox.setBorder(createLineBorder(Color.BLACK));
+            }
+        });
+        txtSearch.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = txtSearch.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*",1,2));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = txtSearch.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", 1,2));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+        });
+        ItemView.add(searchBox);
+/*********************************************************************************/
         /*********************** PHẦN SEARCH TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);

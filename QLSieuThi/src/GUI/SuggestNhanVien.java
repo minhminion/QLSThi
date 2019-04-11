@@ -7,6 +7,7 @@ package GUI;
 
 import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
+import java.awt.Choice;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import static javax.swing.BorderFactory.createLineBorder;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,6 +51,7 @@ public class SuggestNhanVien extends JDialog{
     private int DWIDTH = 1200;
     private JTextField txtHo;
     private JTextField txtSearch;
+    private JComboBox cmbChoice;
 
     
     public SuggestNhanVien()
@@ -202,21 +205,30 @@ public class SuggestNhanVien extends JDialog{
         searchBox.setBounds(new Rectangle(20,220,350, 30)); 
         searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
         
+        //PHẦN CHỌN SEARCH
+        cmbChoice = new JComboBox();
+        cmbChoice.setEditable(true);
+        cmbChoice.setFont(new Font("Segoe UI",Font.PLAIN,14));
+        cmbChoice.addItem("Mã NV");
+        cmbChoice.addItem("Tên NV");
+        cmbChoice.setBounds(new Rectangle(0,0,80,30));
+        
         //Phần TextField 
         txtSearch = new JTextField();
-        txtSearch.setBounds(new Rectangle(5,0,300,30));
+        txtSearch.setBounds(new Rectangle(85,0,220,30));
         txtSearch.setBorder(null);
         txtSearch.setOpaque(false);
         txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
         
         // Custem Icon search
         JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
-        searchIcon.setBounds(new Rectangle(300,-9,50,50));
+        searchIcon.setBounds(new Rectangle(305,-9,50,50));
         searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Add tất cả vào search box
-        searchBox.add(searchIcon);
+        searchBox.add(cmbChoice);
         searchBox.add(txtSearch);
+        searchBox.add(searchIcon);
 
         //bắt sự kiện Focus vào search box
         txtSearch.addFocusListener(new FocusAdapter(){
@@ -236,22 +248,24 @@ public class SuggestNhanVien extends JDialog{
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = txtSearch.getText();
-
+                int choice = cmbChoice.getSelectedIndex();
+                
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", 1));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", choice));
                 }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 String text = txtSearch.getText();
-
+                int choice = cmbChoice.getSelectedIndex();
+                
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", 1));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", choice));
                 }
             }
 

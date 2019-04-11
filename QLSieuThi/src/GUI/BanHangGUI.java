@@ -12,6 +12,7 @@ import DTO.SanPhamDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,8 +60,10 @@ public class BanHangGUI extends JPanel implements ActionListener{
     private JTextField txtCTTenSP;
     private JButton btnAddCT;
     private JButton btnNewHD;
+    private JButton btnConfirm;
     private DefaultTableModel model;
     private JTable tbl;
+    private JLabel imgSP;
     
     public BanHangGUI(int width)
     {
@@ -148,56 +154,62 @@ public class BanHangGUI extends JPanel implements ActionListener{
 /*********************** PHẦN VIEW THÔNG TIN CHI TIẾT *****************************/
         JPanel chiTietView = new JPanel(null);
         chiTietView.setBackground(null);
-        chiTietView.setBounds(new Rectangle(30,190,this.DEFALUT_WIDTH - 350,50));
+        chiTietView.setBounds(new Rectangle(30,190,300,500));
+        
+        imgSP = new JLabel();
+        imgSP.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,new Color(155,155,155)));
+        imgSP.setBounds(new Rectangle(0,0,280,230));
+        imgSP.setHorizontalAlignment(JLabel.CENTER);
+        chiTietView.add(imgSP);
 
         JLabel lbMaSP = new JLabel("Mã SP");
         lbMaSP.setFont(font0);
-        lbMaSP.setBounds(0,0,55,30);
+        lbMaSP.setBounds(0,240,55,30);
         txtMaSP = new JTextField();
         txtMaSP.setHorizontalAlignment(JTextField.CENTER);
         txtMaSP.setFont(font0);
-        txtMaSP.setBounds(new Rectangle(55,0,70,30));
+        txtMaSP.setBounds(new Rectangle(60,240,70,30));
         chiTietView.add(lbMaSP);
         chiTietView.add(txtMaSP);
         btnMaSP = new JButton("...");
-        btnMaSP.setBounds(new Rectangle(125,0,30,30));
+        btnMaSP.setBounds(new Rectangle(130,240,30,30));
         btnMaSP.addActionListener(this);
         chiTietView.add(btnMaSP);
         
         JLabel lbCTTenSP = new JLabel("Tên SP");
         lbCTTenSP.setFont(font0);
-        lbCTTenSP.setBounds(185,0,50,30);
+        lbCTTenSP.setBounds(0,280,50,30);
         txtCTTenSP = new JTextField();
         txtCTTenSP.setHorizontalAlignment(JTextField.CENTER);
         txtCTTenSP.setFont(font0);
-        txtCTTenSP.setBounds(new Rectangle(235,0,220,30));
+        txtCTTenSP.setBounds(new Rectangle(60,280,220,30));
         chiTietView.add(lbCTTenSP);
         chiTietView.add(txtCTTenSP);
 
         JLabel lbCTGia = new JLabel("Đơn giá");
         lbCTGia.setFont(font0);
-        lbCTGia.setBounds(470,0,60,30);
+        lbCTGia.setBounds(0,320,60,30);
         txtCTGia = new JTextField();
         txtCTGia.setHorizontalAlignment(JTextField.CENTER);
         txtCTGia.setFont(font0);
-        txtCTGia.setBounds(new Rectangle(525,0,150,30));
+        txtCTGia.setBounds(new Rectangle(60,320,220,30));
         chiTietView.add(lbCTGia);
         chiTietView.add(txtCTGia);
 
         JLabel lbCTSL = new JLabel("Số lượng");
         lbCTSL.setFont(font0);
-        lbCTSL.setBounds(695,0,60,30);
+        lbCTSL.setBounds(170,240,60,30);
         txtCTSL = new JTextField();
         txtCTSL.setHorizontalAlignment(JTextField.CENTER);
         txtCTSL.setFont(font0);
-        txtCTSL.setBounds(new Rectangle(755,0,70,30));
+        txtCTSL.setBounds(new Rectangle(230,240,50,30));
         chiTietView.add(lbCTSL);
         chiTietView.add(txtCTSL);
         
         btnAddCT = new JButton("Thêm");
         btnAddCT.setFont(font0);
         btnAddCT.addActionListener(this);
-        btnAddCT.setBounds(new Rectangle(855,0,80,30));
+        btnAddCT.setBounds(new Rectangle(0,360,80,30));
         chiTietView.add(btnAddCT);
         
         add(chiTietView);
@@ -238,7 +250,7 @@ public class BanHangGUI extends JPanel implements ActionListener{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 250, this.DEFALUT_WIDTH - 350 , 350));
+        scroll.setBounds(new Rectangle(330, 190, this.DEFALUT_WIDTH - 650 , 400));
         scroll.setBackground(null);
         
         add(scroll);
@@ -262,6 +274,14 @@ public class BanHangGUI extends JPanel implements ActionListener{
             txtMaSP.setText(s[0]);
             txtCTTenSP.setText(s[1]);
             txtCTGia.setText(s[2]);
+            Image newImage ;
+            try{
+                newImage = new ImageIcon("./src/image/SanPham/"+s[3]).getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT);
+            }catch(NullPointerException E)
+            {
+                newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT); 
+            }
+            imgSP.setIcon(new ImageIcon(newImage));
         }
         if(e.getSource().equals(btnAddCT)) // Thêm Sản Phẩm
         {
@@ -273,7 +293,10 @@ public class BanHangGUI extends JPanel implements ActionListener{
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng");
                 return;
             }
-            spBUS.updateSL(txtMaSP.getText(), sl);
+            if(!spBUS.updateSL(txtMaSP.getText(), sl))
+            {
+                return;
+            }
             int gia = Integer.parseInt(txtCTGia.getText());
             System.out.println(sl);
             boolean flag = true;

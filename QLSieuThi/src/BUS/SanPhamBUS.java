@@ -8,6 +8,7 @@ package BUS;
 import DATA.SanPhamDAO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -69,21 +70,28 @@ public class SanPhamBUS {
         }
         return false;
     }
-    public void updateSL(String masp,int sl)
+    public boolean updateSL(String masp,int sl)
     {
          for(SanPhamDTO sp : dssp)
          {
              if(sp.getMaSP().equals(masp))
              {
-                 System.out.println("RUN");
-                int old = sp.getSl()-sl;
+                
+                int old = sp.getSl();
+                if(sl > old)
+                {
+                    JOptionPane.showMessageDialog(null, "Không đủ hàng");
+                    return false;
+                }
+                old -= sl;
                 sp.setSl(old);
                 SanPhamDAO spDAO = new SanPhamDAO();
                 spDAO.set(sp);
                 System.out.println(sp.getSl());
-                return;
+                return true;
              }
          }
+         return false;
     }
     public ArrayList<SanPhamDTO> searchSP(String masp,String maloai,String mansx,int max,int min)
     {
