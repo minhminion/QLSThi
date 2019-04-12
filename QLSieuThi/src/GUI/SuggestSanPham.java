@@ -39,6 +39,7 @@ import javax.swing.table.TableRowSorter;
  * @author Shadow
  */
 class SuggestSanPham extends JDialog{
+    private String maSP;
     private SanPhamBUS spBUS = new SanPhamBUS();
     private JTextField txtMaSP,txtTenSP,txtGia,txtSL,txtDVT;
     private String img;
@@ -48,7 +49,12 @@ class SuggestSanPham extends JDialog{
     private JTextField txtSearch;
     private JComboBox cmbChoice;
 
-    
+    public SuggestSanPham(String maSP)
+    {
+        this.maSP = maSP;
+        setModal(true);
+        init();
+    }
     public SuggestSanPham()
     {
         setModal(true);
@@ -152,7 +158,11 @@ class SuggestSanPham extends JDialog{
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
         listSP();
-        
+        if (maSP.trim().length() != 0) {
+            int select = searchModel(model, maSP);
+            tbl.setRowSelectionInterval(select, select);
+            TabletoTXT(select);
+        }
     /*******************************************************************/
         
 
@@ -190,16 +200,7 @@ class SuggestSanPham extends JDialog{
              public void mouseClicked(MouseEvent e)
              {
                 int i = tbl.getSelectedRow();
-                if(tbl.getRowSorter() != null)
-                {
-                    i = tbl.getRowSorter().convertRowIndexToModel(i);
-                }
-                txtMaSP.setText(tbl.getModel().getValueAt(i, 0).toString());
-                txtTenSP.setText(tbl.getModel().getValueAt(i, 1).toString());
-                txtGia.setText(tbl.getModel().getValueAt(i, 2).toString()); 
-                txtDVT.setText(tbl.getModel().getValueAt(i, 3).toString()); 
-                txtSL.setText(tbl.getModel().getValueAt(i, 4).toString());
-                img = tbl.getModel().getValueAt(i, 5).toString();
+                TabletoTXT(i);
              }
         });
 /*********************************************************************/
@@ -315,5 +316,29 @@ class SuggestSanPham extends JDialog{
                 txtTenSP.getText()+"%"+
                 txtGia.getText()+"%"+
                 img;
+    }
+    public int searchModel(DefaultTableModel model,String s)
+    {
+        for(int i = 0 ; i < model.getRowCount();i++)
+        {
+            if(model.getValueAt(i, 0).equals(s))
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+    public void TabletoTXT(int i)
+    {
+        if(tbl.getRowSorter() != null)
+        {
+            i = tbl.getRowSorter().convertRowIndexToModel(i);
+        }
+        txtMaSP.setText(tbl.getModel().getValueAt(i, 0).toString());
+        txtTenSP.setText(tbl.getModel().getValueAt(i, 1).toString());
+        txtGia.setText(tbl.getModel().getValueAt(i, 2).toString()); 
+        txtDVT.setText(tbl.getModel().getValueAt(i, 3).toString()); 
+        txtSL.setText(tbl.getModel().getValueAt(i, 4).toString());
+        img = tbl.getModel().getValueAt(i, 5).toString();
     }
 }

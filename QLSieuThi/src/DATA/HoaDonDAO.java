@@ -49,12 +49,13 @@ public class HoaDonDAO {
     }
     public void add(HoaDonDTO hd) {
         MySQLConnect mySQL = new MySQLConnect();
+        String maKH = hd.getMaKH().equals("")?null:"'"+hd.getMaKH()+"'";
         String sql = "INSERT INTO hoadon VALUES (";
                sql += "'"+hd.getMaHD()+"',";
-               sql += "'"+hd.getMaKH()+"',";
+               sql += ""+maKH+",";
                sql += "'"+hd.getMaNV()+"',";
                sql += "'"+hd.getNgayHD().toString()+"',";
-               sql += "'"+hd.getTongTien()+"',";
+               sql += "'"+hd.getTongTien()+"')";
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }

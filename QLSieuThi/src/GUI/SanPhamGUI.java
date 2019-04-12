@@ -36,6 +36,8 @@ import DTO.NsxDTO;
 import java.awt.Choice;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +55,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Shadow
  */
-public class SanPhamGUI extends JPanel{
+public class SanPhamGUI extends JPanel implements KeyListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private LoaiBUS loaiBUS = new LoaiBUS();
     private NsxBUS nsxBUS = new NsxBUS();
@@ -61,7 +63,7 @@ public class SanPhamGUI extends JPanel{
     private BufferedImage i = null;//Hình ảnh chọn từ file
     private JLabel img;
     private String imgName = "null";
-    private JTextField txtId,txtHoNV,txtSl,txtGia,txtDVT,txtNSX,txtLoai,txtSearch;
+    private JTextField txtId,txtTenSP,txtSl,txtGia,txtDVT,txtNSX,txtLoai,txtSearch;
     private DefaultTableModel model;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
@@ -110,9 +112,9 @@ public class SanPhamGUI extends JPanel{
         JLabel lbName = new JLabel("Tên Sản Phẩm");
         lbName.setBounds(new Rectangle(250,40,200,30));
         lbName.setFont(font0);
-        txtHoNV = new JTextField("");
-        txtHoNV.setBounds(new Rectangle(350,40,220,30));
-        txtHoNV.setFont(font0);
+        txtTenSP = new JTextField("");
+        txtTenSP.setBounds(new Rectangle(350,40,220,30));
+        txtTenSP.setFont(font0);
 
         JLabel lbSl = new JLabel("Số lượng");
         lbSl.setBounds(new Rectangle(250,80,200,30));
@@ -173,7 +175,7 @@ public class SanPhamGUI extends JPanel{
         ItemView.add(lbId);
         ItemView.add(txtId);
         ItemView.add(lbName);
-        ItemView.add(txtHoNV);
+        ItemView.add(txtTenSP);
         ItemView.add(lbSl);
         ItemView.add(txtSl);
         ItemView.add(lbGia);
@@ -350,7 +352,7 @@ public class SanPhamGUI extends JPanel{
                     {
                         //Lấy dữ liệu từ TextField
                         String maSP = txtId.getText();
-                        String tenSP = txtHoNV.getText();
+                        String tenSP = txtTenSP.getText();
                         int sl = Integer.parseInt(txtSl.getText());
                         int gia = Integer.parseInt(txtGia.getText());
                         String DVT = cmbDVT.getSelectedItem().toString();
@@ -382,7 +384,7 @@ public class SanPhamGUI extends JPanel{
                     {
                         //Lấy dữ liệu từ TextField
                         String maSP = txtId.getText();
-                        String tenSP = txtHoNV.getText();
+                        String tenSP = txtTenSP.getText();
                         int sl = Integer.parseInt(txtSl.getText());
                         int gia = Integer.parseInt(txtGia.getText());
                         String DVT = cmbDVT.getSelectedItem().toString();
@@ -480,7 +482,7 @@ public class SanPhamGUI extends JPanel{
                     newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(200, 230, Image.SCALE_DEFAULT); 
                 }
                 txtId.setText(tbl.getModel().getValueAt(i, 0).toString());
-                txtHoNV.setText(tbl.getModel().getValueAt(i, 1).toString());
+                txtTenSP.setText(tbl.getModel().getValueAt(i, 1).toString());
                 txtSl.setText(tbl.getModel().getValueAt(i, 2).toString()); 
                 txtGia.setText(tbl.getModel().getValueAt(i, 3).toString());
 //                txtDVT.setText( tbl.getModel().getValueAt(i, 4).toString());
@@ -581,6 +583,7 @@ public class SanPhamGUI extends JPanel{
         sortMaSP = new JTextField();
         sortMaSP.setFont(font0);
         sortMaSP.setBounds(new Rectangle(50,42,100,30));
+        sortMaSP.addKeyListener(this);
         sort.add(sortMaSP);
         /*************************************/
 
@@ -591,17 +594,14 @@ public class SanPhamGUI extends JPanel{
         sort.add(lbSortMaLoai);
         
         cmbSortLoai = new JComboBox();
-        cmbSortLoai.setEditable(true);
+//        cmbSortLoai.setEditable(true);
         cmbSortLoai.setFont(font0);
         cmbSortLoai.setBounds(new Rectangle(210,42,110,30));
         cmbSortLoai.addItem("Không");
+        cmbSortLoai.addKeyListener(this);
         listLoai(cmbSortLoai);
         sort.add(cmbSortLoai);
         
-//        sortMaLoai = new JTextField();
-//        sortMaLoai.setFont(font0);
-//        sortMaLoai.setBounds(new Rectangle(230,42,100,30));
-//        sort.add(sortMaLoai);
         /*************************************/
         
         /******** SORT MANSX **************/
@@ -611,17 +611,13 @@ public class SanPhamGUI extends JPanel{
         sort.add(lbSortMaNSX);
 
         cmbSortNSX = new JComboBox();
-        cmbSortNSX.setEditable(true);
         cmbSortNSX.setFont(font0);
         cmbSortNSX.setBounds(new Rectangle(400,42,100,30));
         cmbSortNSX.addItem("Không");
+        cmbSortNSX.addKeyListener(this);
         listNSX(cmbSortNSX);
         sort.add(cmbSortNSX);
         
-//        sortMaNSX = new JTextField();
-//        sortMaNSX.setFont(font0);
-//        sortMaNSX.setBounds(new Rectangle(400,42,100,30));
-//        sort.add(sortMaNSX);
         /*************************************/
         
         /************ SORT THEO GIÁ ***************/
@@ -633,6 +629,7 @@ public class SanPhamGUI extends JPanel{
         txtMinPrice = new JTextField();
         txtMinPrice.setFont(font0);
         txtMinPrice.setBounds(new Rectangle(580,42,100,30));
+        txtMinPrice.addKeyListener(this);
         sort.add(txtMinPrice);
 
         JSeparator sepPrice = new JSeparator(JSeparator.HORIZONTAL);
@@ -642,6 +639,7 @@ public class SanPhamGUI extends JPanel{
         txtMaxPrice = new JTextField();
         txtMaxPrice.setFont(font0);
         txtMaxPrice.setBounds(new Rectangle(710,42,100,30));
+        txtMaxPrice.addKeyListener(this);
         sort.add(txtMaxPrice);
         /******************************************/
 
@@ -651,25 +649,7 @@ public class SanPhamGUI extends JPanel{
         btnSearch.addMouseListener(new MouseAdapter() {
            public void mouseClicked(MouseEvent e)
            {
-               String masp = sortMaSP.getText();
-               String maloai = "";
-               String mansx = "";
-               if(cmbSortLoai.getSelectedIndex() != 0)
-               {
-                    LoaiDTO loai = (LoaiDTO) cmbSortLoai.getSelectedItem();
-                    maloai = loai.getMaLoai();
-                    System.out.println(maloai);
-               }
-               if(cmbSortNSX.getSelectedIndex() != 0)
-               {
-                    NsxDTO nsx = (NsxDTO) cmbSortNSX.getSelectedItem();
-                    mansx = nsx.getMaNSX();
-                    System.out.println(mansx);
-               }
-               int max = txtMaxPrice.getText().equals("") ? 999999 : Integer.parseInt(txtMaxPrice.getText());
-               int min = txtMinPrice.getText().equals("") ? 0      : Integer.parseInt(txtMinPrice.getText());
-               
-               outModel(model,spBUS.searchSP(masp, maloai, mansx, max, min));
+               search();
            }
         });
         sort.add(btnSearch);
@@ -698,7 +678,7 @@ public class SanPhamGUI extends JPanel{
         txtId.setEditable(true);
 
         txtId.setText("");
-        txtHoNV.setText("");
+        txtTenSP.setText("");
         txtSl.setText("");
         txtGia.setText("");
         txtDVT.setText("");
@@ -755,4 +735,47 @@ public class SanPhamGUI extends JPanel{
             cmb.addItem(a);
         }
     }
+
+    public void search()
+    {
+        String masp = sortMaSP.getText();
+        String maloai = "";
+        String mansx = "";
+        if(cmbSortLoai.getSelectedIndex() != 0)
+        {
+             LoaiDTO loai = (LoaiDTO) cmbSortLoai.getSelectedItem();
+             maloai = loai.getMaLoai();
+             System.out.println(maloai);
+        }
+        if(cmbSortNSX.getSelectedIndex() != 0)
+        {
+             NsxDTO nsx = (NsxDTO) cmbSortNSX.getSelectedItem();
+             mansx = nsx.getMaNSX();
+             System.out.println(mansx);
+        }
+        int max = txtMaxPrice.getText().equals("") ? 999999 : Integer.parseInt(txtMaxPrice.getText());
+        int min = txtMinPrice.getText().equals("") ? 0      : Integer.parseInt(txtMinPrice.getText());
+
+        outModel(model,spBUS.searchSP(masp, maloai, mansx, max, min));
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Object a = e.getSource();
+        if(a.equals(sortMaSP) || a.equals(txtMinPrice) || a.equals(txtMaxPrice) 
+                || a.equals(cmbSortNSX)
+                || a.equals(cmbSortLoai))
+        {
+            if(e.getKeyCode() == KeyEvent.VK_ENTER)
+            {
+                search();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }

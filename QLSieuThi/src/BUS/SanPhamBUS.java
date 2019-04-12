@@ -70,6 +70,17 @@ public class SanPhamBUS {
         }
         return false;
     }
+    public SanPhamDTO getSP(String masp)
+    {
+        for(SanPhamDTO sp : dssp)
+        {
+            if(sp.getMaSP().equals(masp))
+            {
+                return sp;
+            }
+        }
+        return null;
+    }
     public boolean updateSL(String masp,int sl)
     {
          for(SanPhamDTO sp : dssp)

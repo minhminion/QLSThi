@@ -69,7 +69,7 @@ public class ChiTietHDDAO {
                sql += "'"+ct.getMaSP()+"',";
                sql += "'"+ct.getTenSP()+"',";
                sql += "'"+ct.getSl()+"',";
-               sql += "'"+ct.getGia()+"',";
+               sql += "'"+ct.getGia()+"')";
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }

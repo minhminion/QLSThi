@@ -19,6 +19,10 @@ public class ChiTietHDBUS {
     {
         
     }
+    public ChiTietHDBUS(int i)
+    {
+        list();
+    }
     public void list()
     {
         ChiTietHDDAO loaiDAO = new ChiTietHDDAO();
