@@ -6,7 +6,9 @@
 package GUI;
 
 import BUS.NhanVienBUS;
+import BUS.UserBUS;
 import DTO.NhanVienDTO;
+import DTO.UserDTO;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -314,7 +316,7 @@ public class NhanVienGUI extends JPanel{
             public void mouseClicked(MouseEvent e)
             {
                 int i;
-                if(EditOrAdd) //Thêm Sản Phẩm
+                if(EditOrAdd) //Thêm Nhân Viên
                 {
                     i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
                     if(i == 0)
@@ -328,15 +330,17 @@ public class NhanVienGUI extends JPanel{
                         int mucLuong = Integer.parseInt(txtMucLuong.getText());
                         String diaChi = txtDiaChi.getText();
                         String IMG = imgName;
-                        if(nvBUS.checkManv(maNV))
+                        if(nvBUS.check(maNV))
                         {
                             JOptionPane.showMessageDialog(null, "Mã nhân viên đă tồn tại !!!");
                             return;
                         }
-                        //Upload sản phẩm lên DAO và BUS
-                        NhanVienDTO sp = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
-                        nvBUS.addNV(sp);
-
+                        //Upload nhân viên lên DAO và BUS
+                        NhanVienDTO nv = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
+                        nvBUS.addNV(nv);
+                        UserBUS usBUS = new UserBUS();
+                        UserDTO user = new UserDTO(maNV, tenNV.concat(maNV).toLowerCase(), "123456", "Nhân Viên", "1");
+                        usBUS.add(user, 1);
                         outModel(model, nvBUS.getList());// Load lại table
 
                         saveIMG();// Lưu hình ảnh 
@@ -628,7 +632,6 @@ public class NhanVienGUI extends JPanel{
         txtHoNV.setText("");
         txtTenNV.setText("");
         txtNamSinh.setText("");
-        txtPhai.setText("");
         txtMucLuong.setText("");
         txtDiaChi.setText("");
         

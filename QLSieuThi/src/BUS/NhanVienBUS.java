@@ -15,6 +15,11 @@ import java.util.ArrayList;
  */
 public class NhanVienBUS {
     private ArrayList<NhanVienDTO> dsnv ;
+    public NhanVienBUS(int i1)
+    {
+        listNV();
+    }
+    
     public NhanVienBUS()
     {
         
@@ -58,7 +63,7 @@ public class NhanVienBUS {
             }
         }
     }
-    public boolean checkManv(String manv)
+    public boolean check(String manv)
     {
         for(NhanVienDTO nv : dsnv)
         {

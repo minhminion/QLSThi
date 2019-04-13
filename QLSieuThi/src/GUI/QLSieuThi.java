@@ -214,7 +214,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
             break;
             case 8: //CÀI ĐẶT
                 main.removeAll();
-                main.add(new Page404(DEFALUT_WIDTH));
+                main.add(new UserGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
             break;
