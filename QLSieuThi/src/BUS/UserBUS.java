@@ -8,13 +8,14 @@ package BUS;
 import DATA.UserDAO;
 import DTO.UserDTO;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
  * @author Shadow
  */
 public class UserBUS {
-    private ArrayList<UserDTO> dsHD ;
+    private ArrayList<UserDTO> dsUS;
     public UserBUS()
     {
         
@@ -22,30 +23,30 @@ public class UserBUS {
     public void list()
     {
         UserDAO usDAO = new UserDAO();
-        dsHD = new ArrayList<>();
-        dsHD = usDAO.list();
+        dsUS= new ArrayList<>();
+        dsUS= usDAO.list();
     }
     public void add(UserDTO hd)
     {
-        dsHD.add(hd);
+        dsUS.add(hd);
         UserDAO usDAO = new UserDAO();
         usDAO.add(hd);
     }
 
     public void add(UserDTO hd,int i)
     {
-//        dsHD.add(hd);
+//        dsUS.add(hd);
         UserDAO usDAO = new UserDAO();
         usDAO.add(hd);
     }
     
     public void delete(String userID)
     {
-        for(UserDTO hd : dsHD )
+        for(UserDTO hd : dsUS)
         {
             if(hd.getUserID().equals(userID))
             {
-                dsHD.remove(hd);
+                dsUS.remove(hd);
                 UserDAO usDAO = new UserDAO();
                 usDAO.delete(userID);
                 return;
@@ -54,29 +55,36 @@ public class UserBUS {
     }
     public void set(UserDTO s)
     {
-        for(int i = 0 ; i < dsHD.size() ; i++)
+        for(int i = 0 ; i < dsUS.size() ; i++)
         {
-            if(dsHD.get(i).getUserID().equals(s.getUserID()))
+            if(dsUS.get(i).getUserID().equals(s.getUserID()))
             {
-                dsHD.set(i, s);
+                dsUS.set(i, s);
 //                UserDAO usDAO = new UserDAO();
 //                usDAO.setChiTietHD(s);
                 return;
             }
         }
     }
-    public boolean check(String userID,String pass)
+    public UserDTO check(String userName,char[] pass)
     {
-        for(UserDTO hd : dsHD)
-        {
-            if( hd.getUserID().equals(userID) && hd.getPass().equals(pass))
+        
+        for(UserDTO us : dsUS)
+        {   
+            char[] correctPass = us.getPass().toCharArray();
+            if( us.getUserName().equals(userName) && Arrays.equals(pass, correctPass) && us.getEnable().equals("1"))
             {
-                return true;
+                return us;
             }
         }
-        return false;
+        return null;
     }
     public ArrayList<UserDTO> getList() {
-        return dsHD;
+        return dsUS;
+    }
+
+    public void delete(String text, int i) {
+        list();
+        delete(text);
     }
 }

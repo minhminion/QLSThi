@@ -24,6 +24,17 @@ public class NhanVienBUS {
     {
         
     }
+    public NhanVienDTO get(String MaNV)
+    {
+        for(NhanVienDTO nv : dsnv )
+        {
+            if(nv.getMaNV().equals(MaNV))
+            {
+                return nv;
+            }
+        }
+        return null;
+    }
     public void listNV()
     {
         NhanVienDAO nvDAO = new NhanVienDAO();

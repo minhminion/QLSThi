@@ -38,7 +38,7 @@ public class UserDAO {
                 String role = rs.getString("role");
                 String enable= rs.getString("enable");
                 
-                UserDTO us= new UserDTO(userID, userID, pass, role, enable);
+                UserDTO us= new UserDTO(userID, username, pass, role, enable);
                 dsnv.add(us);
             }
             rs.close();
@@ -54,7 +54,7 @@ public class UserDAO {
     public void set(UserDTO us) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE user SET ";
-            sql += "username='"+us.getUser()+"', ";
+            sql += "username='"+us.getUserName()+"', ";
             sql += "passworde='"+us.getPass()+"', ";
             sql += "role='"+us.getRole()+"', ";
             sql += "enable='"+us.getEnable()+"' ";
@@ -68,7 +68,7 @@ public class UserDAO {
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "INSERT INTO user VALUES (";
                sql += "'"+us.getUserID()+"',";
-               sql += "'"+us.getUser()+"',";
+               sql += "'"+us.getUserName()+"',";
                sql += "'"+us.getPass()+"',";
                sql += "'"+us.getRole()+"',";
                sql += "'"+us.getEnable()+"')";

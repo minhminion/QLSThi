@@ -10,7 +10,7 @@ package DTO;
  * @author Shadow
  */
 public class UserDTO {
-    private String userID,user,pass,role,enable;
+    private String userID,userName,pass,role,enable;
     public UserDTO()
     {
         
@@ -18,7 +18,7 @@ public class UserDTO {
 
     public UserDTO(String userID, String user, String pass, String role, String enable) {
         this.userID = userID;
-        this.user = user;
+        this.userName = user;
         this.pass = pass;
         this.role = role;
         this.enable = enable;
@@ -32,12 +32,12 @@ public class UserDTO {
         this.userID = userID;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String user) {
+        this.userName = user;
     }
 
     public String getPass() {

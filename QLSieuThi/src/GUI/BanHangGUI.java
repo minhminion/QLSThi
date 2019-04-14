@@ -48,6 +48,7 @@ import javax.swing.table.TableRowSorter;
  * @author Shadow
  */
 public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
+    private String userID;
     private SanPhamBUS spBUS = new SanPhamBUS();
     private HoaDonBUS hdBUS = new HoaDonBUS();
     private NhanVienBUS nvBUS = new NhanVienBUS(1);
@@ -76,6 +77,14 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
     private JButton btnEdit;
     private JButton btnRemove;
     
+     public BanHangGUI(int width,String userID)
+    {
+        this.userID = userID;
+        DEFALUT_WIDTH = width;
+        hdBUS.list();
+        spBUS.listSP();
+        init();
+    }
     public BanHangGUI(int width)
     {
         DEFALUT_WIDTH = width;
@@ -121,6 +130,7 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         lbMaNV.setFont(font0);
         lbMaNV.setBounds(395,0,60,30);
         txtMaNV = new JTextField();
+        if( userID != null ) txtMaNV.setText(userID);
         txtMaNV.setHorizontalAlignment(JTextField.CENTER);
         txtMaNV.setFont(font0);
         txtMaNV.setBounds(new Rectangle(455,0,120,30));

@@ -26,10 +26,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import static javax.swing.BorderFactory.createLineBorder;
 import javax.swing.ImageIcon;
@@ -230,6 +232,8 @@ public class NhanVienGUI extends JPanel{
                 int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Alert",JOptionPane.YES_NO_OPTION);
                 if(i == 0)
                 {
+                    UserBUS usBUS = new UserBUS();
+                    usBUS.delete(txtMaNV.getText(),1);
                     nvBUS.deleteNV(txtMaNV.getText());
                     cleanView();
                     tbl.clearSelection();
@@ -339,7 +343,7 @@ public class NhanVienGUI extends JPanel{
                         NhanVienDTO nv = new NhanVienDTO(maNV, hoNV, tenNV, namSinh, phai, mucLuong, diaChi, IMG);
                         nvBUS.addNV(nv);
                         UserBUS usBUS = new UserBUS();
-                        UserDTO user = new UserDTO(maNV, tenNV.concat(maNV).toLowerCase(), "123456", "Nhân Viên", "1");
+                        UserDTO user = new UserDTO(maNV, removeAccent(tenNV.concat(maNV)).toLowerCase(), "123456", "Nhân Viên", "1");
                         usBUS.add(user, 1);
                         outModel(model, nvBUS.getList());// Load lại table
 
@@ -666,4 +670,10 @@ public class NhanVienGUI extends JPanel{
 //        model.setRowCount(0);
         outModel(model,nv);
     }
+    public String removeAccent(String s)  // Xóa dấu tiếng việt
+    {
+        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(temp).replaceAll("").replace('đ','d').replace('Đ','D');
+   }
 }

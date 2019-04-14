@@ -5,15 +5,23 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
+import BUS.UserBUS;
+import DTO.NhanVienDTO;
+import DTO.UserDTO;
 import GUI.model.header;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -27,6 +35,9 @@ import keeptoo.KButton;
  * @author Shadow
  */
 public class Login extends JFrame{
+    private QLSieuThi qlst;
+    private UserBUS usBUS = new UserBUS();
+    private NhanVienBUS nvBUS = new NhanVienBUS();
     private JTextField user;
     private JPasswordField pass;
     private int DEFAULT_HEIGHT = 600 ,DEFAULT_WIDTH = 400;
@@ -119,8 +130,6 @@ public class Login extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
          
-        QLSieuThi qlst = new QLSieuThi();
-        qlst.setVisible(false);
         
         exit.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
@@ -142,28 +151,26 @@ public class Login extends JFrame{
             }
         }));
         
-//        
-//        btnLogin.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    MySQLConnection mysql = new MySQLConnection("root","","jdbc:mysql://localhost/qlsieuthi");
-//                    if(mysql.checkAcc(user.getText(),"admin"))
-//                    {
-//                        qlst.setVisible(true);
-//                        setVisible(false);
-//                    } 
-//                    else {
-//                        JOptionPane.showMessageDialog(null, "Sai mat khau");
-//                    }
-//                   
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (ClassNotFoundException ex) {
-//                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
+        
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(usBUS.getList()== null)usBUS.list();
+                String username = user.getText();
+                char[] passwd = pass.getPassword();
+                UserDTO user = usBUS.check(username, passwd);
+                if(user == null)
+                {
+                    JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu");
+                    return;
+                }
+                if(nvBUS.getList() == null)nvBUS.listNV();
+                NhanVienDTO nv = new NhanVienDTO();
+                nv = nvBUS.get(user.getUserID());
+                qlst = new QLSieuThi(nv.getMaNV(),nv.getHoNV().concat(" "+nv.getTenNV()),user.getRole());
+                dispose();
+            }
+        });
     }
    
     public static void main(String[]args)

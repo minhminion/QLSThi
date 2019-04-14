@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import GUI.model.Page404;
 import GUI.model.header;
 import GUI.model.navItem;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,11 +30,22 @@ import javax.swing.JLabel;
  * @author Shadow
  */
 public class QLSieuThi extends JFrame implements MouseListener{
+    private String userID;
+    private String userName;
+    private String role;
     private boolean flag = true;
     private JPanel header,nav,main;
     private int DEFAULT_HEIGHT = 730,DEFALUT_WIDTH = 1300 ;
     private ArrayList<String> navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm
     private ArrayList<navItem> navObj = new ArrayList<>();  //Chứa cái button trên thanh menu
+    public QLSieuThi(String userID, String userName, String role)
+    {
+        this.userID = userID;
+        this.userName = userName;
+        this.role = role;
+        Toolkit screen = Toolkit.getDefaultToolkit();
+        init();
+    }
     public QLSieuThi()
     {
         Toolkit screen = Toolkit.getDefaultToolkit();
@@ -41,6 +53,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
     }
     public void init()
     {
+        Font font = new Font("Segoe UI",Font.BOLD,14);
         setTitle("Quản Lý siêu thị ");
         ImageIcon logo = new ImageIcon("./src/image/SieuThi_25px.png");
         setIconImage(logo.getImage());
@@ -57,6 +70,26 @@ public class QLSieuThi extends JFrame implements MouseListener{
         header.setPreferredSize(new Dimension(DEFALUT_WIDTH,40));
         
         header hmain = new header(DEFALUT_WIDTH,40);
+        
+        if(userName != null)
+        {
+            JLabel user = new JLabel("Chào, "+userName);
+            user.setFont(font);
+            user.setForeground(Color.WHITE);
+            user.setBounds(new Rectangle(DEFALUT_WIDTH-300,-7,150,50));
+            hmain.add(user);
+            
+            //Tạo btn Logout
+            navItem btnLogOut = new navItem("", new Rectangle(DEFALUT_WIDTH-150, -8, 50, 50), "logout_25px.png", "logout_25px.png", "logout_hover_25px.png", new Color(80, 80, 80));
+            hmain.add(btnLogOut.isButton());
+            btnLogOut.addMouseListener(new MouseAdapter() {
+               public void mouseClicked(MouseEvent e)
+               {
+                   Login lg = new Login();
+                   dispose();
+               }
+            });
+        }
         
         //Tạo btn EXIT & MINIMIZE
         navItem exit = new navItem("", new Rectangle(DEFALUT_WIDTH-50, -8, 50, 50), "exit_25px.png", "exit_25px.png", "exit_hover_25px.png", new Color(240, 71, 74));
@@ -92,12 +125,18 @@ public class QLSieuThi extends JFrame implements MouseListener{
         //Thêm item vào thanh menu (Tên item : icon : icon hover)
         navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Bán hàng:Shop_20px.png:Shop_20px_active.png");
-        navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
-        navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
-        navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
-        navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
-        navItem.add("Nhà cung cấp:CongCu_20px.png:CongCu_20px_active.png");
-        navItem.add("Cái đặt:CaiDat_20px.png:CaiDat_20px_active.png");
+        if( role == null || role.equals("admin") || role.equals("sale"))
+        {
+            navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
+            navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
+            navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
+            navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
+            navItem.add("Nhà cung cấp:CongCu_20px.png:CongCu_20px_active.png");
+        }
+        if( role == null || role.equals("admin") )
+        {
+            navItem.add("Tài Khoản:CaiDat_20px.png:CaiDat_20px_active.png");
+        }
         
         outNav();
         
@@ -152,7 +191,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         {
             case 0: //  BÁN HÀNG 
                 main.removeAll();
-                main.add(new BanHangGUI(DEFALUT_WIDTH));
+                main.add(new BanHangGUI(DEFALUT_WIDTH,userID));
                 main.repaint();
                 main.revalidate();
             break;
