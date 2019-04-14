@@ -5,7 +5,10 @@
  */
 package GUI;
 
+import BUS.ChiTietHDBUS;
 import BUS.HoaDonBUS;
+import BUS.outBill;
+import DTO.ChiTietHDDTO;
 import DTO.HoaDonDTO;
 import DTO.HoaDonDTO;
 import java.awt.Choice;
@@ -131,6 +134,23 @@ public class HoaDonGUI extends JPanel{
             public void mouseClicked(MouseEvent e)
             {
                 ChiTietHDGUI chitiet = new ChiTietHDGUI(txtMaHD.getText());
+            }
+        });
+        
+        btnBill.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                String maHD = txtMaHD.getText();
+                String maKH = txtMaKH.getText();
+                String maNV = txtMaNV.getText();
+                String ngayHD = txtNgayHD.getText();
+                double tongTien = Double.parseDouble(txtTongTien.getText());
+                HoaDonDTO hd = new HoaDonDTO(maHD, maKH, maNV, ngayHD, tongTien);
+                ChiTietHDBUS ctBUS = new ChiTietHDBUS(1);
+                ArrayList<ChiTietHDDTO> cthd = ctBUS.getListHD(maHD);
+                outBill bill = new outBill(hd, cthd);
+                bill.print();
             }
         });
         
