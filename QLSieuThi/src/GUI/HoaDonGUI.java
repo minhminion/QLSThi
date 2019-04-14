@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -36,14 +37,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Shadow
  */
 public class HoaDonGUI extends JPanel{
+    private ChiTietHDBUS ctBUS = new ChiTietHDBUS(1);
     private HoaDonBUS hdBUS = new HoaDonBUS();
     private JTable tbl;
     private JTextField txtMaHD,txtMaKH,txtMaNV,txtNgayHD,txtTongTien;
     private JTextField txtMinPrice,txtMaxPrice;
     private DefaultTableModel model;
-    private Choice yearChoice,monthChoice,AD;
+    private Choice yearChoice,monthChoice;
     private int DEFALUT_WIDTH;
     private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
+    private JTextField txtMaSP;
     
     public HoaDonGUI(int width)
     {
@@ -129,6 +132,23 @@ public class HoaDonGUI extends JPanel{
         itemView.add(btnView);
         itemView.add(btnBill);
         
+        // MouseClick btnDelete
+        btnDelete.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {   
+                int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Alert",JOptionPane.YES_NO_OPTION);
+                if(i == 0)
+                {
+                    ctBUS.delete(txtMaHD.getText());
+                    hdBUS.delete(txtMaHD.getText());
+                    cleanView();
+                    tbl.clearSelection();
+                    outModel(model, hdBUS.getList());
+                }
+            }
+        });
+        
+        // Xem Chi Tiết HD
         btnView.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e)
@@ -137,6 +157,7 @@ public class HoaDonGUI extends JPanel{
             }
         });
         
+        // In Bill
         btnBill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e)
@@ -191,7 +212,7 @@ public class HoaDonGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 350, this.DEFALUT_WIDTH - 400 , 320));
+        scroll.setBounds(new Rectangle(30, 270, this.DEFALUT_WIDTH - 400 , 400));
         scroll.setBackground(null);
         
         add(scroll);
@@ -235,17 +256,19 @@ public class HoaDonGUI extends JPanel{
         int month = Calendar.getInstance().get(Calendar.MONTH);// Lấy tháng hiện tại
         monthChoice = new Choice();
         monthChoice.setFont(font0);
+        monthChoice.add("Không");
         for(int i = 1 ; i <= 12 ; i++ )
         {
             monthChoice.add("Tháng "+i);
         }
-        monthChoice.select(month);
+        monthChoice.select(0);
         monthChoice.setBounds(new Rectangle(80,42,80,40));
         sort.add(monthChoice);
         // Choice Năm
         int year = Calendar.getInstance().get(Calendar.YEAR);//Lấy năm hiện tại
         yearChoice = new Choice();
         yearChoice.setFont(font0);
+        yearChoice.add("Không");
         for(int i = year ; i >= 1999 ; i--)
         {
             yearChoice.add(String.valueOf(i));
@@ -276,25 +299,57 @@ public class HoaDonGUI extends JPanel{
         sort.add(txtMaxPrice);
           
         /******************************************/
-        /************ SORT ASC-DESC ***************/
-        JLabel sortAD = new JLabel("Sắp xếp theo :");
-        sortAD.setFont(font0);
-        sortAD.setBounds(650,40,100,30);
-        sort.add(sortAD);
-        AD = new Choice();
-        AD.setFont(font0);
-        String[]itemAD ={"Mới nhất","Giá cao - thấp","Giá thấp - cao"};
-        for(String s:itemAD)
-        {
-            AD.add(s);
-        }
-        AD.setBounds(750, 40, 150, 40);
-        sort.add(AD);
-        /******************************************/
+        /************ SORT MÃ SP ***************/
+        JLabel sortSP = new JLabel("Mã SP :");
+        sortSP.setFont(font0);
+        sortSP.setBounds(650,40,60,30);
+        sort.add(sortSP);
+
+        txtMaSP = new JTextField();
+        txtMaSP.setFont(font0);
+        txtMaSP.setBounds(new Rectangle(700,42,100,26));  
+        sort.add(txtMaSP);
+//        /******************************************/
+        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
+        btnSearch.setBounds(new Rectangle(840,20,63,63));
+        btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSearch.addMouseListener(new MouseAdapter() {
+           public void mouseClicked(MouseEvent e)
+           {
+               search();
+           }
+        });
+        sort.add(btnSearch);
+        
         add(sort);
 
 /****************************************************************/
         
+    }
+    public void search()
+    {
+        
+        
+        int mm = monthChoice.getSelectedIndex()-1;
+        int yyy ;
+        try{
+            yyy = Integer.parseInt(yearChoice.getSelectedItem());
+        }catch(NumberFormatException ex)
+        {
+            yyy = 0;
+        }
+        double max = txtMaxPrice.getText().equals("") ? 99999999 : Double.parseDouble(txtMaxPrice.getText());
+        double min = txtMinPrice.getText().equals("") ? 0      : Double.parseDouble(txtMinPrice.getText());
+
+        outModel(model,hdBUS.search(mm, yyy, max, min,ctBUS.getHD(txtMaSP.getText())));
+    }
+    public void cleanView()
+    {
+        txtMaHD.setText("");
+        txtMaKH.setText("");
+        txtMaNV.setText("");
+        txtNgayHD.setText("");
+        txtTongTien.setText("");
     }
     public void outModel(DefaultTableModel model , ArrayList<HoaDonDTO> hd) // Xuất ra Table từ ArrayList
     {

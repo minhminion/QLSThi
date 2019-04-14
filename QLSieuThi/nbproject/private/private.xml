@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/HoaDonGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/ChiTietHDBUS.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/iText.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/UserDAO.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/HoaDonBUS.java</file>
@@ -12,11 +13,11 @@
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/QLSieuThi.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DTO/HoaDonDTO.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/NsxBUS.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/SanPhamDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/SanPhamBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/HoaDonDAO.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/TestJasper.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/UserGUI.java</file>
-            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/report1.jrxml</file>
-            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/outBill.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/MySQLConnect.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/UserBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SuggestNhanVien.java</file>

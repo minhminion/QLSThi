@@ -53,7 +53,7 @@ public class outBill {
             BaseFont bf = BaseFont.createFont("./font/times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             
             // Tạo tài liệu
-            Document bill = new Document(PageSize.A4, 10, 10, 10, 10);
+            Document bill = new Document(PageSize.A4, 15, 15, 10, 10);
             
             String line = "";
             for(int i = 0 ; i < bill.getPageSize().getWidth()/5; i++)
@@ -66,9 +66,13 @@ public class outBill {
             //Mở document
             bill.open();
             
-            Paragraph header = new Paragraph("Hóa đơn :"+hd.getMaHD(),new Font(bf,25));
+            Paragraph header = new Paragraph("SIÊU THỊ",new Font(bf,35));
             header.setAlignment(1);
             bill.add(header);
+            
+            Paragraph info = new Paragraph("Hóa dơn : "+hd.getMaHD()+"          Ngày : "+hd.getNgayHD(),new Font(bf,15));
+            bill.add(info);
+            
             Paragraph l = new Paragraph(line);
             l.setAlignment(1);
             bill.add(l);
@@ -76,8 +80,8 @@ public class outBill {
             String[] cellHeader = {"Mã SP","Tên SP","SL","Đơn Giá (VNĐ)"};
             
             PdfPTable t = new PdfPTable(cellHeader.length);
-            t.setSpacingAfter(25);
-            t.setSpacingBefore(5);
+            t.setSpacingAfter(10);
+            t.setSpacingBefore(10);
             int[] relativeWidths = {20,80,10,40};
             t.setWidths(relativeWidths);
             
@@ -92,11 +96,13 @@ public class outBill {
                 t.addCell( createCell(String.valueOf(ct.getSl())) );
                 t.addCell( createCell(String.valueOf(ct.getGia())) );
             }
-            
-            
             bill.add(t);
             
+            bill.add(l);
             
+            Paragraph sum = new Paragraph("Tồng tiền : "+hd.getTongTien()+"đ",new Font(bf,20));
+            sum.setAlignment(Element.ALIGN_RIGHT);
+            bill.add(sum);
             
             bill.close();
             System.out.println("Done");

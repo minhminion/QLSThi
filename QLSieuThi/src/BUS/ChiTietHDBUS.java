@@ -73,6 +73,19 @@ public class ChiTietHDBUS {
         }
         return null;
     }
+    public ArrayList<String> getHD(String maSP)
+    {
+        ArrayList<String> s = new ArrayList<>();
+        if(maSP.isEmpty()) return null;
+        for(ChiTietHDDTO ct : dsChiTietHD)
+        {
+            if(ct.getMaSP().equals(maSP))
+            {
+                s.add(ct.getMaHD());
+            }
+        }
+        return s;
+    }
     public ArrayList<ChiTietHDDTO> getListHD(String maHD)
     {
         ArrayList<ChiTietHDDTO> ds = new ArrayList<>();

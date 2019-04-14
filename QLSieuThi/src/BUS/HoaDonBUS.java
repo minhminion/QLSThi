@@ -7,7 +7,11 @@ package BUS;
 
 import DATA.HoaDonDAO;
 import DTO.HoaDonDTO;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -58,6 +62,42 @@ public class HoaDonBUS {
             }
         }
     }
+    public ArrayList<HoaDonDTO> search( int mm, int yyy,double max, double min,ArrayList<String> mahd)
+    {
+        int mm1 = 0, mm2 = 12;
+        int yyy1 = 0, yyy2 = Calendar.getInstance().get(Calendar.YEAR);
+        
+        if(mm != -1)
+        {
+            mm1 = mm;
+            mm2 = mm;
+        }
+        if(yyy != 0)
+        {
+            yyy1 = yyy;
+            yyy2 = yyy;
+        }
+        
+        ArrayList<HoaDonDTO> ds = getListWidthArray(mahd);
+        ArrayList<HoaDonDTO> search = new ArrayList<>();
+        for(HoaDonDTO hd : ds)
+        {
+            Timestamp time = Timestamp.valueOf(hd.getNgayHD());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(time.getTime());;
+            
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            
+            if( hd.getTongTien() >= min && hd.getTongTien() <= max 
+                && (month >= mm1 && month <= mm2)
+                && (year >= yyy1 && year <= yyy2))
+            {
+                search.add(hd);
+            }
+        }
+        return search;
+    }
     public boolean check(String maHD)
     {
         for(HoaDonDTO hd : dsHD)
@@ -68,6 +108,23 @@ public class HoaDonBUS {
             }
         }
         return false;
+    }
+    public ArrayList<HoaDonDTO> getListWidthArray(ArrayList<String> s)
+    {
+        ArrayList<HoaDonDTO> ds = new ArrayList<>();
+        if(s == null) return dsHD;
+        for(HoaDonDTO hd : dsHD)
+        {
+            String mahd = hd.getMaHD();
+            for(String a: s)
+            {
+                if(mahd.equals(a))
+                {
+                    ds.add(hd);
+                }
+            }
+        }
+        return ds;
     }
     public ArrayList<HoaDonDTO> getList() {
         return dsHD;

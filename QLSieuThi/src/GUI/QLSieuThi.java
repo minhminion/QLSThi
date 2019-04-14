@@ -125,16 +125,13 @@ public class QLSieuThi extends JFrame implements MouseListener{
         //Thêm item vào thanh menu (Tên item : icon : icon hover)
         navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Bán hàng:Shop_20px.png:Shop_20px_active.png");
-        if( role == null || role.equals("admin") || role.equals("sale"))
+        if( role == null || role.equals("admin") )
         {
             navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
             navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
             navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
             navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
             navItem.add("Nhà cung cấp:CongCu_20px.png:CongCu_20px_active.png");
-        }
-        if( role == null || role.equals("admin") )
-        {
             navItem.add("Tài Khoản:CaiDat_20px.png:CaiDat_20px_active.png");
         }
         
