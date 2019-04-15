@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2019 at 04:22 PM
+-- Generation Time: Apr 15, 2019 at 03:15 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -31,9 +31,54 @@ SET time_zone = "+00:00";
 CREATE TABLE `chitiethd` (
   `MAHD` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `TENSP` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `SOLUONG` int(11) DEFAULT NULL,
   `DONGIA` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `chitiethd`
+--
+
+INSERT INTO `chitiethd` (`MAHD`, `MASP`, `TENSP`, `SOLUONG`, `DONGIA`) VALUES
+('001', '002', 'CocaCola', 10, 8000),
+('002', '002', 'CocaCola', 10, 8000),
+('002', '005', 'Lotte Xylitol hương Fresh Mint', 20, 25000),
+('003', '001', 'CocaCola Light', 10, 8000),
+('003', '002', 'CocaCola', 10, 8000),
+('003', '003', 'KitKat Classic', 1, 10000),
+('004', '001', 'CocaCola Light', 3, 8000),
+('004', '002', 'CocaCola', 1, 8000),
+('004', '003', 'KitKat Classic', 1, 10000),
+('004', '004', 'Nivea Man Deep White Oil Clear', 1, 27000),
+('004', '005', 'Lotte Xylitol hương Fresh Mint', 3, 25000),
+('007', '002', 'CocaCola', 12, 8000),
+('007', '003', 'KitKat Classic', 4, 10000),
+('008', '001', 'CocaCola Light', 7, 8000),
+('008', '002', 'CocaCola', 4, 8000),
+('008', '003', 'KitKat Classic', 8, 10000),
+('008', '004', 'Nivea Man Deep White Oil Clear', 5, 27000),
+('008', '005', 'Lotte Xylitol hương Fresh Mint', 8, 25000),
+('008', '006', 'Cà Phê Đen Birdy', 1, 8700),
+('008', '007', 'Nước Uống Đóng Chai Aquafina', 3, 9000);
+
+--
+-- Triggers `chitiethd`
+--
+DELIMITER $$
+CREATE TRIGGER `Them_ChiTiet` AFTER INSERT ON `chitiethd` FOR EACH ROW UPDATE `sanpham`
+SET SOLUONG = SOLUONG - NEW.SOLUONG
+WHERE MASP = NEW.MASP
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Xoa_ChiTiet` AFTER DELETE ON `chitiethd` FOR EACH ROW BEGIN
+ 	UPDATE `sanpham`
+	SET SOLUONG = SOLUONG + OLD.SOLUONG
+	WHERE `sanpham`.`MASP` = OLD.MASP;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -43,11 +88,24 @@ CREATE TABLE `chitiethd` (
 
 CREATE TABLE `hoadon` (
   `MAHD` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `MAKH` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `MAKH` char(6) COLLATE utf8_unicode_ci DEFAULT NULL,
   `MANV` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `NGAYHD` datetime NOT NULL,
-  `TONGTIEN` int(11) DEFAULT NULL
+  `TONGTIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `hoadon`
+--
+
+INSERT INTO `hoadon` (`MAHD`, `MAKH`, `MANV`, `NGAYHD`, `TONGTIEN`) VALUES
+('001', NULL, '001', '2019-01-01 00:00:00', 10000),
+('002', NULL, '001', '2019-11-30 10:25:50', 80000),
+('003', NULL, '001', '2019-04-12 17:09:24', 170000),
+('004', NULL, '002', '2019-04-14 19:04:40', 144000),
+('006', NULL, '001', '2019-04-15 17:18:39', 48000),
+('007', NULL, '001', '2019-04-15 18:23:12', 136000),
+('008', NULL, '002', '2019-04-15 18:24:23', 538700);
 
 -- --------------------------------------------------------
 
@@ -58,7 +116,6 @@ CREATE TABLE `hoadon` (
 CREATE TABLE `khachhang` (
   `MAKH` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `HONV` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `TENLOT` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `TENKH` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `SDT` int(11) NOT NULL
@@ -130,7 +187,9 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MANV`, `HONV`, `TENNV`, `NAMSINH`, `PHAI`, `MUCLUONG`, `DIACHI`, `IMG`) VALUES
-('001', 'Lưu Bảo', 'Minh', 1999, 'Nam', 5000000, '282 Nguyễn Tri Phương', '001.jpg');
+('001', 'Lưu Bảo', 'Minh', 1999, 'Nam', 5000000, '282 Nguyễn Tri Phương', '001.jpg'),
+('002', 'Trần Văn', 'A', 1999, 'Nữ', 5000000, 'dasd', 'null'),
+('003', 'Trần Thị', 'Thơ', 1996, 'Nữ', 5000000, 'adssd', 'null');
 
 -- --------------------------------------------------------
 
@@ -191,12 +250,13 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MASP`, `TENSP`, `SOLUONG`, `GIA`, `DONVITINH`, `MALOAI`, `MANSX`, `IMG`) VALUES
-('001', 'CocaCola Light', 100, 8000, 'Lon', '002', '003', '001.jpg'),
-('002', 'CocaCola', 100, 8000, 'Lon', '002', '003', '002.jpg'),
-('003', 'KitKat Classic', 70, 10000, 'Gói', '001', '005', '003.jpg'),
-('004', 'Nivea Man Deep White Oil Clear', 50, 27000, 'Tuýp', '001', '003', '004.jpg'),
-('005', 'Lotte Xylitol hương Fresh Mint', 50, 25000, 'Hộp', '001', '001', '005.jpg'),
-('006', 'asdhasd', 12, 1200, 'asdsa', '001', '001', 'null');
+('001', 'CocaCola Light', 0, 8000, 'Lon', '002', '003', '001.jpg'),
+('002', 'CocaCola', 20, 8000, 'Lon', '002', '003', '002.jpg'),
+('003', 'KitKat Classic', 100, 10000, 'Gói', '001', '005', '003.jpg'),
+('004', 'Nivea Man Deep White Oil Clear', 90, 27000, 'Tuýp', '003', '005', '004.jpg'),
+('005', 'Lotte Xylitol hương Fresh Mint', 70, 25000, 'Hộp', '001', '001', '005.jpg'),
+('006', 'Cà Phê Đen Birdy', 30, 8700, 'Lon', '002', '005', '006.jpg'),
+('007', 'Nước Uống Đóng Chai Aquafina', 20, 9000, 'Chai', '002', '005', '007.jpg');
 
 -- --------------------------------------------------------
 
@@ -219,12 +279,21 @@ CREATE TABLE `thongtingiamgia` (
 --
 
 CREATE TABLE `user` (
-  `userID` int(11) NOT NULL,
+  `userID` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `enable` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`userID`, `username`, `password`, `role`, `enable`) VALUES
+('001', 'admin', 'admin', 'Admin', 1),
+('002', 'sale', 'sale', 'Nhân Viên', 1),
+('003', 'tho003', '123456', 'Nhân Viên', 1);
 
 --
 -- Indexes for dumped tables
@@ -235,13 +304,13 @@ CREATE TABLE `user` (
 --
 ALTER TABLE `chitiethd`
   ADD PRIMARY KEY (`MAHD`,`MASP`),
-  ADD KEY `FK_CTHD` (`MASP`);
+  ADD KEY `FK_CTHD` (`MASP`,`MAHD`) USING BTREE;
 
 --
 -- Indexes for table `hoadon`
 --
 ALTER TABLE `hoadon`
-  ADD PRIMARY KEY (`MAHD`,`MAKH`,`MANV`),
+  ADD PRIMARY KEY (`MAHD`) USING BTREE,
   ADD KEY `FK_HD` (`MAKH`),
   ADD KEY `FK_HD_1` (`MANV`);
 
@@ -307,17 +376,8 @@ ALTER TABLE `thongtingiamgia`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`userID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT;
+  ADD PRIMARY KEY (`userID`),
+  ADD UNIQUE KEY `FK_ID` (`userID`);
 
 --
 -- Constraints for dumped tables
@@ -357,6 +417,12 @@ ALTER TABLE `sanpham`
 ALTER TABLE `thongtingiamgia`
   ADD CONSTRAINT `FK_TTGG` FOREIGN KEY (`MALOAIGG`) REFERENCES `loaigg` (`MALOAIGG`),
   ADD CONSTRAINT `FK_TTGG_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `nhanvien` (`MANV`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
