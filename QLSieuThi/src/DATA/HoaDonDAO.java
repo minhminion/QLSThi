@@ -59,7 +59,19 @@ public class HoaDonDAO {
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }
-    
+    public void set(HoaDonDTO hd)
+    {
+        MySQLConnect mySQL = new MySQLConnect();
+        String maKH = hd.getMaKH().equals("")?null:"'"+hd.getMaKH()+"'";
+        String sql = "UPDATE hoadon SET ";
+            sql += "MAKH="+maKH+", ";
+            sql += "MANV='"+hd.getMaNV()+"', ";
+            sql += "NGAYHD='"+hd.getNgayHD()+"', ";
+            sql += "TONGTIEN='"+hd.getTongTien()+"' ";
+            sql += "WHERE MAHD='"+hd.getMaHD()+"'";
+        System.out.println(sql);
+        mySQL.executeUpdate(sql);
+    }
     public void delete(String MaHD)
     {
         MySQLConnect mySQL = new MySQLConnect();

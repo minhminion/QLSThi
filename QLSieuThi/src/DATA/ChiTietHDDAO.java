@@ -77,8 +77,10 @@ public class ChiTietHDDAO {
     public void delete(String MaHD)
     {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "DELETE FROM chitiethd WHERE MAHD='"+MaHD+"'";
+        String sql = "DELETE FROM chitiethd WHERE MAHD='"+MaHD+"'";  
         mySQL.executeUpdate(sql);
         System.out.println(sql);
+        
+        
     }
 }

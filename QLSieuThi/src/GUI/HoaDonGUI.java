@@ -11,6 +11,7 @@ import BUS.outBill;
 import DTO.ChiTietHDDTO;
 import DTO.HoaDonDTO;
 import DTO.HoaDonDTO;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -19,8 +20,10 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -45,8 +48,14 @@ public class HoaDonGUI extends JPanel{
     private DefaultTableModel model;
     private Choice yearChoice,monthChoice;
     private int DEFALUT_WIDTH;
-    private boolean EditOrAdd = true;//Cờ cho button Cofirm True:ADD || False:Edit
     private JTextField txtMaSP;
+    private JLabel btnEdit;
+    private JLabel btnDelete;
+    private JLabel btnView;
+    private JLabel btnBill;
+    private JLabel btnConfirm;
+    private JLabel btnBack;
+    private JDateChooser dateChoice;
     
     public HoaDonGUI(int width)
     {
@@ -65,12 +74,13 @@ public class HoaDonGUI extends JPanel{
 /*********************** PHẦN VIEW THÔNG TIN *****************************/
         JPanel itemView = new JPanel(null);
         itemView.setBackground(null);
-        itemView.setBounds(new Rectangle(30,40,this.DEFALUT_WIDTH - 200,150));
+        itemView.setBounds(new Rectangle(30,40,this.DEFALUT_WIDTH - 200,120));
 
         JLabel lbMaHD = new JLabel("Mã HD");
         lbMaHD.setFont(font0);
         lbMaHD.setBounds(0,0,55,30);
         txtMaHD = new JTextField();
+        txtMaHD.setFont(font0);
         txtMaHD.setBounds(new Rectangle(55,0,80,30));
         itemView.add(lbMaHD);
         itemView.add(txtMaHD);
@@ -79,6 +89,7 @@ public class HoaDonGUI extends JPanel{
         lbMaKH.setFont(font0);
         lbMaKH.setBounds(155,0,60,30);
         txtMaKH = new JTextField();
+        txtMaKH.setFont(font0);
         txtMaKH.setBounds(new Rectangle(215,0,80,30));
         itemView.add(lbMaKH);
         itemView.add(txtMaKH);
@@ -87,50 +98,71 @@ public class HoaDonGUI extends JPanel{
         lbMaNV.setFont(font0);
         lbMaNV.setBounds(315,0,60,30);
         txtMaNV = new JTextField();
+        txtMaNV.setFont(font0);
         txtMaNV.setBounds(new Rectangle(375,0,80,30));
         itemView.add(lbMaNV);
         itemView.add(txtMaNV);
 
         JLabel lbNgayHD = new JLabel("Ngày HD");
         lbNgayHD.setFont(font0);
-        lbNgayHD.setBounds(0,50,60,30);
+        lbNgayHD.setBounds(0,40,60,30);
         txtNgayHD = new JTextField();
-        txtNgayHD.setBounds(new Rectangle(80,50,375,30));
+        txtNgayHD.setFont(font0);        
+        txtNgayHD.setBounds(new Rectangle(80,40,375,30));
         itemView.add(lbNgayHD);
         itemView.add(txtNgayHD);
+        
+        dateChoice = new JDateChooser();
+        dateChoice.setBounds(new Rectangle(80,40,375,30));
+        dateChoice.setVisible(false);
+        itemView.add(dateChoice);
 
         JLabel lbTongTien = new JLabel("Tổng Tiền");
         lbTongTien.setFont(font0);
-        lbTongTien.setBounds(0,100,60,30);
+        lbTongTien.setBounds(0,80,60,30);
         txtTongTien = new JTextField();
-        txtTongTien.setBounds(new Rectangle(80,100,375,30));
+        txtTongTien.setFont(font0);
+        txtTongTien.setBounds(new Rectangle(80,80,375,30));
         itemView.add(lbTongTien);
         itemView.add(txtTongTien);
 
         add(itemView);
         /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
 
-        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
+        btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
         btnEdit.setBounds(new Rectangle(500,0,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
-        JLabel btnDelete = new JLabel(new ImageIcon(("./src/image/btnDelete.png")));
-        btnDelete.setBounds(new Rectangle(500,70,200,50));
+        btnDelete = new JLabel(new ImageIcon(("./src/image/btnDelete.png")));
+        btnDelete.setBounds(new Rectangle(500,60,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnView = new JLabel(new ImageIcon(("./src/image/btnView.png")));
+        btnView = new JLabel(new ImageIcon(("./src/image/btnView.png")));
         btnView.setBounds(new Rectangle(730,0,200,50));
         btnView.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnBill = new JLabel(new ImageIcon(("./src/image/btnBill.png")));
-        btnBill.setBounds(new Rectangle(730,70,200,50));
+        btnBill = new JLabel(new ImageIcon(("./src/image/btnBill.png")));
+        btnBill.setBounds(new Rectangle(730,60,200,50));
         btnBill.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
+        btnConfirm.setVisible(false);
+        btnConfirm.setBounds(new Rectangle(500,0,200,50));
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
+        btnBack.setVisible(false);
+        btnBack.setBounds(new Rectangle(500,60,200,50));
+        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         itemView.add(btnEdit);
         itemView.add(btnDelete);
         itemView.add(btnView);
         itemView.add(btnBill);
+        
+        itemView.add(btnConfirm);
+        itemView.add(btnBack);
         
         // MouseClick btnDelete
         btnDelete.addMouseListener(new MouseAdapter(){
@@ -175,6 +207,76 @@ public class HoaDonGUI extends JPanel{
             }
         });
         
+        //Edit hóa đơn
+        btnEdit.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if(txtMaHD.getText().equals(""))
+                {   
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn !");
+                    return;
+                }
+                isEdit(true);
+                
+            }   
+        });
+        
+        btnConfirm.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                String maHD = txtMaHD.getText();
+                String maKH = txtMaKH.getText();
+                String maNV = txtMaNV.getText();
+                String ngayHD = txtNgayHD.getText();
+                double tongTien = Double.parseDouble(txtTongTien.getText());
+
+                if(dateChoice.getCalendar() != null)
+                {
+                    Date time = Timestamp.valueOf(txtNgayHD.getText());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(time.getTime());
+                    int dd = dateChoice.getCalendar().get(Calendar.DATE);
+                    int mm = dateChoice.getCalendar().get(Calendar.MONTH);
+                    int yyy = dateChoice.getCalendar().get(Calendar.YEAR);
+                    calendar.set(yyy,mm, dd);
+                    Timestamp newTime = new Timestamp(calendar.getTime().getTime());
+                    
+                    ngayHD = newTime.toString();
+                }        
+                
+                HoaDonDTO hd = new HoaDonDTO(maHD, maKH, maNV, ngayHD, tongTien);
+                int i = hdBUS.set(hd);
+                outModel(model, hdBUS.getList());
+                tbl.setRowSelectionInterval(i, i);
+                isEdit(false);
+            }   
+        });
+        
+        btnBack.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                
+                isEdit(false);
+                
+                Date time = Timestamp.valueOf(txtNgayHD.getText());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(time.getTime());
+
+                if(dateChoice.getCalendar() != null)
+                {
+                    int dd = dateChoice.getCalendar().get(Calendar.DATE);
+                    int mm = dateChoice.getCalendar().get(Calendar.MONTH);
+                    int yyy = dateChoice.getCalendar().get(Calendar.YEAR);
+                    calendar.set(yyy,mm, dd);
+                    Timestamp newTime = new Timestamp(calendar.getTime().getTime());
+                    System.out.println(newTime);
+                    txtNgayHD.setText(newTime.toString());
+                }
+            }
+        });
         /*************************************************************************/
 /****************** TẠO MODEL VÀ HEADER *********************************************/
         Vector header = new Vector();
@@ -240,7 +342,7 @@ public class HoaDonGUI extends JPanel{
 /*********************** SORT TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
-        sort.setBounds(30,190,this.DEFALUT_WIDTH - 400,140);
+        sort.setBounds(30,170,this.DEFALUT_WIDTH - 400,140);
         
         JLabel sortTitle = new JLabel("------------------------------------------------------------------------------------ BỘ LỌC ------------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 84 dấu ( - )
         sortTitle.setFont(font1);
@@ -373,5 +475,19 @@ public class HoaDonGUI extends JPanel{
         ArrayList<HoaDonDTO> hd = hdBUS.getList();
         model.setRowCount(0);
         outModel(model,hd);
+    }
+    public void isEdit(boolean flag)
+    {
+        txtNgayHD.setVisible(!flag);
+        btnEdit.setVisible(!flag);
+        btnDelete.setVisible(!flag);
+        btnBill.setVisible(!flag);
+        btnView.setVisible(!flag);
+        tbl.setEnabled(!flag);
+        
+        btnConfirm.setVisible(flag);
+        btnBack.setVisible(flag);
+        dateChoice.setVisible(flag);
+        
     }
 }

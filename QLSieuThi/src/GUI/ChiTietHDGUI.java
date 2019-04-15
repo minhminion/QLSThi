@@ -141,8 +141,8 @@ public class ChiTietHDGUI extends JFrame{
     
         // Chỉnh width các cột 
         tbl.getColumnModel().getColumn(0).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(50);
-        tbl.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(30);
 
         // Custom table
         tbl.setFocusable(false);

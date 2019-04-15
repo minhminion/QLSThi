@@ -7,6 +7,7 @@ package BUS;
 
 import DTO.ChiTietHDDTO;
 import DTO.HoaDonDTO;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -19,12 +20,20 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.attribute.standard.PageRanges;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPageable;
 
 /**
  *
@@ -104,12 +113,22 @@ public class outBill {
             sum.setAlignment(Element.ALIGN_RIGHT);
             bill.add(sum);
             
+            
             bill.close();
+            
+//            PDDocument document = PDDocument.load(new File(file));
+//            
+//            PrinterJob job = PrinterJob.getPrinterJob();
+//            job.setPageable(new PDFPageable(document));
+//            job.print();
+                    
             System.out.println("Done");
             
         } catch (DocumentException | FileNotFoundException ex) {
             Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PrinterException ex) {
             Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
         }
 

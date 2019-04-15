@@ -9,10 +9,12 @@ import BUS.ChiTietHDBUS;
 import BUS.HoaDonBUS;
 import BUS.NhanVienBUS;
 import BUS.SanPhamBUS;
+import BUS.outBill;
 import DTO.ChiTietHDDTO;
 import DTO.HoaDonDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
+import GUI.model.Page404;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -76,6 +78,7 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
     private JButton btnDeleteHD;
     private JButton btnEdit;
     private JButton btnRemove;
+    private Page404 page;
     
      public BanHangGUI(int width,String userID)
     {
@@ -190,6 +193,10 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         add(hdView);
 /****************************************************************************/
 /*********************** PHẦN VIEW THÔNG TIN CHI TIẾT *****************************/
+        page = new Page404(WIDTH, "Tạo hóa đơn");
+        page.setBounds(new Rectangle(50,0,DEFALUT_WIDTH - 60,500));
+        add(page);
+        
         chiTietView = new JPanel(null);
         chiTietView.setVisible(false);
         chiTietView.setBackground(null);
@@ -258,13 +265,13 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         btnEdit = new JButton("Sửa");
         btnEdit.setFont(font0);
         btnEdit.addActionListener(this);
-        btnEdit.setBounds(new Rectangle(250,420,150,40));
+        btnEdit.setBounds(new Rectangle(300,420,150,40));
         chiTietView.add(btnEdit);
         
         btnRemove = new JButton("Xóa");
         btnRemove.setFont(font0);
         btnRemove.addActionListener(this);
-        btnRemove.setBounds(new Rectangle(400,420,150,40));
+        btnRemove.setBounds(new Rectangle(500,420,150,40));
         chiTietView.add(btnRemove);
         
 /************************* PHẦN TABLE *************************************/
@@ -348,34 +355,38 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         txtNgayHD.setEditable(flag);
         btnMaNV.setEnabled(flag);
     }
-    public void clear()
+    public void clear(boolean flag)
     {
-        // PHẦN HÓA ĐƠN
-        txtMaHD.setText("");
-        txtMaKH.setText("");
-        txtMaNV.setText("");
-        txtTongTien.setText("0");
-        txtNgayHD.setText("");
-        
-        //PHẦN CHITIET
-        dsct.removeAll(dsct);
-        txtMaSP.setText("");
-        txtCTTenSP.setText("");
-        txtCTSL.setText("");
-        txtCTGia.setText("");
-        imgSP.setIcon(null);
-        
-        model.getDataVector().removeAllElements(); //Xóa trằng table
-    }
-    public void reset()
-    {
-        btnNewHD.setVisible(true);
-        btnConfirm.setVisible(false);
-        btnDeleteHD.setVisible(false);
-        clear();
-        blockHD(true);
+        if(flag)
+        {
+            // PHẦN HÓA ĐƠN
+            txtMaHD.setText("");
+            txtMaKH.setText("");
+            txtMaNV.setText("");
+            txtTongTien.setText("0");
+            txtNgayHD.setText("");
 
-        chiTietView.setVisible(false);
+            //PHẦN CHITIET
+            dsct.removeAll(dsct);
+            txtMaSP.setText("");
+            txtCTTenSP.setText("");
+            txtCTSL.setText("");
+            txtCTGia.setText("");
+            imgSP.setIcon(null);
+
+            model.getDataVector().removeAllElements(); //Xóa trằng table
+        }
+    }
+    public void reset(boolean flag)
+    {
+        btnNewHD.setVisible(flag);
+        btnConfirm.setVisible(!flag);
+        btnDeleteHD.setVisible(!flag);
+        clear(flag);
+        blockHD(flag);
+
+        chiTietView.setVisible(!flag);
+        page.setVisible(flag);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -416,10 +427,7 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
                 return;
             }
             // Kiểm tra số lượng
-            if(!spBUS.updateSL(txtMaSP.getText(), sl))
-            {
-                return;
-            }
+            
             int gia = Integer.parseInt(txtCTGia.getText());
             System.out.println(sl);
             
@@ -431,6 +439,10 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
                 if(sp.getMaSP().equals(txtMaSP.getText()))
                 {
                     int old = sp.getSl();
+                    if(!spBUS.checkSL(txtMaSP.getText(), sl + old))
+                    {
+                        return;
+                    }
                     sp.setSl(sl + old);
                     flag = false ;
                     break;
@@ -438,6 +450,10 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
             }
             if(flag)
             {
+                if(!spBUS.checkSL(txtMaSP.getText(), sl))
+                {
+                    return;
+                }
                dsct.add(new ChiTietHDDTO(txtMaHD.getText(),txtMaSP.getText(),txtCTTenSP.getText(), gia, sl)); 
             }
             outModel(model, dsct);
@@ -474,17 +490,14 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
                 return;
             }
             txtNgayHD.setText(date.toString());
-            blockHD(false);
-            btnNewHD.setVisible(false);
-            btnConfirm.setVisible(true);
-            btnDeleteHD.setVisible(true);
-            chiTietView.setVisible(true);
+
+            reset(false);
             
             txtMaSP.requestFocus();
         }
         if(e.getSource().equals(btnDeleteHD)) //Xóa HD 
         {
-            reset();
+            reset(true);
         }
         if(e.getSource().equals(btnConfirm)) //Xác nhận
         {
@@ -504,12 +517,36 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
             {
                 ctBUS.add(ct);
             }
-            
-            reset();
+            outBill bill = new outBill(hd, dsct);
+            bill.print();
+            reset(true);
         }
         if(e.getSource().equals(btnEdit)) //Sửa sl trong Chitiet sp
         {
-            
+            try{
+                int i = tbl.getSelectedRow();
+                if(tbl.getRowSorter() != null)
+                {
+                    i = tbl.getRowSorter().convertRowIndexToModel(i);
+                }
+                String masp = tbl.getModel().getValueAt(i, 0).toString();
+                int sl = Integer.parseInt(JOptionPane.showInputDialog(null, "Nhập số lượng sản phẩm :"));
+                while(!spBUS.checkSL(masp, sl))
+                {
+                    sl = Integer.parseInt(JOptionPane.showInputDialog(null, "Nhập số lượng sản phẩm :"));
+                }
+                for(ChiTietHDDTO ct : dsct)
+                {
+                    if(ct.getMaSP().equals(masp))
+                    {
+                        ct.setSl(sl);
+                    }
+                }
+                outModel(model, dsct);
+            }catch(IndexOutOfBoundsException ex)
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn SP cần sửa");
+            }
         }
         if(e.getSource().equals(btnRemove)) // Xóa SP trong CT SP
         {
@@ -523,8 +560,9 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
                 dsct.remove(i);
                 model.removeRow(i);
                 txtTongTien.setText(String.valueOf(sumHD()));
-            }catch(Exception ex){}
+            }catch(IndexOutOfBoundsException ex){JOptionPane.showMessageDialog(null, "Chưa chọn SP cần xóa");}
         }
+        
     }
 
     @Override

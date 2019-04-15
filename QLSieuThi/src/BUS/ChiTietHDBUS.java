@@ -49,6 +49,7 @@ public class ChiTietHDBUS {
             }
         }
     }
+    
     public void set(ChiTietHDDTO s)
     {
         for(int i = 0 ; i < dsChiTietHD.size() ; i++)

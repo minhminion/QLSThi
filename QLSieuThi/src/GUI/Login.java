@@ -15,6 +15,11 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -34,13 +39,14 @@ import keeptoo.KButton;
  *
  * @author Shadow
  */
-public class Login extends JFrame{
+public class Login extends JFrame implements KeyListener{
     private QLSieuThi qlst;
     private UserBUS usBUS = new UserBUS();
     private NhanVienBUS nvBUS = new NhanVienBUS();
     private JTextField user;
     private JPasswordField pass;
     private int DEFAULT_HEIGHT = 600 ,DEFAULT_WIDTH = 400;
+    private KButton btnLogin;
     public Login()
     {
         init();
@@ -66,7 +72,7 @@ public class Login extends JFrame{
         background.setkGradientFocus(1200);
         background.setBounds(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT);
         
-        KButton btnLogin = new KButton();
+        btnLogin = new KButton();
         btnLogin.setBorder(null);
         btnLogin.setOpaque(false);
         btnLogin.setText("Đăng nhập");
@@ -144,13 +150,21 @@ public class Login extends JFrame{
                 user.setText("");
             }
         }));
+        user.addKeyListener(this);
+        
         pass.addMouseListener((new MouseAdapter() {
             public void mousePressed(MouseEvent e)
             {
                 pass.setText("");
             }
         }));
-        
+        pass.addFocusListener(new FocusAdapter(){
+            public void focusGained(FocusEvent e)
+            {
+                pass.setText("");
+            }
+        });
+        pass.addKeyListener(this);
         
         btnLogin.addActionListener(new ActionListener() {
             @Override
@@ -182,5 +196,25 @@ public class Login extends JFrame{
             
         }
         Login lg = new Login();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Object a = e.getSource();
+        if(a.equals(user) || a.equals(pass))
+        {
+            if(e.getKeyCode() == KeyEvent.VK_ENTER)
+            {
+                btnLogin.doClick();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }

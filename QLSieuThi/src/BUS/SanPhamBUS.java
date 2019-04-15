@@ -83,7 +83,7 @@ public class SanPhamBUS {
     }
     public boolean updateSL(String masp,int sl)
     {
-         for(SanPhamDTO sp : dssp)
+        for(SanPhamDTO sp : dssp)
          {
              if(sp.getMaSP().equals(masp))
              {
@@ -103,6 +103,21 @@ public class SanPhamBUS {
              }
          }
          return false;
+    }
+    public boolean checkSL(String masp , int sl)
+    {
+        for(SanPhamDTO sp : dssp)
+         {
+             if(sp.getMaSP().equals(masp))
+             {
+                if(sl > sp.getSl())
+                {
+                    JOptionPane.showMessageDialog(null, "Không đủ hàng");
+                    return false;
+                }
+             }
+         }
+         return true;
     }
     public ArrayList<SanPhamDTO> searchSP(String masp,String maloai,String mansx,int max,int min)
     {

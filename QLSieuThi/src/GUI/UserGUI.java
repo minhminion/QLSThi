@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import BUS.UserBUS;
+import DTO.UserDTO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -12,6 +14,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -30,6 +33,7 @@ import javax.swing.table.TableRowSorter;
  * @author Shadow
  */
 public class UserGUI extends JPanel{
+    private UserBUS usBUS = new UserBUS();
     private DefaultTableModel model;
     private JTable tbl;
     private int DWIDTH;
@@ -128,7 +132,7 @@ public class UserGUI extends JPanel{
         tbl = new JTable(model);
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
-//        listSP();
+        list();
         
     /*******************************************************************/
         
@@ -178,5 +182,27 @@ public class UserGUI extends JPanel{
              }
         });
 /*********************************************************************/
+    }
+    public void outModel(DefaultTableModel model , ArrayList<UserDTO> user) // Xuất ra Table từ ArrayList
+    {
+        Vector data;
+        model.setRowCount(0);
+        for(UserDTO us : user)
+        {
+            data = new Vector();
+            data.add(us.getUserID());
+            data.add(us.getUserName());
+            data.add(us.getPass());
+            data.add(us.getRole());
+            model.addRow(data);
+        }
+        tbl.setModel(model);
+    }
+    public void list() // Chép ArrayList lên table
+    {
+        if(usBUS.getList()== null)usBUS.list();
+        ArrayList<UserDTO> nv = usBUS.getList();
+//        model.setRowCount(0);
+        outModel(model,nv);
     }
 }

@@ -49,18 +49,19 @@ public class HoaDonBUS {
             }
         }
     }
-    public void set(HoaDonDTO s)
+    public int set(HoaDonDTO s)
     {
         for(int i = 0 ; i < dsHD.size() ; i++)
         {
             if(dsHD.get(i).getMaHD().equals(s.getMaHD()))
             {
                 dsHD.set(i, s);
-//                HoaDonDAO hdDAO = new HoaDonDAO();
-//                hdDAO.setChiTietHD(s);
-                return;
+                HoaDonDAO hdDAO = new HoaDonDAO();
+                hdDAO.set(s);
+                return i;
             }
         }
+        return -1;
     }
     public ArrayList<HoaDonDTO> search( int mm, int yyy,double max, double min,ArrayList<String> mahd)
     {
