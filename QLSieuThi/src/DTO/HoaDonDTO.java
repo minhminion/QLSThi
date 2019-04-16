@@ -5,8 +5,6 @@
  */
 package DTO;
 
-import java.util.Date;
-
 /**
  *
  * @author Minh Minion

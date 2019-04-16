@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.attribute.standard.PageRanges;
+import javax.swing.JOptionPane;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
@@ -43,6 +44,7 @@ public class outBill {
     private String file = "./report/test.pdf";
     private ArrayList<ChiTietHDDTO> cthd = new ArrayList<ChiTietHDDTO>();
     private HoaDonDTO hd;
+    private BaseFont bf;
     public outBill()
     {
                 
@@ -59,7 +61,7 @@ public class outBill {
         String uderline = "*";
         try {
             //Tạo Font
-            BaseFont bf = BaseFont.createFont("./font/times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            bf = BaseFont.createFont("./font/times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             
             // Tạo tài liệu
             Document bill = new Document(PageSize.A4, 15, 15, 10, 10);
@@ -109,7 +111,7 @@ public class outBill {
             
             bill.add(l);
             
-            Paragraph sum = new Paragraph("Tồng tiền : "+hd.getTongTien()+"đ",new Font(bf,20));
+            Paragraph sum = new Paragraph("Tồng tiền : "+ hd.getTongTien()+"đ",new Font(bf,20));
             sum.setAlignment(Element.ALIGN_RIGHT);
             bill.add(sum);
             
@@ -122,13 +124,11 @@ public class outBill {
 //            job.setPageable(new PDFPageable(document));
 //            job.print();
                     
+            JOptionPane.showMessageDialog(null, "In hoàn tất");
             System.out.println("Done");
-            
         } catch (DocumentException | FileNotFoundException ex) {
             Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PrinterException ex) {
             Logger.getLogger(outBill.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -136,10 +136,11 @@ public class outBill {
     }
     public PdfPCell createCell(String s)
     {
-        PdfPCell cell = new PdfPCell(new Phrase(s));
+        PdfPCell cell = new PdfPCell(new Phrase(s,new Font(bf,13)));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setPaddingBottom(10);
+        
         return cell;
     }
     public PdfPCell createCell(String s,Font font)

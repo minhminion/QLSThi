@@ -110,9 +110,10 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         JLabel lbMaHD = new JLabel("Mã HD");
         lbMaHD.setFont(font0);
         lbMaHD.setBounds(0,0,55,30);
-        txtMaHD = new JTextField();
+        txtMaHD = new JTextField(hdBUS.remindMaHD());
         txtMaHD.setHorizontalAlignment(JTextField.CENTER);
         txtMaHD.setFont(font0);
+        txtMaHD.setEnabled(false);
         txtMaHD.setBounds(new Rectangle(55,0,120,30));
         txtMaHD.addKeyListener(this);
         hdView.add(lbMaHD);
@@ -360,9 +361,10 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         if(flag)
         {
             // PHẦN HÓA ĐƠN
-            txtMaHD.setText("");
+            txtMaHD.setText(hdBUS.remindMaHD());
             txtMaKH.setText("");
             txtMaNV.setText("");
+            if( userID != null ) txtMaNV.setText(userID);
             txtTongTien.setText("0");
             txtNgayHD.setText("");
 
@@ -473,6 +475,7 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
             {
                 JOptionPane.showMessageDialog(null, "Mã hóa đơn đă tồn tại");
                 txtMaHD.requestFocus();
+                txtMaHD.setText(hdBUS.remindMaHD());
                 return;
             }
             System.out.println(txtMaNV.getText());

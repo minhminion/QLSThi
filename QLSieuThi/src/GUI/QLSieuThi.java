@@ -73,6 +73,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
         
         if(userName != null)
         {
+            if(role.equals("Admin")) userName = "Admin";
             JLabel user = new JLabel("Chào, "+userName);
             user.setFont(font);
             user.setForeground(Color.WHITE);

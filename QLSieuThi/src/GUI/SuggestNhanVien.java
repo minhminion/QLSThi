@@ -253,7 +253,7 @@ public class SuggestNhanVien extends JDialog{
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", choice));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+ text +"", choice));
                 }
             }
 
@@ -265,7 +265,7 @@ public class SuggestNhanVien extends JDialog{
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^"+ text +".*", choice));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+ text +"", choice));
                 }
             }
 
