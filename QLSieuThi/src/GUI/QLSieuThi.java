@@ -129,11 +129,12 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navItem.add("Quản lý Sản Phẩm:QLSP_20px.png:QLSP_20px_active.png");
             navItem.add("Quản lý nhân viên:NhanVien_20px.png:NhanVien_20px_active.png");
             navItem.add("Quản lý Khách Hàng:KhachHang_20px.png:KhachHang_20px_active.png");
-            navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
+            navItem.add("Nhập & Xuất:ThongKe_20px.png:ThongKe_20px_active.png");
             navItem.add("Nhà cung cấp:CongCu_20px.png:CongCu_20px_active.png");
         if( role == null || role.equals("Admin") )
         {
             navItem.add("Tài Khoản:CaiDat_20px.png:CaiDat_20px_active.png");
+            navItem.add("Thống kê:ThongKe_20px.png:ThongKe_20px_active.png");
         }
         
         outNav();
@@ -181,7 +182,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
 
     public void changeMainInfo(int i) //Đổi Phần hiển thị khi bấm btn trên menu
     {
-        if(flag && i>4 && i<7) // Thay đổi nếu Thông kế đang dropdown
+        if(flag && i>4 && i<8) // Thay đổi nếu Thông kế đang dropdown
         {
             i = i + 2;
         }
@@ -212,7 +213,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.repaint();
                 main.revalidate();
             break;
-            case 4: //THỐNG KÊ
+            case 4: //NHẬP VẦ XUẤT
                 if(flag)
                 {
                     // Thêm 2 btn vào dưới thống kê
@@ -231,16 +232,16 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 }
                 outNav(); //Load lại phần Navigation
             break;
-            case 5: //THÔNG KÊ - BÁN HÀNG
+            case 5: // BÁN HÀNG
                 main.removeAll();
                 main.add(new HoaDonGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
             break;
-            case 6: //THÔNG KÊ - NHẬP HÀNG
+            case 6: // NHẬP HÀNG
                 main.removeAll();
 //                main.add(new Page404(DEFALUT_WIDTH, "THỐNG KÊ - NHẬP HÀNG"));
-                main.add(new ThongKeGUI(DEFALUT_WIDTH));
+                main.add(new NhapHangGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
             break;
@@ -250,9 +251,15 @@ public class QLSieuThi extends JFrame implements MouseListener{
                 main.repaint();
                 main.revalidate();
             break;
-            case 8: //CÀI ĐẶT
+            case 8: //USER
                 main.removeAll();
                 main.add(new UserGUI(DEFALUT_WIDTH));
+                main.repaint();
+                main.revalidate();
+            break;
+            case 9: // THỐNG KÊ
+                main.removeAll();
+                main.add(new ThongKeGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
             break;
@@ -273,7 +280,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
             navObj.add(new navItem(s, new Rectangle(0,200+50*i,220,50),icon,iconActive));
             navObj.get(i).addMouseListener(this);
         }
-        if(!flag && navObj.size() > 7) //Đổi màu phần DropDown của thống kê
+        if(!flag && navObj.size() > 8) //Đổi màu phần DropDown của thống kê
         {
             navObj.get(5).setColorNormal(new Color(86, 94, 127));
             navObj.get(6).setColorNormal(new Color(86, 94, 127));

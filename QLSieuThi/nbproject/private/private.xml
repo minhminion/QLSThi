@@ -5,8 +5,23 @@
         <group>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/HoaDonGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/ThongKeGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/ThongKeDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/ChiTietHDBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/NhapHangDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/HoaDonBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/QLSieuThi.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DTO/HoaDonDTO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/HoaDonDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DTO/NhapHangDTO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhaCungCapGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/UserGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhanVienGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/MySQLConnect.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/NhapHangBUS.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/NhaCungCapDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhapHangGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/ThongKeBUS.java</file>
         </group>
     </open-files>
 </project-private>

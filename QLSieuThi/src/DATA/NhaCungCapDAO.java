@@ -30,7 +30,7 @@ public class NhaCungCapDAO {
             {
                 String maNCC = rs.getString("MANCC");
                 String tenNCC = rs.getString("TENNCC");
-                String diaChi = rs.getString("DIACHI");
+                String diaChi = rs.getString("DIACHINCC");
                 String dienThoai = rs.getString("DIENTHOAI");
                 String soFax = rs.getString("SOFAX");
 

@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -85,6 +86,33 @@ public class HoaDonBUS {
         }
         return s+(max+1);
     }
+    public boolean checkTime(Calendar from,Calendar to,Calendar time)
+    {
+//        System.err.print(from.getTime()+" ");
+//        System.err.print(to.getTime()+" ");
+//        System.err.println(time.getTime());
+        if(time.after(from) && time.before(to))
+        {
+            return true;
+        }
+        return false;
+    }
+    public ArrayList<HoaDonDTO> ListTime(Calendar from,Calendar to)
+    {
+        ArrayList<HoaDonDTO> list = new ArrayList<>();
+        for(HoaDonDTO hd : dsHD)
+        {
+            Timestamp date = Timestamp.valueOf(hd.getNgayHD());
+            Calendar time = Calendar.getInstance();
+            time.setTimeInMillis(date.getTime());
+            if(checkTime(from, to, time))
+            {
+                list.add(hd);
+            }
+        }
+        return list;
+    }
+            
     public ArrayList<HoaDonDTO> search( int mm, int yyy,double max, double min,ArrayList<String> mahd)
     {
         int mm1 = 0, mm2 = 12;
