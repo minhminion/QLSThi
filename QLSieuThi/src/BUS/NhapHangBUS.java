@@ -33,6 +33,12 @@ public class NhapHangBUS {
     }
     public void add(NhapHangDTO nh)
     {
+        int id = 0;
+        if(!dsNH.isEmpty())
+        {
+            id = Integer.parseInt(dsNH.get(dsNH.size()-1).getIdNH());
+        }
+        nh.setIdNH(String.valueOf(id+1));
         dsNH.add(nh);
         NhapHangDAO nhDAO = new NhapHangDAO();
         nhDAO.add(nh);

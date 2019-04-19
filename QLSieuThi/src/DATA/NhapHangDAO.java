@@ -50,13 +50,14 @@ public class NhapHangDAO {
     }
     public void add(NhapHangDTO nh) {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "INSERT INTO phieunhaphang VALUES ('',";
+        String sql = "INSERT INTO phieunhaphang VALUES (";
+               sql += "'"+nh.getIdNH()+"',";
                sql += "'"+nh.getMaNCC()+"',";
-               sql += ""+nh.getMaSP()+",";
+               sql += "'"+nh.getMaSP()+"',";
                sql += "'"+nh.getNgayNhap()+"',";
                sql += "'"+nh.getDonGiaNhap()+"',";
-               sql += "'"+nh.getTongTien()+"',";
-               sql += "'"+nh.getSoLuong()+"')";
+               sql += "'"+nh.getSoLuong()+"',";
+               sql += "'"+nh.getTongTien()+"')";
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }
@@ -66,7 +67,7 @@ public class NhapHangDAO {
         String sql = "UPDATE phieunhaphang SET ";
             sql += "NGAYNHAP='"+nh.getNgayNhap()+"', ";
             sql += "DONGIANHAP='"+nh.getDonGiaNhap()+"', ";
-            sql += "TONGTIEN='"+nh.getTongTien()+"', ";
+            sql += "TONGTIEN='"+nh.getSoLuong()+"', ";
             sql += "SOLUONG='"+nh.getTongTien()+"' ";
             sql += "WHERE IDNHAP ='"+nh.getIdNH()+"'";
         System.out.println(sql);

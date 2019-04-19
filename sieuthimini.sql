@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2019 at 03:15 PM
+-- Generation Time: Apr 19, 2019 at 03:25 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -101,10 +101,10 @@ CREATE TABLE `hoadon` (
 INSERT INTO `hoadon` (`MAHD`, `MAKH`, `MANV`, `NGAYHD`, `TONGTIEN`) VALUES
 ('001', NULL, '001', '2019-01-01 00:00:00', 10000),
 ('002', NULL, '001', '2019-11-30 10:25:50', 80000),
-('003', NULL, '001', '2019-04-12 17:09:24', 170000),
-('004', NULL, '002', '2019-04-14 19:04:40', 144000),
-('006', NULL, '001', '2019-04-15 17:18:39', 48000),
-('007', NULL, '001', '2019-04-15 18:23:12', 136000),
+('003', NULL, '001', '2019-03-12 17:09:24', 170000),
+('004', NULL, '002', '2019-03-11 19:04:40', 144000),
+('006', NULL, '001', '2019-01-15 17:18:39', 48000),
+('007', NULL, '001', '2019-02-13 18:23:12', 136000),
 ('008', NULL, '002', '2019-04-15 18:24:23', 538700);
 
 -- --------------------------------------------------------
@@ -160,10 +160,19 @@ CREATE TABLE `loaigg` (
 
 CREATE TABLE `nhacungcap` (
   `MANCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `TENNCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `NGAYCC` datetime NOT NULL,
-  `DIACHINCC` char(6) COLLATE utf8_unicode_ci NOT NULL
+  `TENNCC` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `DIACHINCC` char(200) COLLATE utf8_unicode_ci NOT NULL,
+  `DIENTHOAI` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `SOFAX` varchar(11) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `nhacungcap`
+--
+
+INSERT INTO `nhacungcap` (`MANCC`, `TENNCC`, `DIACHINCC`, `DIENTHOAI`, `SOFAX`) VALUES
+('001', 'ABC', '268 Nguyễn Văn Linh TPHCM', '08399925', '0123456789'),
+('002', 'VinGroup', '58 Tôn Thất Tùng Q7, TP.HCM', '093867278', '012345678');
 
 -- --------------------------------------------------------
 
@@ -220,13 +229,29 @@ INSERT INTO `nhasanxuat` (`MANSX`, `TENNSX`) VALUES
 --
 
 CREATE TABLE `phieunhaphang` (
+  `IDNHAP` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `MANCC` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `MASP` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `NGAYNHAP` datetime DEFAULT NULL,
-  `DONGIANHAP` int(11) DEFAULT NULL,
-  `TONGTIEN` int(11) DEFAULT NULL,
-  `SOLUONG` int(11) DEFAULT NULL
+  `NGAYNHAP` datetime(6) NOT NULL,
+  `DONGIANHAP` int(11) NOT NULL,
+  `SOLUONG` int(11) NOT NULL,
+  `TONGTIEN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `phieunhaphang`
+--
+
+INSERT INTO `phieunhaphang` (`IDNHAP`, `MANCC`, `MASP`, `NGAYNHAP`, `DONGIANHAP`, `SOLUONG`, `TONGTIEN`) VALUES
+('2', '001', '001', '2019-04-19 08:19:53.000000', 5000, 10, 50000);
+
+--
+-- Triggers `phieunhaphang`
+--
+DELIMITER $$
+CREATE TRIGGER `ThemNhapHang` AFTER INSERT ON `phieunhaphang` FOR EACH ROW UPDATE sanpham SET SOLUONG = SOLUONG + NEW.SOLUONG WHERE MASP = NEW.MASP
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -250,13 +275,13 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MASP`, `TENSP`, `SOLUONG`, `GIA`, `DONVITINH`, `MALOAI`, `MANSX`, `IMG`) VALUES
-('001', 'CocaCola Light', 0, 8000, 'Lon', '002', '003', '001.jpg'),
+('001', 'CocaCola Light', 10, 8000, 'Lon', '002', '003', '001.jpg'),
 ('002', 'CocaCola', 20, 8000, 'Lon', '002', '003', '002.jpg'),
-('003', 'KitKat Classic', 100, 10000, 'Gói', '001', '005', '003.jpg'),
+('003', 'KitKat Classic', 112, 10000, 'Gói', '001', '005', '003.jpg'),
 ('004', 'Nivea Man Deep White Oil Clear', 90, 27000, 'Tuýp', '003', '005', '004.jpg'),
 ('005', 'Lotte Xylitol hương Fresh Mint', 70, 25000, 'Hộp', '001', '001', '005.jpg'),
 ('006', 'Cà Phê Đen Birdy', 30, 8700, 'Lon', '002', '005', '006.jpg'),
-('007', 'Nước Uống Đóng Chai Aquafina', 20, 9000, 'Chai', '002', '005', '007.jpg');
+('007', 'Nước Uống Đóng Chai Aquafina', 50, 9000, 'Chai', '002', '005', '007.jpg');
 
 -- --------------------------------------------------------
 
@@ -354,8 +379,9 @@ ALTER TABLE `nhasanxuat`
 -- Indexes for table `phieunhaphang`
 --
 ALTER TABLE `phieunhaphang`
-  ADD PRIMARY KEY (`MANCC`,`MASP`),
-  ADD KEY `FK_PHN_1` (`MASP`);
+  ADD PRIMARY KEY (`IDNHAP`),
+  ADD KEY `FK_MANCC` (`MANCC`),
+  ADD KEY `FK_SP` (`MASP`);
 
 --
 -- Indexes for table `sanpham`
@@ -401,8 +427,8 @@ ALTER TABLE `hoadon`
 -- Constraints for table `phieunhaphang`
 --
 ALTER TABLE `phieunhaphang`
-  ADD CONSTRAINT `FK_PHN` FOREIGN KEY (`MANCC`) REFERENCES `nhacungcap` (`MANCC`),
-  ADD CONSTRAINT `FK_PHN_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`);
+  ADD CONSTRAINT `phieunhaphang_ibfk_1` FOREIGN KEY (`MASP`) REFERENCES `sanpham` (`MASP`),
+  ADD CONSTRAINT `phieunhaphang_ibfk_2` FOREIGN KEY (`MANCC`) REFERENCES `nhacungcap` (`MANCC`);
 
 --
 -- Constraints for table `sanpham`

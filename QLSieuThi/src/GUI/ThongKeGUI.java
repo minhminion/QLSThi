@@ -69,6 +69,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     private JLabel lbPeriod;
     private JLabel lbYearPeriod;
     private JLabel lbYearTrimester;
+    private JButton btnSuggest;
     public ThongKeGUI(int width)
     {
         spBUS.listSP();
@@ -153,16 +154,21 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         controlTab.add(controlTop,"Top");
         control.add(controlTab);
         
-        //Panel điền thông tin 
+        //*********************** Panel điền thông tin ***********************//
         form = new JPanel(null);
         form.setBounds(new Rectangle(0,200,(DEFALUT_WIDTH - 220)/2 - 10,300));
         
         lbMa.setBounds(new Rectangle(0,0,100,30));
         lbMa.setFont(font0);
-        txtMa.setBounds(new Rectangle(110,0,280,30));
+        txtMa.setBounds(new Rectangle(110,0,230,30));
         txtMa.setFont(font0);
+        btnSuggest = new JButton("...");
+        btnSuggest.setBounds(new Rectangle(340,0,30,30));
+        btnSuggest.addActionListener(this);
+        
         form.add(lbMa);
         form.add(txtMa);
+        form.add(btnSuggest);
         
         /**************** CHỌN TIME ********************************/
         paneTime = new JPanel(null);
@@ -267,7 +273,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         cmbYearTrimester.setBounds(new Rectangle(310,0,80,30));
         cmbYearTrimester.setFont(font0);
         listYear(cmbYearTrimester);
-        cmbYearTrimester.remove(0);
+        cmbYearTrimester.removeItemAt(0);
         
         paneTrimester.add(lbTrimester);
         paneTrimester.add(cmbTrimester);
@@ -300,7 +306,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         cmbYearPeriod.setBounds(new Rectangle(310,0,80,30));
         cmbYearPeriod.setFont(font0);
         listYear(cmbYearPeriod);
-        cmbYearTrimester.remove(0);
+        cmbYearPeriod.removeItemAt(0);
         
         panePeriod.add(lbPeriod);
         panePeriod.add(cmbPeriod);
@@ -426,7 +432,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         // THỐNG KÊ THEO QUÝ
         else if(ckTrimester.isSelected())
         {
-            int year = cmbYearTrimester.getSelectedIndex()>0 ? Integer.parseInt(cmbYearTrimester.getSelectedItem().toString()) : Calendar.getInstance().get(Calendar.YEAR);
+            int year = Integer.parseInt(cmbYearTrimester.getSelectedItem().toString());
             int fMonth = (cmbTrimester.getSelectedIndex()+1)*3-2;
             int tMonth = fMonth + 2;
             
@@ -437,7 +443,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         }
         else if(ckPeriod.isSelected()) 
         {
-            int year = cmbYearPeriod.getSelectedIndex()>0 ? Integer.parseInt(cmbYearPeriod.getSelectedItem().toString()) : Calendar.getInstance().get(Calendar.YEAR);
+            int year = Integer.parseInt(cmbYearPeriod.getSelectedItem().toString());
             int fMonth = (cmbPeriod.getSelectedIndex()+1)*4-3;
             int tMonth = fMonth + 3;
             
@@ -485,6 +491,12 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         {
             cmbToDate.removeAllItems();
             listDate(cmbToDate,false);
+        }
+        if(obj.equals(btnSuggest))
+        {
+            SuggestSanPham sp = new SuggestSanPham(txtMa.getText());
+            String s = sp.getTextFieldContent();
+            txtMa.setText(s.split("%")[0]);
         }
     }
 

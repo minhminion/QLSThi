@@ -35,7 +35,6 @@ public class ThongKeBUS {
         
         ArrayList<NhapHangDTO> dsNhap = new ArrayList<> ();
         dsNhap = nhBUS.ListTime(from, to);
-        if(dsNhap.isEmpty())return "Không sp được bán !!";
         
         ThongKeDAO tkDAO = new ThongKeDAO();
         return tkDAO.Statistic(dsHD,dsNhap, Id);

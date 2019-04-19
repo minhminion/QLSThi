@@ -57,6 +57,7 @@ class SuggestSanPham extends JDialog{
     }
     public SuggestSanPham()
     {
+        this.maSP ="";
         setModal(true);
         init();
     }

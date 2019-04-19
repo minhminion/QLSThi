@@ -21,7 +21,7 @@ public class MySQLConnect {
     private String user = "root";
     private String password="";
     private String url="jdbc:mysql://localhost/sieuthimini?useUnicode=true&characterEncoding=UTF-8";
-    private Connection conn;
+    private Connection conn = null;
     private Statement st = null;
     
     public void Connect()
@@ -69,5 +69,9 @@ public class MySQLConnect {
     {
         Connect();
         return conn;
+    }
+    public boolean isConnect()
+    {
+        return conn!=null?true:false;
     }
 }
