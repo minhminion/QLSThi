@@ -5,10 +5,11 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
 import BUS.SanPhamBUS;
 import BUS.ThongKeBUS;
+import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -41,6 +42,7 @@ import javax.swing.JTextField;
  */
 public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
+    private NhanVienBUS nvBUS = new NhanVienBUS();
     
     private JPanel paneTime = new JPanel() ;
     private JPanel paneTrimester = new JPanel() ;
@@ -73,6 +75,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     public ThongKeGUI(int width)
     {
         spBUS.listSP();
+        nvBUS.listNV();
         DEFALUT_WIDTH = width;
         init();
     }
@@ -156,6 +159,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         
         //*********************** Panel điền thông tin ***********************//
         form = new JPanel(null);
+        form.setBackground(null);
         form.setBounds(new Rectangle(0,200,(DEFALUT_WIDTH - 220)/2 - 10,300));
         
         lbMa.setBounds(new Rectangle(0,0,100,30));
@@ -172,6 +176,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         
         /**************** CHỌN TIME ********************************/
         paneTime = new JPanel(null);
+        paneTime.setBackground(null);
         paneTime.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
         
         // FROM
@@ -253,6 +258,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         
         /*************** CHỌN THEO QUÝ *****************************/
         paneTrimester = new JPanel(null);
+        paneTrimester.setBackground(null);
         paneTrimester.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
         
         lbTrimester = new JLabel("Quý");
@@ -286,6 +292,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         
         /*************** CHỌN THEO KỲ *****************************/
         panePeriod = new JPanel(null);
+        panePeriod.setBackground(null);
         panePeriod.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
         
         lbPeriod = new JLabel("Kỳ");
@@ -404,12 +411,26 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     {
         ThongKeBUS tk = new ThongKeBUS();
         String ma = txtMa.getText();
-        SanPhamDTO sp = new SanPhamDTO();
-        sp = spBUS.getSP(ma);
-        if(sp == null)
+        Object obj = null;
+        if(ckMaSP.isSelected())
         {
-            JOptionPane.showMessageDialog(null, "Không tồn tại sản phầm !!");
-            return;
+            obj = new SanPhamDTO();
+            obj = spBUS.getSP(ma);
+            if(obj == null)
+            {
+                JOptionPane.showMessageDialog(null, "Không tồn tại sản phầm !!");
+                return;
+            }
+        }
+        if(ckMaNV.isSelected())
+        {
+            obj = new NhanVienDTO();
+            obj = nvBUS.get(ma);
+            if(obj == null)
+            {
+                JOptionPane.showMessageDialog(null, "Không tồn tại khách hàng !!");
+                return;
+            }
         }
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
@@ -463,19 +484,41 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
             return;
         }
         
-        String result = tk.Statistic(ma, from, to);
+        String result = "";
+        if(ckMaSP.isSelected())
+        {
+            result = tk.StatisticSP(ma, from, to);
+        }
+        else if(ckMaNV.isSelected())
+        {
+            result = tk.StatisticNV(ma, from, to);
+        }
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd - MM - yyyy");
         
-        viewStatistic.setText( outStatistic( sp,sdf.format( from.getTime() ), sdf.format( to.getTime() ) ,result) );
+        viewStatistic.setText( outStatistic( obj,sdf.format( from.getTime() ), sdf.format( to.getTime() ) ,result) );
     }
-    public String outStatistic(SanPhamDTO sp,String fromDate, String toDate, String result)
+    public String outStatistic(Object obj,String fromDate, String toDate, String result)
     {
         String s = "Từ ngày : "+fromDate+"\n";
         s += "Đến ngày : "+toDate+"\n";
         s += "--------------------------------------------- \n";
-        s += "Sản phẩm :"+sp.getMaSP()+"\t";
-        s += "Tên : "+sp.getTenSP()+"\n";
-        s += result;
+        if(ckMaSP.isSelected())
+        {
+            SanPhamDTO sp = (SanPhamDTO) obj; 
+            s += "Sản phẩm :"+sp.getMaSP()+"\t";
+            s += "Tên : "+sp.getTenSP()+"\n";
+            s += result;
+        }
+        if(ckMaNV.isSelected())
+        {
+            NhanVienDTO nv = (NhanVienDTO) obj; 
+            s += "Mã nhân viên :"+nv.getMaNV()+"\n";
+            s += "Họ và tên : "+nv.getHoNV().concat(" "+nv.getTenNV())+"\n";
+            s += "Tuổi :"+( Calendar.getInstance().get(Calendar.YEAR) - nv.getNamSinh() )+"\n";
+            s += "Phái :"+nv.getPhai()+"\n";
+            s += result;
+        }
         return s;
     }
     
@@ -494,9 +537,18 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         }
         if(obj.equals(btnSuggest))
         {
-            SuggestSanPham sp = new SuggestSanPham(txtMa.getText());
-            String s = sp.getTextFieldContent();
-            txtMa.setText(s.split("%")[0]);
+            if(ckMaSP.isSelected())
+            {
+                SuggestSanPham sp = new SuggestSanPham(txtMa.getText());
+                String s = sp.getTextFieldContent();
+                txtMa.setText(s.split("%")[0]);
+            }
+            else if(ckMaNV.isSelected())
+            {
+                SuggestNhanVien sp = new SuggestNhanVien();
+                String s = sp.getTextFieldContent();
+                txtMa.setText(s);
+            }
         }
     }
 

@@ -211,31 +211,6 @@ public class NhaCungCapGUI extends JPanel{
             }
         });
         
-        // MouseClick btnFile
-//        btnFile.addMouseListener(new MouseAdapter(){
-//            public void mouseClicked(MouseEvent e)
-//            {
-//                JFileChooser fc = new JFileChooser();
-//                int result = fc.showOpenDialog(null);
-//                if (result == JFileChooser.APPROVE_OPTION) 
-//                {
-//                    try {
-//                        File file = fc.getSelectedFile(); //Lấy URL hình
-//                        i = ImageIO.read(file); // Lấy hình
-//                        imgName = txtMaNV.getText().concat(".jpg"); //Tên hình
-//                        
-//                        // Thay đổi hình hiển thị
-//                        img.setText("");
-//                        img.setIcon(new ImageIcon(i.getScaledInstance(270, 300, Image.SCALE_DEFAULT)));
-//                        
-//                        revalidate();
-//                        repaint();
-//                    } catch (IOException ex) {
-//                        Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }
-//        });
         
         //MouseClick btnBack
         btnBack.addMouseListener(new MouseAdapter() {

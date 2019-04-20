@@ -5,27 +5,22 @@
  */
 package GUI;
 
-import BUS.NhanVienBUS;
-import java.awt.Choice;
+import BUS.KhachHangBUS;
+import DTO.KhachHangDTO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -35,7 +30,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Shadow
  */
 public class KhachHangGUI extends JPanel{        
-//    private NhanVienBUS khBUS = new NhanVienBUS();
+    private KhachHangBUS khBUS = new KhachHangBUS();
+    
     private JTable tbl;
     private JTextField txtMaKH,txtHoKH,txtTenKH,txtDiaChi,txtSDT;
     private JTextField sortMaKH,sortHoKH,sortTenKH;
@@ -59,7 +55,7 @@ public class KhachHangGUI extends JPanel{
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel itemView = new JPanel(null);
-        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 250));
+        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 170));
         itemView.setBackground(null);
         
         /******** Tao Cac Label & TextField ************************/
@@ -71,27 +67,27 @@ public class KhachHangGUI extends JPanel{
         
         JLabel lbHoKH = new JLabel("Họ");
         txtHoKH = new JTextField("");
-        lbHoKH.setBounds(new Rectangle(50,50,200,30));
+        lbHoKH.setBounds(new Rectangle(50,40,200,30));
         lbHoKH.setFont(font0);
-        txtHoKH.setBounds(new Rectangle(150,50,220,30));
+        txtHoKH.setBounds(new Rectangle(150,40,220,30));
      
         JLabel lbTenKH = new JLabel("Tên");
         txtTenKH = new JTextField("");
-        lbTenKH.setBounds(new Rectangle(50,100,200,30));
+        lbTenKH.setBounds(new Rectangle(50,80,200,30));
         lbTenKH.setFont(font0);
-        txtTenKH.setBounds(new Rectangle(150,100,220,30));
+        txtTenKH.setBounds(new Rectangle(150,80,220,30));
         
         JLabel lbDiaChi = new JLabel("Địa chỉ");
         txtDiaChi = new JTextField("");
-        lbDiaChi.setBounds(new Rectangle(50,150,200,30));
+        lbDiaChi.setBounds(new Rectangle(400,0,100,30));
         lbDiaChi.setFont(font0);
-        txtDiaChi.setBounds(new Rectangle(150,150,220,30));
+        txtDiaChi.setBounds(new Rectangle(500,0,220,30));
        
         JLabel lbSDT = new JLabel("Số điện thoại");
         txtSDT = new JTextField("");
-        lbSDT.setBounds(new Rectangle(50,200,200,30));
+        lbSDT.setBounds(new Rectangle(400,40,200,30));
         lbSDT.setFont(font0);
-        txtSDT.setBounds(new Rectangle(150,200,220,30));
+        txtSDT.setBounds(new Rectangle(500,40,220,30));
         
         // THÊM VÀO PHẦN HIỂN THỊ
         itemView.add(lbMaKH);
@@ -109,17 +105,17 @@ public class KhachHangGUI extends JPanel{
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
         JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
-        btnAdd.setBounds(new Rectangle(500,0,200,50));
+        btnAdd.setBounds(new Rectangle(750,0,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
         JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
-        btnEdit.setBounds(new Rectangle(500,90,200,50));
+        btnEdit.setBounds(new Rectangle(750,55,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
         JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
-        btnDelete.setBounds(new Rectangle(500,180,200,50));
+        btnDelete.setBounds(new Rectangle(750,110,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         itemView.add(btnAdd);
@@ -130,16 +126,161 @@ public class KhachHangGUI extends JPanel{
         
         JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
         btnConfirm.setVisible(false);
-        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setBounds(new Rectangle(750,10,200,50));
         btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(700,110,200,50));
+        btnBack.setBounds(new Rectangle(750,55,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         itemView.add(btnConfirm);
         itemView.add(btnBack);
+        
+        // MouseClick btnADD
+        btnAdd.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                EditOrAdd = true;
+                
+                cleanView();
+                
+                btnAdd.setVisible(false);
+                btnEdit.setVisible(false);
+                btnDelete.setVisible(false);
+                
+                btnConfirm.setVisible(true);
+                btnBack.setVisible(true);
+//                btnFile.setVisible(true);
+                
+                tbl.clearSelection();
+                tbl.setEnabled(false);
+            }
+        });
+        
+        // MouseClick btnDelete
+        btnDelete.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {   
+                int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Alert",JOptionPane.YES_NO_OPTION);
+                if(i == 0)
+                {
+                    khBUS.delete(txtMaKH.getText());
+                    cleanView();
+                    tbl.clearSelection();
+                    outModel(model, khBUS.getList());
+                }
+            }
+        });
+        
+        // MouseClick btnEdit
+        btnEdit.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                
+                if(txtMaKH.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa !!!");
+                    return;
+                }
+                
+                EditOrAdd = false;
+                
+                
+                txtMaKH.setEditable(false);
+                
+                btnAdd.setVisible(false);
+                btnEdit.setVisible(false);
+                btnDelete.setVisible(false);
+                
+                btnConfirm.setVisible(true);
+                btnBack.setVisible(true);
+//                btnFile.setVisible(true);
+                
+//                tbl.clearSelection();
+                tbl.setEnabled(false);
+            }
+        });
+        
+        
+        //MouseClick btnBack
+        btnBack.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
+            {
+                cleanView();
+                
+                btnAdd.setVisible(true);
+                btnEdit.setVisible(true);
+                btnDelete.setVisible(true);
+                
+                btnConfirm.setVisible(false);
+                btnBack.setVisible(false);
+//                btnFile.setVisible(false);
+                
+                tbl.setEnabled(true);
+            }
+        });
+        
+        //MouseClick btnConfirm
+        btnConfirm.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
+            {
+                int i;
+                if(EditOrAdd) //Thêm Sản Phẩm
+                {
+                    i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
+                    if(i == 0)
+                    {
+                        //Lấy dữ liệu từ TextField
+                        String maKH = txtMaKH.getText();
+                        String hoKH = txtHoKH.getText();
+                        String tenKH = txtTenKH.getText();
+                        String diaChi = txtDiaChi.getText();
+                        int dienThoai = Integer.parseInt(txtSDT.getText());
+                        if(khBUS.check(maKH))
+                        {
+                            JOptionPane.showMessageDialog(null, "Mã nhân viên đă tồn tại !!!");
+                            return;
+                        }
+                        //Upload sản phẩm lên DAO và BUS
+                        KhachHangDTO ncc = new KhachHangDTO(maKH, hoKH, tenKH, diaChi, dienThoai);
+                        khBUS.add(ncc);
+
+                        outModel(model, khBUS.getList());// Load lại table
+
+//                        saveIMG();// Lưu hình ảnh 
+
+                        cleanView();
+                    }
+                }
+                else    // Edit Sản phẩm
+                {
+                    i = JOptionPane.showConfirmDialog(null, "Xác nhận sửa Khách hàng","",JOptionPane.YES_NO_OPTION);
+                    if(i == 0)
+                    {
+                        //Lấy dữ liệu từ TextField
+                        String maKH = txtMaKH.getText();
+                        String hoKH = txtHoKH.getText();
+                        String tenKH = txtTenKH.getText();
+                        String diaChi = txtDiaChi.getText();
+                        int sdt = Integer.parseInt(txtSDT.getText());
+
+                        //Upload sản phẩm lên DAO và BUS
+                        KhachHangDTO kh = new KhachHangDTO(maKH, hoKH, tenKH, diaChi, sdt);
+                        khBUS.set(kh);
+                        
+                        outModel(model, khBUS.getList());// Load lại table
+                        
+//                        saveIMG();// Lưu hình ảnh 
+                        
+                        JOptionPane.showMessageDialog(null, "Sửa thành công","Thành công",JOptionPane.INFORMATION_MESSAGE);
+                        
+                    }
+                }
+                
+            }
+        });
 /***************************************************************/
 /************************************************************************************************************/       
 
@@ -152,7 +293,7 @@ public class KhachHangGUI extends JPanel{
         header.add("SĐT");
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
-//        listSP(); //Đọc từ database lên table 
+        list(); //Đọc từ database lên table 
         
 /*********************************************************/
         
@@ -180,7 +321,7 @@ public class KhachHangGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 450, this.DEFALUT_WIDTH - 400 , 210));
+        scroll.setBounds(new Rectangle(30, 300, this.DEFALUT_WIDTH - 400 , 360));
         scroll.setBackground(null);
         
         add(scroll);
@@ -201,7 +342,7 @@ public class KhachHangGUI extends JPanel{
 /*********************** SORT TABLE *****************************/
         JPanel sort = new JPanel(null);
         sort.setBackground(null);
-        sort.setBounds(30,300,this.DEFALUT_WIDTH - 400,140);
+        sort.setBounds(30,200,this.DEFALUT_WIDTH - 400,140);
         
         JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
         sortTitle.setFont(font1);
@@ -243,6 +384,40 @@ public class KhachHangGUI extends JPanel{
         
         add(sort);
 /******************************************************************/
+    }
+    public void cleanView() //Xóa trắng các TextField
+    {
+        txtMaKH.setEditable(true);
+
+        txtMaKH.setText("");
+        txtHoKH.setText("");
+        txtTenKH.setText("");
+        txtDiaChi.setText("");
+        txtSDT.setText("");
+        
+    }
+    public void outModel(DefaultTableModel model , ArrayList<KhachHangDTO> nv) // Xuất ra Table từ ArrayList
+    {
+        Vector data;
+        model.setRowCount(0);
+        for(KhachHangDTO n:nv)
+        {
+            data = new Vector();
+            data.add(n.getMaKH());
+            data.add(n.getHoKH());
+            data.add(n.getTenKH());
+            data.add(n.getDiaChi());
+            data.add(n.getSdt());
+            model.addRow(data);
+        }
+        tbl.setModel(model);
+    }
+    public void list() // Chép ArrayList lên table
+    {
+        if(khBUS.getList()== null)khBUS.list();
+        ArrayList<KhachHangDTO> nv = khBUS.getList();
+//        model.setRowCount(0);
+        outModel(model,nv);
     }
 }
 

@@ -22,7 +22,7 @@ public class ThongKeDAO {
     {
         
     }
-    public String Statistic( ArrayList<HoaDonDTO> listHd, ArrayList<NhapHangDTO> listNH,String MaSP)
+    public String StatisticSP( ArrayList<HoaDonDTO> listHd, ArrayList<NhapHangDTO> listNH,String MaSP)
     {
         String s = "";
         int slOut=0,sumOut = 0;
@@ -93,4 +93,47 @@ public class ThongKeDAO {
         }
         return s;
     }
+    
+    public String StatisticNV(ArrayList<HoaDonDTO> listHd,String MaNV)
+    {
+        String s ="";
+        int sum = 0;
+        if(!listHd.isEmpty())
+        {
+            MySQLConnect mySQL = new MySQLConnect();
+        try {
+            String sql1 = "SELECT SUM(TONGTIEN) AS TONGTIEN FROM hoadon WHERE (";
+            for(int i = 0 ; i < listHd.size() ; i++)
+            {
+                String mahd = listHd.get(i).getMaHD();
+                if(i == (listHd.size() - 1))
+                {
+                    sql1 += "MAHD ='"+ mahd +"') ";
+                    break;
+                }
+                sql1 += "MAHD ='"+ mahd +"' OR ";
+            }
+            sql1+= "AND MANV = '"+MaNV+"' ";
+            sql1 += "GROUP BY MANV";
+            System.out.println(sql1);
+            ResultSet rs1 = mySQL.executeQuery(sql1);
+            while(rs1.next())
+            {
+                sum += rs1.getInt("TONGTIEN");
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        s += "--------------------------------------------------- \n";
+        s += "TỔNG THU NHẬP : "+sum+"VNĐ"+"\n";      
+        return s;
+    }
+    /*
+    SELECT DISTINCT chitiethd.MASP,SUM(chitiethd.SOLUONG) 
+    FROM hoadon,chitiethd 
+    WHERE (hoadon.MAHD ='003' OR hoadon.MAHD ='004' OR hoadon.MAHD ='006' OR hoadon.MAHD ='007') AND MANV = '001' 
+    GROUP BY chitiethd.MASP
+    */
 }

@@ -7,6 +7,7 @@ package GUI;
 
 import BUS.ChiTietHDBUS;
 import BUS.HoaDonBUS;
+import BUS.KhachHangBUS;
 import BUS.NhanVienBUS;
 import BUS.SanPhamBUS;
 import BUS.outBill;
@@ -54,7 +55,9 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private HoaDonBUS hdBUS = new HoaDonBUS();
     private NhanVienBUS nvBUS = new NhanVienBUS(1);
+    private KhachHangBUS khBUS = new KhachHangBUS(1);
     private ChiTietHDBUS ctBUS = new ChiTietHDBUS(1);
+    
     private ArrayList<ChiTietHDDTO> dsct = new ArrayList<>();
     private int DEFALUT_WIDTH;
     private JTextField txtMaHD;
@@ -79,6 +82,7 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
     private JButton btnEdit;
     private JButton btnRemove;
     private Page404 page;
+    private JButton btnMaKH;
     
      public BanHangGUI(int width,String userID)
     {
@@ -125,19 +129,23 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         txtMaKH = new JTextField();
         txtMaKH.setHorizontalAlignment(JTextField.CENTER);
         txtMaKH.setFont(font0);
-        txtMaKH.setBounds(new Rectangle(255,0,120,30));
+        txtMaKH.setBounds(new Rectangle(255,0,100,30));
         txtMaKH.addKeyListener(this);
         hdView.add(lbMaKH);
         hdView.add(txtMaKH);
+        btnMaKH = new JButton("...");
+        btnMaKH.setBounds(new Rectangle(355,0,30,30));
+        btnMaKH.addActionListener(this);
+        hdView.add(btnMaKH);
 
         JLabel lbMaNV = new JLabel("Mã NV");
         lbMaNV.setFont(font0);
-        lbMaNV.setBounds(395,0,60,30);
+        lbMaNV.setBounds(415,0,60,30);
         txtMaNV = new JTextField();
         if( userID != null ) txtMaNV.setText(userID);
         txtMaNV.setHorizontalAlignment(JTextField.CENTER);
         txtMaNV.setFont(font0);
-        txtMaNV.setBounds(new Rectangle(455,0,120,30));
+        txtMaNV.setBounds(new Rectangle(475,0,100,30));
         txtMaNV.addKeyListener(this);
         hdView.add(lbMaNV);
         hdView.add(txtMaNV);
@@ -480,6 +488,13 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
             }
             System.out.println(txtMaNV.getText());
             System.out.println(nvBUS.getList().size());
+            if(!txtMaKH.getText().isEmpty() && !khBUS.check(txtMaKH.getText()))
+            {
+                JOptionPane.showMessageDialog(null, "Mã khách hàng không tồn tại");
+                txtMaKH.requestFocus();
+                return;
+            }
+            
             if(txtMaNV.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập mã nhân viên");

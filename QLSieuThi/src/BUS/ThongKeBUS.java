@@ -28,7 +28,7 @@ public class ThongKeBUS {
         hdBUS.list();
         nhBUS.list();
     }
-    public String Statistic(String Id,Calendar from,Calendar to)
+    public String StatisticSP(String Id,Calendar from,Calendar to)
     {
         ArrayList<HoaDonDTO> dsHD = new ArrayList<> ();
         dsHD = hdBUS.ListTime(from, to);
@@ -37,6 +37,14 @@ public class ThongKeBUS {
         dsNhap = nhBUS.ListTime(from, to);
         
         ThongKeDAO tkDAO = new ThongKeDAO();
-        return tkDAO.Statistic(dsHD,dsNhap, Id);
+        return tkDAO.StatisticSP(dsHD,dsNhap, Id);
+    }
+    public String StatisticNV(String Id,Calendar from,Calendar to)
+    {
+        ArrayList<HoaDonDTO> dsHD = new ArrayList<> ();
+        dsHD = hdBUS.ListTime(from, to);
+        
+        ThongKeDAO tkDAO = new ThongKeDAO();
+        return tkDAO.StatisticNV(dsHD, Id);
     }
 }
