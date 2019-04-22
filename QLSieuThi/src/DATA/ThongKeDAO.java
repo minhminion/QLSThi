@@ -7,6 +7,7 @@ package DATA;
 
 import DTO.HoaDonDTO;
 import DTO.NhapHangDTO;
+import com.sun.javafx.binding.StringFormatter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -82,8 +83,8 @@ public class ThongKeDAO {
             
             if(mySQL.isConnect()) mySQL.disConnect();
             
-            s += "Số lượng bán : "+slOut+" \t "+"Số lượng nhập : "+slIn+"\n";
-            s += "Tổng tiền : "+sumOut+"đ"+" \t "+"Tổng tiền nhập : "+sumIn+"đ"+"\n";
+            s += String.format("Số lượng bán : %6d || Số lượng nhập  : %5d\n",slIn,slOut);
+            s += String.format("Tổng tiền    : %5dđ || Tổng tiền nhập : %5dđ\n",sumIn,sumOut);
             s += "--------------------------------------------------- \n";
             s += "TỔNG THU NHẬP : "+(sumOut-sumIn)+"VNĐ"+"\n";      
             System.out.print(s);
@@ -98,10 +99,12 @@ public class ThongKeDAO {
     {
         String s ="";
         int sum = 0;
+        String listItem = String.format("|%10s|%10s|\n","Mã SP","Số lượng");
         if(!listHd.isEmpty())
         {
             MySQLConnect mySQL = new MySQLConnect();
         try {
+            // Tổng tiền 
             String sql1 = "SELECT SUM(TONGTIEN) AS TONGTIEN FROM hoadon WHERE (";
             for(int i = 0 ; i < listHd.size() ; i++)
             {
@@ -122,10 +125,34 @@ public class ThongKeDAO {
                 sum += rs1.getInt("TONGTIEN");
                 
             }
+            
+            // Mã SP || Số lượng 
+            String sql2 = "SELECT MASP,SUM(chitiethd.SOLUONG) AS SOLUONG FROM chitiethd WHERE chitiethd.MAHD IN (SELECT MAHD FROM hoadon WHERE (";
+            for(int i = 0 ; i < listHd.size() ; i++)
+            {
+                String mahd = listHd.get(i).getMaHD();
+                if(i == (listHd.size() - 1))
+                {
+                    sql2 += "MAHD ='"+ mahd +"') ";
+                    break;
+                }
+                sql2 += "MAHD ='"+ mahd +"' OR ";
+            }
+            sql2+= "AND MANV = '"+MaNV+"' )";
+            sql2 += "GROUP BY MASP";
+            System.out.println(sql2);
+            ResultSet rs2 = mySQL.executeQuery(sql2);
+            while(rs2.next())
+            {
+                listItem += String.format("|%10s|%10s|\n",rs2.getString("MASP"),rs2.getString("SOLUONG"));
+                
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
+        s += listItem;
         s += "--------------------------------------------------- \n";
         s += "TỔNG THU NHẬP : "+sum+"VNĐ"+"\n";      
         return s;

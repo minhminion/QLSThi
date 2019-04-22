@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2019 at 03:25 PM
+-- Generation Time: Apr 22, 2019 at 03:51 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -115,7 +115,7 @@ INSERT INTO `hoadon` (`MAHD`, `MAKH`, `MANV`, `NGAYHD`, `TONGTIEN`) VALUES
 
 CREATE TABLE `khachhang` (
   `MAKH` char(6) COLLATE utf8_unicode_ci NOT NULL,
-  `HONV` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `HOKH` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `TENKH` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `DIACHI` char(50) COLLATE utf8_unicode_ci NOT NULL,
   `SDT` int(11) NOT NULL

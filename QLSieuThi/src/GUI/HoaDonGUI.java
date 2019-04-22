@@ -33,7 +33,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -285,8 +288,21 @@ public class HoaDonGUI extends JPanel{
         header.add("Mã NV");
         header.add("Ngay Hóa Đơn");
         header.add("Tổng Tiền");
-        model = new DefaultTableModel(header,5);
+        model = new DefaultTableModel(header,5)
+        {
+            public Class getColumnClass(int column)
+            {
+                switch(column){
+                    case 4:
+                        return Integer.class;
+                    default:
+                        return String.class;
+                }
+            }              
+        };
         tbl = new JTable(model);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
+        tbl.setRowSorter(rowSorter);
         list(); //Đọc từ database lên table 
         
 /*********************************************************/
@@ -300,6 +316,10 @@ public class HoaDonGUI extends JPanel{
         tbl.getColumnModel().getColumn(3).setPreferredWidth(100);
         tbl.getColumnModel().getColumn(4).setPreferredWidth(40);
 
+        DefaultTableCellRenderer leftAlign = new DefaultTableCellRenderer();
+        leftAlign.setHorizontalAlignment(JLabel.LEFT);
+        tbl.getColumnModel().getColumn(4).setCellRenderer(leftAlign);
+        
         // Custom table
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     
@@ -325,6 +345,10 @@ public class HoaDonGUI extends JPanel{
              public void mouseClicked(MouseEvent e)
              {
                 int i = tbl.getSelectedRow();
+                if(tbl.getRowSorter() != null)
+                {
+                    i = tbl.getRowSorter().convertRowIndexToModel(i);
+                }
                 txtMaHD.setText(tbl.getModel().getValueAt(i, 0).toString());
                 try
                 {

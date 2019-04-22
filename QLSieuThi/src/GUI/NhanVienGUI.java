@@ -47,6 +47,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -397,7 +398,21 @@ public class NhanVienGUI extends JPanel{
         header.add("Mức lương");
         header.add("Địa chỉ");
         header.add("IMG"); 
-        model = new DefaultTableModel(header,5);
+        model = new DefaultTableModel(header,5)
+        {
+            public Class getColumnClass(int column)
+            {
+                switch(column){
+                    case 3:
+                        return Integer.class;
+                    case 5:
+                        return Integer.class;
+                    default:
+                        return String.class;
+                }
+            }
+                        
+        };
         tbl = new JTable(model);
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
@@ -416,6 +431,11 @@ public class NhanVienGUI extends JPanel{
         tbl.getColumnModel().getColumn(5).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
 
+        DefaultTableCellRenderer leftAlign = new DefaultTableCellRenderer();
+        leftAlign.setHorizontalAlignment(JLabel.LEFT);
+        tbl.getColumnModel().getColumn(3).setCellRenderer(leftAlign);
+        tbl.getColumnModel().getColumn(5).setCellRenderer(leftAlign);
+        
         // Custom table
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     

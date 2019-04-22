@@ -10,9 +10,15 @@ import BUS.SanPhamBUS;
 import BUS.ThongKeBUS;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -21,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Vector;
+import javafx.scene.control.ToggleButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -33,29 +41,36 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.table.DefaultTableModel;
+import jdk.tools.jaotc.binformat.pecoff.JPECoffRelocObject;
 
 /**
  *
  * @author Shadow
  */
-public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
+public final class ThongKeGUI extends JPanel implements ActionListener,ItemListener,ChangeListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private NhanVienBUS nvBUS = new NhanVienBUS();
     
     private JPanel paneTime = new JPanel() ;
     private JPanel paneTrimester = new JPanel() ;
     private JPanel panePeriod = new JPanel();
+    private JPanel form;
+    
+    private JLabel lbFromDate;
+    private JLabel lbToDate;
     private JRadioButton ckMaNull,ckMaSP, ckMaNV, ckMaKH ,ckDate, ckTrimester, ckPeriod;
     private JLabel lbMa = new JLabel();
     private JTextField txtMa = new JTextField();
     private JTextArea viewStatistic;
     private JButton btnStatistic ;
     private int DEFALUT_WIDTH;
-    private JPanel form;
-    private JLabel lbFromDate;
-    private JLabel lbToDate;
     
     private JComboBox<String> cmbFromDate = new JComboBox<>();
     private JComboBox<String> cmbFromMonth = new JComboBox<>();
@@ -72,6 +87,17 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     private JLabel lbYearPeriod;
     private JLabel lbYearTrimester;
     private JButton btnSuggest;
+    
+    private JButton onOffButton;
+    private JPanel Toggle;
+    private boolean OnOff = true; // TRUE is ALL || FALSE is TOP
+    private JScrollPane scrollViewTable;
+    private JTable tbl;
+    private DefaultTableModel model;
+    private JPanel view;
+    private JScrollPane scrollViewALL;
+    
+    
     public ThongKeGUI(int width)
     {
         spBUS.listSP();
@@ -91,11 +117,22 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         control.setBackground(null);
         control.setBounds(new Rectangle(0,0,(DEFALUT_WIDTH - 220)/2,730));
         
-        // Chuyển đổi giữa 2 panel
-        JTabbedPane controlTab = new JTabbedPane();
-        controlTab.setBounds(new Rectangle(0,20,(DEFALUT_WIDTH - 220)/2 - 10,150));
+        // Chuyển đổi ALL và TOP
+        Toggle = new JPanel(null);
+        Toggle.setBackground(Color.GRAY);
+        Toggle.setBounds(new Rectangle(0,10,120,30));
+        
+        onOffButton = new JButton("ALL");
+        onOffButton.setBounds(new Rectangle(0,0,60,30));
+        Toggle.add(onOffButton);
+        
+        onOffButton.addActionListener(this);   
+        
+        add(Toggle);
+        
         
         JPanel controlAll = new JPanel(new GridLayout(2,5));
+        controlAll.setBounds(new Rectangle(0,50,(DEFALUT_WIDTH - 220)/2 - 10,150));
         controlAll.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         // CHỌN MÃ CẦN THỐNG KÊ
@@ -149,18 +186,12 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         controlAll.add(ckTrimester);
         controlAll.add(ckPeriod);
         
-        JPanel controlTop = new JPanel(new GridLayout(2,4));
-        controlTop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        
-        controlTab.add(controlAll,"Tất cả");
-        controlTab.add(controlTop,"Top");
-        control.add(controlTab);
+        control.add(controlAll);
         
         //*********************** Panel điền thông tin ***********************//
         form = new JPanel(null);
         form.setBackground(null);
-        form.setBounds(new Rectangle(0,200,(DEFALUT_WIDTH - 220)/2 - 10,300));
+        form.setBounds(new Rectangle(0,230,(DEFALUT_WIDTH - 220)/2 - 10,300));
         
         lbMa.setBounds(new Rectangle(0,0,100,30));
         lbMa.setFont(font0);
@@ -177,7 +208,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         /**************** CHỌN TIME ********************************/
         paneTime = new JPanel(null);
         paneTime.setBackground(null);
-        paneTime.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
+        paneTime.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,80));
         
         // FROM
         lbFromDate = new JLabel("Từ ngày");
@@ -259,7 +290,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         /*************** CHỌN THEO QUÝ *****************************/
         paneTrimester = new JPanel(null);
         paneTrimester.setBackground(null);
-        paneTrimester.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
+        paneTrimester.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,80));
         
         lbTrimester = new JLabel("Quý");
         lbTrimester.setFont(font0);
@@ -287,13 +318,14 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         paneTrimester.add(cmbYearTrimester);
         
         paneTrimester.setVisible(false);
+        
         form.add(paneTrimester);
         /***********************************************************/
         
         /*************** CHỌN THEO KỲ *****************************/
         panePeriod = new JPanel(null);
         panePeriod.setBackground(null);
-        panePeriod.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,260));
+        panePeriod.setBounds(new Rectangle(0,40,(DEFALUT_WIDTH - 220)/2 - 10,80));
         
         lbPeriod = new JLabel("Kỳ");
         lbPeriod.setFont(font0);
@@ -324,11 +356,11 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         form.add(panePeriod);
         /***********************************************************/
         
-        control.add(form);
         
         btnStatistic = new JButton("Thống kê");
-        btnStatistic.setFont(font0);
-        btnStatistic.setBounds(new Rectangle(50,500,(DEFALUT_WIDTH - 220)/2 - 100,30));
+        btnStatistic.setFont(new Font("Segoe UI",Font.PLAIN,15) {
+        });
+        btnStatistic.setBounds(new Rectangle(50,140,(DEFALUT_WIDTH - 220)/2 - 100,40));
         btnStatistic.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -336,23 +368,53 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
             }
         });
         
-        control.add(btnStatistic);
+        form.add(btnStatistic);
+        
+        control.add(form);
         
         add(control);
 /*********************************************************************/
 
 /*************** PHẦN HIỆN THÔNG TIN *********************************/
-        JPanel view = new JPanel(null);
-        view.setBounds(new Rectangle((DEFALUT_WIDTH - 220)/2,0,(DEFALUT_WIDTH - 220)/2,730));
         
         viewStatistic = new JTextArea();
         viewStatistic.setEditable(false);
-        JScrollPane scroll = new JScrollPane(viewStatistic);
-        scroll.setBounds(new Rectangle(0,20,(DEFALUT_WIDTH - 220)/2 - 100 ,500));
-        view.add(scroll);
         
-        add(view);
+        scrollViewALL = new JScrollPane(viewStatistic);
+        scrollViewALL.setBounds(new Rectangle(570,20,(DEFALUT_WIDTH - 220)/2 - 100 ,500));
+        
+        add(scrollViewALL);
 /*********************************************************************/
+
+/*************** PHẦN HIỆN THÔNG TIN *********************************/
+        Vector header = new Vector();
+        header.add("STT");
+        header.add("Mã SP");
+        header.add("Sản phầm");
+        header.add("SL Bán");
+
+        model = new DefaultTableModel(header,5);
+        tbl = new JTable(model);
+
+        // CUSTOM TABLE
+        tbl.setFocusable(false);
+        tbl.setIntercellSpacing(new Dimension(0,0));     
+        tbl.getTableHeader().setFont(font1);
+        tbl.setRowHeight(30);
+        tbl.setShowVerticalLines(false);              
+        tbl.getTableHeader().setOpaque(false);
+        tbl.setFillsViewportHeight(true);
+        tbl.getTableHeader().setBackground(new Color(232,57,99));
+        tbl.getTableHeader().setForeground(Color.WHITE);
+        tbl.setSelectionBackground(new Color(52,152,219));          
+        
+        scrollViewTable = new JScrollPane(tbl);
+        scrollViewTable.setBounds(new Rectangle(570,20,(DEFALUT_WIDTH - 220)/2 - 100 ,500));
+        scrollViewTable.setVisible(false);
+        
+        add(scrollViewTable);
+/*********************************************************************/
+
     }
     public static void main(String[]args)
     {
@@ -498,6 +560,7 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
         
         viewStatistic.setText( outStatistic( obj,sdf.format( from.getTime() ), sdf.format( to.getTime() ) ,result) );
     }
+    
     public String outStatistic(Object obj,String fromDate, String toDate, String result)
     {
         String s = "Từ ngày : "+fromDate+"\n";
@@ -525,6 +588,38 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
+        //Switch On Off
+        if(obj.equals(onOffButton))
+        {
+            Color color = new Color(61, 252, 47);
+            int change = 60;
+            String text = "TOP";
+            if(!OnOff)
+            {
+                change = 0;
+                text = "ALL";
+                color = Color.GRAY;
+            }
+            onOffButton.setText(text);
+            onOffButton.setBounds(new Rectangle(change,0,60,30));
+            Toggle.setBackground(color);
+            Toggle.add(onOffButton);
+            
+            ckMaNull.setVisible(!OnOff);
+            
+            lbMa.setVisible(!OnOff);
+            txtMa.setVisible(!OnOff);
+            btnSuggest.setVisible(!OnOff);
+            
+            scrollViewALL.setVisible(!OnOff);
+            scrollViewTable.setVisible(OnOff);
+            
+            OnOff = !OnOff;
+            repaint();
+            revalidate();
+        }
+        
+        
         if(obj.equals(cmbFromMonth) || obj.equals(cmbFromYear))
         {
             cmbFromDate.removeAllItems();
@@ -600,5 +695,12 @@ public class ThongKeGUI extends JPanel implements ActionListener,ItemListener{
             txtMa.setVisible(false);
         }
    
+    }
+
+    // ChangeListener
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        txtMa.setVisible(false);
+        
     }
 }

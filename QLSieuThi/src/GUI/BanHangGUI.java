@@ -42,6 +42,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -290,7 +291,21 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         header.add("Tên Sản Phẩm");
         header.add("Đơn Giá");
         header.add("Số lượng");
-        model = new DefaultTableModel(header,0);
+        model = new DefaultTableModel(header,0)
+        {
+             public Class getColumnClass(int column)
+             {
+                 switch(column){
+                     case 2:
+                         return Integer.class;
+                     case 3:
+                         return Integer.class;
+                     default:
+                         return String.class;
+                 }
+             }
+                        
+        };
         tbl = new JTable(model);
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
@@ -305,6 +320,11 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
         tbl.getColumnModel().getColumn(2).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(3).setPreferredWidth(50);
 
+        DefaultTableCellRenderer leftAlign = new DefaultTableCellRenderer();
+        leftAlign.setHorizontalAlignment(JLabel.LEFT);
+        tbl.getColumnModel().getColumn(2).setCellRenderer(leftAlign);
+        tbl.getColumnModel().getColumn(3).setCellRenderer(leftAlign);
+        
         // Custom table
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     

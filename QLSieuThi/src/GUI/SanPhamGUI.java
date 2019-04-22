@@ -458,10 +458,10 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         tbl.getColumnModel().getColumn(5).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(6).setPreferredWidth(40);
 
-        DefaultTableCellRenderer rightAlign = new DefaultTableCellRenderer();
-        rightAlign.setHorizontalAlignment(JLabel.LEFT);
-        tbl.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
-        tbl.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+        DefaultTableCellRenderer leftAlign = new DefaultTableCellRenderer();
+        leftAlign.setHorizontalAlignment(JLabel.LEFT);
+        tbl.getColumnModel().getColumn(2).setCellRenderer(leftAlign);
+        tbl.getColumnModel().getColumn(3).setCellRenderer(leftAlign);
         
         // Custom table
         tbl.setFocusable(false);
