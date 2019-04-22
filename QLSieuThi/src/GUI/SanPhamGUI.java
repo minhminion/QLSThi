@@ -48,6 +48,7 @@ import javax.swing.JSeparator;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -425,7 +426,21 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         header.add("Loại");
         header.add("Mă NSX");
         header.add("IMG"); 
-        model = new DefaultTableModel(header,5);
+        model = new DefaultTableModel(header,0)
+        {
+             public Class getColumnClass(int column)
+             {
+                 switch(column){
+                     case 2:
+                         return Integer.class;
+                     case 3:
+                         return Integer.class;
+                     default:
+                         return String.class;
+                 }
+             }
+                        
+        };
         tbl = new JTable(model);
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
         tbl.setRowSorter(rowSorter);
@@ -443,6 +458,11 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         tbl.getColumnModel().getColumn(5).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(6).setPreferredWidth(40);
 
+        DefaultTableCellRenderer rightAlign = new DefaultTableCellRenderer();
+        rightAlign.setHorizontalAlignment(JLabel.LEFT);
+        tbl.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
+        tbl.getColumnModel().getColumn(3).setCellRenderer(rightAlign);
+        
         // Custom table
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     
