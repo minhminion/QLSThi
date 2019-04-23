@@ -23,12 +23,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
-import javafx.scene.control.ToggleButton;
+//import javafx.scene.control.ToggleButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -197,6 +199,15 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         lbMa.setFont(font0);
         txtMa.setBounds(new Rectangle(110,0,230,30));
         txtMa.setFont(font0);
+        txtMa.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e)
+            {
+                if(e.getKeyChar() == KeyEvent.VK_ENTER)
+                {
+                    btnStatistic.doClick();
+                }
+            }
+        });
         btnSuggest = new JButton("...");
         btnSuggest.setBounds(new Rectangle(340,0,30,30));
         btnSuggest.addActionListener(this);
@@ -390,13 +401,19 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         Vector header = new Vector();
         header.add("STT");
         header.add("Mã SP");
-        header.add("Sản phầm");
+        header.add("Tên SP");
         header.add("SL Bán");
 
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
 
+        
         // CUSTOM TABLE
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(15);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(40);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(20);
+        
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     
         tbl.getTableHeader().setFont(font1);
@@ -476,22 +493,28 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         Object obj = null;
         if(ckMaSP.isSelected())
         {
-            obj = new SanPhamDTO();
-            obj = spBUS.getSP(ma);
-            if(obj == null)
+            if(OnOff)
             {
-                JOptionPane.showMessageDialog(null, "Không tồn tại sản phầm !!");
-                return;
+                obj = new SanPhamDTO();
+                obj = spBUS.getSP(ma);
+                if(obj == null)
+                {
+                    JOptionPane.showMessageDialog(null, "Không tồn tại sản phầm !!");
+                    return;
+                }
             }
         }
         if(ckMaNV.isSelected())
         {
-            obj = new NhanVienDTO();
-            obj = nvBUS.get(ma);
-            if(obj == null)
+            if(OnOff)
             {
-                JOptionPane.showMessageDialog(null, "Không tồn tại khách hàng !!");
-                return;
+                obj = new NhanVienDTO();
+                obj = nvBUS.get(ma);
+                if(obj == null)
+                {
+                    JOptionPane.showMessageDialog(null, "Không tồn tại nhân viên !!");
+                    return;
+                }
             }
         }
         Calendar from = Calendar.getInstance();
@@ -545,20 +568,26 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             JOptionPane.showMessageDialog(null,"Lỗi");
             return;
         }
-        
-        String result = "";
-        if(ckMaSP.isSelected())
+        if(OnOff)
         {
-            result = tk.StatisticSP(ma, from, to);
+            String result = "";
+            if(ckMaSP.isSelected())
+            {
+                result = tk.StatisticSP(ma, from, to);
+            }
+            else if(ckMaNV.isSelected())
+            {
+                result = tk.StatisticNV(ma, from, to);
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd - MM - yyyy");
+
+            viewStatistic.setText( outStatistic( obj,sdf.format( from.getTime() ), sdf.format( to.getTime() ) ,result) );
         }
-        else if(ckMaNV.isSelected())
+        else
         {
-            result = tk.StatisticNV(ma, from, to);
+            outStatistic(tk.StatisticTopSP(from, to));
         }
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd - MM - yyyy");
-        
-        viewStatistic.setText( outStatistic( obj,sdf.format( from.getTime() ), sdf.format( to.getTime() ) ,result) );
     }
     
     public String outStatistic(Object obj,String fromDate, String toDate, String result)
@@ -584,7 +613,28 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         }
         return s;
     }
-    
+    public void outStatistic(ArrayList<String> sp)
+    {
+        model.setRowCount(0);
+        for(int i = 0 ; i < sp.size() ; i++)
+        {
+            System.out.print(sp.get(i));
+            String[] s = sp.get(i).split("_");
+//            System.out.println(s[1]);
+            /**********/
+            String maSP = s[0].trim();
+            String tenSP = s[1].trim();
+            String sl = s[2].trim();
+            System.out.println(maSP);
+            Vector data = new Vector();
+            data.add(i+1);
+            data.add(maSP);
+            data.add(tenSP);
+            data.add(sl);
+            model.addRow(data);
+        }
+        tbl.setModel(model);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
@@ -671,19 +721,19 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         }
         
         // Chọn Control MĂ
-        if(ckMaSP.isSelected())
+        if(ckMaSP.isSelected() && OnOff)
         {
             lbMa.setVisible(true);
             txtMa.setVisible(true);
             lbMa.setText("Mă sản phẩm");
         }
-        else if(ckMaNV.isSelected())
+        else if(ckMaNV.isSelected() && OnOff)
         {
             lbMa.setVisible(true);
             txtMa.setVisible(true);
             lbMa.setText("Mã nhân viên");
         }
-        else if(ckMaKH.isSelected())
+        else if(ckMaKH.isSelected() && OnOff)
         {
             lbMa.setVisible(true);
             txtMa.setVisible(true);
@@ -694,7 +744,6 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             lbMa.setVisible(false);
             txtMa.setVisible(false);
         }
-   
     }
 
     // ChangeListener

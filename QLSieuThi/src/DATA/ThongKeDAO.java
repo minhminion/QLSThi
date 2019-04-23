@@ -7,7 +7,7 @@ package DATA;
 
 import DTO.HoaDonDTO;
 import DTO.NhapHangDTO;
-import com.sun.javafx.binding.StringFormatter;
+//import com.sun.javafx.binding.StringFormatter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,8 +83,8 @@ public class ThongKeDAO {
             
             if(mySQL.isConnect()) mySQL.disConnect();
             
-            s += String.format("Số lượng bán : %6d || Số lượng nhập  : %5d\n",slIn,slOut);
-            s += String.format("Tổng tiền    : %5dđ || Tổng tiền nhập : %5dđ\n",sumIn,sumOut);
+            s += String.format("Số lượng bán : %6d || Số lượng nhập  : %5d\n",slOut,slIn);
+            s += String.format("Tổng tiền    : %5dđ || Tổng tiền nhập : %5dđ\n",sumOut,sumIn);
             s += "--------------------------------------------------- \n";
             s += "TỔNG THU NHẬP : "+(sumOut-sumIn)+"VNĐ"+"\n";      
             System.out.print(s);
@@ -157,10 +157,42 @@ public class ThongKeDAO {
         s += "TỔNG THU NHẬP : "+sum+"VNĐ"+"\n";      
         return s;
     }
-    /*
-    SELECT DISTINCT chitiethd.MASP,SUM(chitiethd.SOLUONG) 
-    FROM hoadon,chitiethd 
-    WHERE (hoadon.MAHD ='003' OR hoadon.MAHD ='004' OR hoadon.MAHD ='006' OR hoadon.MAHD ='007') AND MANV = '001' 
-    GROUP BY chitiethd.MASP
-    */
+    
+    public ArrayList<String> StatisticTopSP(ArrayList<HoaDonDTO> listHd)
+    {   
+        ArrayList<String> kq = new ArrayList<>();
+        if(!listHd.isEmpty())
+        {
+            try {
+                MySQLConnect mySQL = new MySQLConnect();
+                String sql = "SELECT MASP,TENSP,SUM(SOLUONG) AS SOLUONG FROM chitiethd WHERE ";
+                for(int i = 0 ; i < listHd.size() ; i++)
+                {
+                    String mahd = listHd.get(i).getMaHD();
+                    if(i == (listHd.size() - 1))
+                    {
+                        sql += "MAHD ='"+ mahd +"' ";
+                        break;
+                    }
+                    sql += "MAHD ='"+ mahd +"' OR ";
+                }
+                sql += "GROUP BY MASP ";
+                sql += "ORDER BY SUM(SOLUONG) DESC ";
+                sql += "LIMIT 5";
+                System.out.println(sql);
+                ResultSet rs = mySQL.executeQuery(sql);
+                while(rs.next())
+                {
+                    String maSP = rs.getString("MASP");
+                    String tenSP = rs.getString("TENSP");
+                    int sl = rs.getInt("SOLUONG");
+                    String s = String.format("%6s_%20s_%5d",maSP,tenSP,sl);
+                    kq.add(s);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return kq;
+    }
 }
