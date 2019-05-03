@@ -28,7 +28,7 @@ public class SanPhamDAO {
     {
         ArrayList<SanPhamDTO> sp = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM sanpham WHERE 1";
+            String sql = "SELECT * FROM sanpham WHERE enable = 1";
             ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
@@ -69,8 +69,10 @@ public class SanPhamDAO {
 
     public void delete(String idSP)
     {
-        String sql = "DELETE FROM sanpham WHERE MaSP='"+idSP+"'";
+        String sql = "UPDATE sanpham SET enable = 0 WHERE MaSP='"+idSP+"'";
+        System.out.println(sql);
         mySQL.executeUpdate(sql);
+        
     }
     
     public void set(SanPhamDTO sp)

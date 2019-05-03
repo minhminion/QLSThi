@@ -25,7 +25,7 @@ public class NhanVienDAO {
         ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
         try {
            
-            String sql = "SELECT * FROM nhanvien WHERE 1";
+            String sql = "SELECT * FROM nhanvien WHERE enable = 1";
             ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
@@ -85,7 +85,7 @@ public class NhanVienDAO {
     public void delete(String MaNV)
     {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "DELETE FROM nhanvien WHERE MANV='"+MaNV+"'";
+        String sql = "UPDATE nhanvien SET enable = 0 WHERE MANV='"+MaNV+"'";
         mySQL.executeUpdate(sql);
         System.out.println(sql);
     }
