@@ -7,6 +7,7 @@ package BUS;
 
 import DATA.SanPhamDAO;
 import DTO.SanPhamDTO;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -147,9 +148,9 @@ public class SanPhamBUS {
         spDAO.ExportExcelDatabase();
     }
     
-    public void ImportExcelDatabase(){
+    public void ImportExcelDatabase(File file){
         SanPhamDAO spDAO = new SanPhamDAO();
-        spDAO.ImportExcelDatabase();
+        spDAO.ImportExcelDatabase(file);
     }
     
 }

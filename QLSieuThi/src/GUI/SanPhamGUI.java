@@ -48,6 +48,7 @@ import javax.swing.JSeparator;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -228,14 +229,19 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         btnFile.setBounds(new Rectangle(620,140,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel btnXuatExcel = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
+        JLabel btnXuatExcel = new JLabel(new ImageIcon("./src/image/btnXuatExcel.png"));
         btnXuatExcel.setBounds(new Rectangle(820,0,200,50));
-        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnXuatExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        JLabel btnNhapExcel = new JLabel(new ImageIcon("./src/image/btnNhapExcel.png"));
+        btnNhapExcel.setBounds(new Rectangle(820,60,200,50));
+        btnNhapExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         ItemView.add(btnConfirm);
         ItemView.add(btnBack);
         ItemView.add(btnFile);
         ItemView.add(btnXuatExcel);
+        ItemView.add(btnNhapExcel);
         
         // MouseClick btnADD
         btnAdd.addMouseListener(new MouseAdapter(){
@@ -307,6 +313,9 @@ public class SanPhamGUI extends JPanel implements KeyListener{
             public void mouseClicked(MouseEvent e)
             {
                 JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "JPG & PNG images", "jpg", "png");
+                fc.setFileFilter(filter);
                 int result = fc.showOpenDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION) 
                 {
@@ -418,15 +427,31 @@ public class SanPhamGUI extends JPanel implements KeyListener{
             }
         });
         
-         btnXuatExcel.addMouseListener(new MouseAdapter(){
+        
+        btnXuatExcel.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {   
-//                spBUS.ExportExcelDatabase();
-//                JOptionPane.showMessageDialog(null, "Xuat file excel thanh cong");
-                
-                spBUS.ImportExcelDatabase();
-                outModel(model, spBUS.getList());
-                JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
+                spBUS.ExportExcelDatabase();
+                JOptionPane.showMessageDialog(null, "Xuat file excel thanh cong");            
+            }
+        });
+
+         btnNhapExcel.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {   
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Excel", "xlsx");
+                fc.setFileFilter(filter);
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    File file = fc.getSelectedFile(); //Lấy URL
+                    spBUS.ImportExcelDatabase(file);
+                    spBUS.listSP();
+                    outModel(model, spBUS.getList());
+                    JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
+                }
             }
         });
         
@@ -701,7 +726,7 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         try {
             if(i != null)
             {
-                File save = new File("src/image/SanPham/"+ imgName);//Ta5o file
+                File save = new File("src/image/SanPham/"+ imgName);//Tạo file
                 ImageIO.write(i,"jpg",save); // Lưu hình i vào đường dẫn file save
 
                 i = null; //Xóa hình trong bộ nhớ 

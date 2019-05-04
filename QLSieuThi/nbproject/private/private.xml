@@ -7,16 +7,15 @@
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/ThongKeGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/ThongKeDAO.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI.java</file>
-            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhanVienGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/ToggleButton.java</file>
-            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhapHangGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/BanHangGUI.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/QLSieuThi.java</file>
-            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/ThongKeBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/DATA/SanPhamDAO.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/SanPhamBUS.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhanVienGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/NhapHangGUI.java</file>
+            <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/BUS/ThongKeBUS.java</file>
             <file>file:/D:/MInh/GitHub/QLSThi/QLSieuThi/src/GUI/ChiTietHDGUI.java</file>
-
-            <file>file:/C:/Users/anhkhoa/Documents/GitHub/QLSThi/QLSieuThi/src/GUI/SanPhamGUI.java</file>
         </group>
     </open-files>
 </project-private>

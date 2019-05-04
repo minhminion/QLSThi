@@ -188,9 +188,9 @@ public class SanPhamDAO {
         
     }
     
-    public void ImportExcelDatabase(){
+    public void ImportExcelDatabase(File file){
         try{
-            FileInputStream in = new FileInputStream(new File("./report/sanphamdb.xlsx"));
+            FileInputStream in = new FileInputStream(file);
             XSSFWorkbook workbook = new XSSFWorkbook(in);
             XSSFSheet sheet = workbook.getSheetAt(0);
             Row row;
