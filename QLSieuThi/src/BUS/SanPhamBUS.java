@@ -142,4 +142,14 @@ public class SanPhamBUS {
         return dssp;
     }
     
+    public void ExportExcelDatabase(){
+        SanPhamDAO spDAO = new SanPhamDAO();
+        spDAO.ExportExcelDatabase();
+    }
+    
+    public void ImportExcelDatabase(){
+        SanPhamDAO spDAO = new SanPhamDAO();
+        spDAO.ImportExcelDatabase();
+    }
+    
 }

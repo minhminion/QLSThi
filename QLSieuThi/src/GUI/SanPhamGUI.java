@@ -228,9 +228,14 @@ public class SanPhamGUI extends JPanel implements KeyListener{
         btnFile.setBounds(new Rectangle(620,140,200,50));
         btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
+        JLabel btnXuatExcel = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
+        btnXuatExcel.setBounds(new Rectangle(820,0,200,50));
+        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
         ItemView.add(btnConfirm);
         ItemView.add(btnBack);
         ItemView.add(btnFile);
+        ItemView.add(btnXuatExcel);
         
         // MouseClick btnADD
         btnAdd.addMouseListener(new MouseAdapter(){
@@ -410,6 +415,18 @@ public class SanPhamGUI extends JPanel implements KeyListener{
                     }
                 }
                 
+            }
+        });
+        
+         btnXuatExcel.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {   
+//                spBUS.ExportExcelDatabase();
+//                JOptionPane.showMessageDialog(null, "Xuat file excel thanh cong");
+                
+                spBUS.ImportExcelDatabase();
+                outModel(model, spBUS.getList());
+                JOptionPane.showMessageDialog(null, "Nhap file excel thanh cong");
             }
         });
         
