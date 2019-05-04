@@ -77,7 +77,8 @@ public class NhanVienDAO {
                 sql += "'"+nv.getPhai()+"',";
                 sql += "'"+nv.getMucLuong()+"',";
                 sql += "'"+nv.getDiaChi()+"',";
-                sql += "'"+nv.getImg()+"')";
+                sql += "'"+nv.getImg()+"',";
+                sql += "'1')";
          System.out.println(sql);
          mySQL.executeUpdate(sql);
     }

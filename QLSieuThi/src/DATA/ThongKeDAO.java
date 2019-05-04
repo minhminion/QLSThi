@@ -195,4 +195,43 @@ public class ThongKeDAO {
         }
         return kq;
     }
+    
+    public ArrayList<String> StatisticTopNV(ArrayList<HoaDonDTO> listHd)
+    {   
+        ArrayList<String> kq = new ArrayList<>();
+        if(!listHd.isEmpty())
+        {
+            try {
+                MySQLConnect mySQL = new MySQLConnect();
+                String sql = "SELECT nhanvien.MANV, CONCAT(nhanvien.HONV,' ',nhanvien.TENNV) AS HOTEN ,SUM(TONGTIEN) AS TONGTIEN ";
+                       sql+= "FROM hoadon INNER JOIN nhanvien ON hoadon.MANV = nhanvien.MANV WHERE ";
+                for(int i = 0 ; i < listHd.size() ; i++)
+                {
+                    String mahd = listHd.get(i).getMaHD();
+                    if(i == (listHd.size() - 1))
+                    {
+                        sql += "MAHD ='"+ mahd +"' ";
+                        break;
+                    }
+                    sql += "MAHD ='"+ mahd +"' OR ";
+                }
+                sql += "GROUP BY MANV ";
+                sql += "ORDER BY SUM(TONGTIEN) DESC ";
+                sql += "LIMIT 5";
+                System.out.println(sql);
+                ResultSet rs = mySQL.executeQuery(sql);
+                while(rs.next())
+                {
+                    String maNV = rs.getString("MANV");
+                    String tenNV = rs.getString("HOTEN");
+                    int tt = rs.getInt("TONGTIEN");
+                    String s = String.format("%6s_%20s_%5d",maNV,tenNV,tt);
+                    kq.add(s);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return kq;
+    }
 }

@@ -75,7 +75,8 @@ public class SanPhamDAO {
         sql += "N'"+sp.getDvt()+"',";
         sql += "'"+sp.getMaLoai()+"',";
         sql += "'"+sp.getMaNsx()+"',";
-        sql += "'"+sp.getImg()+"')";
+        sql += "'"+sp.getImg()+"',";
+        sql += "'1')";
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }

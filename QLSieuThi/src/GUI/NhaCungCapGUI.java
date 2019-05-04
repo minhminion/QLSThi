@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -23,7 +25,9 @@ import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.BorderFactory.createLineBorder;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,7 +36,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -63,7 +72,7 @@ public class NhaCungCapGUI extends JPanel{
 /****************************** PHẦN HIỂN THỊ THÔNG TIN ******************************************/
 
         JPanel itemView = new JPanel(null);
-        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 250));
+        itemView.setBounds(new Rectangle(30, 40, this.DEFALUT_WIDTH - 220 , 180));
         itemView.setBackground(null);
         
         /******** Tao Cac Label & TextField ************************/
@@ -75,27 +84,27 @@ public class NhaCungCapGUI extends JPanel{
         
         JLabel lbTenNCC = new JLabel("Tên NCC");
         txtTenNCC = new JTextField("");
-        lbTenNCC.setBounds(new Rectangle(50,50,200,30));
+        lbTenNCC.setBounds(new Rectangle(400,0,100,30));
         lbTenNCC.setFont(font0);
-        txtTenNCC.setBounds(new Rectangle(150,50,220,30));
+        txtTenNCC.setBounds(new Rectangle(500,0,220,30));
      
-        JLabel lbDiaChi = new JLabel("Địa chỉ");
-        txtDiaChi = new JTextField("");
-        lbDiaChi.setBounds(new Rectangle(50,100,200,30));
-        lbDiaChi.setFont(font0);
-        txtDiaChi.setBounds(new Rectangle(150,100,220,30));
-        
         JLabel lbDienThoai = new JLabel("Số Điện thoại");
         txtDienThoai = new JTextField("");
-        lbDienThoai.setBounds(new Rectangle(50,150,200,30));
+        lbDienThoai.setBounds(new Rectangle(50,40,200,30));
         lbDienThoai.setFont(font0);
-        txtDienThoai.setBounds(new Rectangle(150,150,220,30));
+        txtDienThoai.setBounds(new Rectangle(150,40,220,30));
        
         JLabel lbSoFax = new JLabel("Số Fax");
         txtSoFax = new JTextField("");
-        lbSoFax.setBounds(new Rectangle(50,200,200,30));
+        lbSoFax.setBounds(new Rectangle(400,40,200,30));
         lbSoFax.setFont(font0);
-        txtSoFax.setBounds(new Rectangle(150,200,220,30));
+        txtSoFax.setBounds(new Rectangle(500,40,220,30));
+        
+        JLabel lbDiaChi = new JLabel("Địa chỉ");
+        txtDiaChi = new JTextField("");
+        lbDiaChi.setBounds(new Rectangle(50,80,200,30));
+        lbDiaChi.setFont(font0);
+        txtDiaChi.setBounds(new Rectangle(150,80,500,30));
         
         // THÊM VÀO PHẦN HIỂN THỊ
         itemView.add(lbMaNCC);
@@ -113,17 +122,17 @@ public class NhaCungCapGUI extends JPanel{
         
         /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
         JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
-        btnAdd.setBounds(new Rectangle(500,0,200,50));
+        btnAdd.setBounds(new Rectangle(750,0,200,50));
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         
         JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
-        btnEdit.setBounds(new Rectangle(500,90,200,50));
+        btnEdit.setBounds(new Rectangle(750,55,200,50));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
        
         
         JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
-        btnDelete.setBounds(new Rectangle(500,180,200,50));
+        btnDelete.setBounds(new Rectangle(750,110,200,50));
         btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         itemView.add(btnAdd);
@@ -134,12 +143,12 @@ public class NhaCungCapGUI extends JPanel{
         
         JLabel btnConfirm= new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
         btnConfirm.setVisible(false);
-        btnConfirm.setBounds(new Rectangle(700,10,200,50));
+        btnConfirm.setBounds(new Rectangle(750,0,200,50));
         btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
         btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(700,110,200,50));
+        btnBack.setBounds(new Rectangle(750,55,200,50));
         btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         itemView.add(btnConfirm);
@@ -301,6 +310,8 @@ public class NhaCungCapGUI extends JPanel{
         header.add("Số Fax");
         model = new DefaultTableModel(header,5);
         tbl = new JTable(model);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
+        tbl.setRowSorter(rowSorter);
         listNCC(); //Đọc từ database lên table 
         
 /*********************************************************/
@@ -329,7 +340,7 @@ public class NhaCungCapGUI extends JPanel{
         
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 450, this.DEFALUT_WIDTH - 400 , 210));
+        scroll.setBounds(new Rectangle(30, 220, this.DEFALUT_WIDTH - 400 , 450));
         scroll.setBackground(null);
         
         add(scroll);
@@ -350,49 +361,84 @@ public class NhaCungCapGUI extends JPanel{
         
         
 /*********************** SORT TABLE *****************************/
-        JPanel sort = new JPanel(null);
-        sort.setBackground(null);
-        sort.setBounds(30,300,this.DEFALUT_WIDTH - 400,140);
+        JPanel searchBox = new JPanel(null);
+        searchBox.setBackground(null);
+        searchBox.setBounds(new Rectangle(50,120,530,30)); 
+        searchBox.setBorder(createLineBorder(Color.BLACK)); //Chỉnh viền 
+        //PHẦN CHỌN SEARCH
+        JComboBox cmbChoice = new JComboBox();
+        cmbChoice.setEditable(true);
+        cmbChoice.setFont(new Font("Segoe UI",Font.PLAIN,14));
+        cmbChoice.addItem("Mã NCC");
+        cmbChoice.addItem("Tên NCC");
+        cmbChoice.addItem("Địa chỉ");
+        cmbChoice.addItem("SĐT");
+        cmbChoice.addItem("FAX");
+        cmbChoice.setBounds(new Rectangle(0,0,120,30));
         
-        JLabel sortTitle = new JLabel("------------------------------------------------------------------------------ TÌM KIẾM THÔNG TIN ------------------------------------------------------------------------------",JLabel.CENTER); // Mỗi bên 78 dấu ( - )
-        sortTitle.setFont(font1);
-        sortTitle.setBounds(new Rectangle(0,0,this.DEFALUT_WIDTH - 400,30));
-        sort.add(sortTitle);
+        //Phần TextField
+        JTextField txtSearch = new JTextField();
+        txtSearch.setBounds(new Rectangle(125,0,400,30));
+        txtSearch.setBorder(null);
+        txtSearch.setOpaque(false);
+        txtSearch.setFont(new Font("Segoe UI",Font.PLAIN,15));
         
-        /******** SORT MANCC **************/
-        JLabel lbSortMaNCC = new JLabel("Mă NCC :");
-        lbSortMaNCC.setFont(font0);
-        lbSortMaNCC.setBounds(0,40,60,30);
-        sort.add(lbSortMaNCC);
+        // Custem Icon search
+        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
+        searchIcon.setBounds(new Rectangle(485,-10,50,50));
+        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        sortMaNCC = new JTextField();
-        sortMaNCC.setBounds(new Rectangle(60,42,100,30));
-        sort.add(sortMaNCC);
-        /*************************************/
-        
-        /******** SORT TENNCC **************/
-        JLabel lbSortTenNCC = new JLabel("Tên NCC :");
-        lbSortTenNCC.setFont(font0);
-        lbSortTenNCC.setBounds(200,40,60,30);
-        sort.add(lbSortTenNCC);
-        
-        sortTenNCC = new JTextField();
-        sortTenNCC.setBounds(new Rectangle(260,42,100,30));
-        sort.add(sortTenNCC);
-        /*************************************/
-        
-//        /******** SORT TENKH **************/
-//        JLabel lbSortTenKH = new JLabel("Tên KH :");
-//        lbSortTenKH.setFont(font0);
-//        lbSortTenKH.setBounds(400,40,60,30);
-//        sort.add(lbSortTenKH);
-//        
-//        sortTenKH = new JTextField();
-//        sortTenKH.setBounds(new Rectangle(460,42,200,30));
-//        sort.add(sortTenKH);
-        /*************************************/
-        
-        add(sort);
+        // Add tất cả vào search box
+        searchBox.add(cmbChoice);
+        searchBox.add(txtSearch);
+        searchBox.add(searchIcon);
+
+        //bắt sự kiện Focus vào search box
+        txtSearch.addFocusListener(new FocusAdapter(){
+            @Override
+            public void focusGained(FocusEvent e) 
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); //Đổi màu icon
+                searchBox.setBorder(createLineBorder(new Color(52,152,219))); // Đổi màu viền 
+            }
+            public void focusLost(FocusEvent e) //Trờ về như cũ
+            {
+                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
+                searchBox.setBorder(createLineBorder(Color.BLACK));
+            }
+        });
+        txtSearch.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = txtSearch.getText();
+                int choice = cmbChoice.getSelectedIndex();
+                
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+ text +"", choice));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = txtSearch.getText();
+                int choice = cmbChoice.getSelectedIndex();
+                
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+ text +"", choice));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+        });
+        itemView.add(searchBox);
 /******************************************************************/
     }
     public void cleanView() //Xóa trắng các TextField

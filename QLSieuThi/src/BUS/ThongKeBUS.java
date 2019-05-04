@@ -56,4 +56,13 @@ public class ThongKeBUS {
         ThongKeDAO tkDAO = new ThongKeDAO();
         return tkDAO.StatisticTopSP(dsHD);
     }
+    
+    public ArrayList<String> StatisticTopNV(Calendar from,Calendar to)
+    {
+        ArrayList<HoaDonDTO> dsHD = new ArrayList<> ();
+        dsHD = hdBUS.ListTime(from, to);
+        
+        ThongKeDAO tkDAO = new ThongKeDAO();
+        return tkDAO.StatisticTopNV(dsHD);
+    }
 }

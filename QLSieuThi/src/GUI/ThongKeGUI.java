@@ -586,7 +586,14 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         }
         else
         {
-            outStatistic(tk.StatisticTopSP(from, to));
+            if(ckMaSP.isSelected())
+            {
+                outStatistic(tk.StatisticTopSP(from, to));
+            }
+            else if(ckMaNV.isSelected())
+            {
+                outStatistic(tk.StatisticTopNV(from, to));
+            }
         }
     }
     

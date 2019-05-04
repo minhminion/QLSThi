@@ -24,7 +24,7 @@ public class NhaCungCapDAO {
         ArrayList<NhaCungCapDTO> dsncc = new ArrayList<>();
         try {
            
-            String sql = "SELECT * FROM nhacungcap WHERE 1";
+            String sql = "SELECT * FROM nhacungcap WHERE enable = 1";
             ResultSet rs = mySQL.executeQuery(sql);
             while(rs.next())
             {
@@ -67,7 +67,8 @@ public class NhaCungCapDAO {
                 sql += "'"+ncc.getTenNCC()+"',";
                 sql += "'"+ncc.getDiaChi()+"',";
                 sql += "'"+ncc.getDienThoai()+"',";
-                sql += "'"+ncc.getSoFax()+"')";
+                sql += "'"+ncc.getSoFax()+"',";
+                sql += "'1')";
          System.out.println(sql);
          mySQL.executeUpdate(sql);
     }
@@ -75,7 +76,7 @@ public class NhaCungCapDAO {
     public void delete(String maNCC)
     {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "DELETE FROM nhacungcap WHERE MANCC='"+maNCC+"'";
+        String sql = "UPDATE nhacungcap SET enable = 0 WHERE MANCC='"+maNCC+"'";
         mySQL.executeUpdate(sql);
         System.out.println(sql);
     }

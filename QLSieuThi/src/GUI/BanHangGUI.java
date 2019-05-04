@@ -426,6 +426,12 @@ public class BanHangGUI extends JPanel implements ActionListener,KeyListener{
             String s = rm.getTextFieldContent();
             txtMaNV.setText(s);
         }
+        if(e.getSource() == btnMaKH) // Suggest Nhan Vien
+        {
+            SuggestKhachHang rm = new SuggestKhachHang();
+            String s = rm.getTextFieldContent();
+            txtMaKH.setText(s);
+        }
         if(e.getSource().equals(btnMaSP)) // Suggest San Pham
         {
             // Lấy data và gắn lên TextField vs Hình
