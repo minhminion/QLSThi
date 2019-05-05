@@ -24,6 +24,7 @@ import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -123,6 +124,11 @@ public class QLSieuThi extends JFrame implements MouseListener{
         nav.setBackground(new Color(55, 63, 81));
         nav.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT));
         
+        JScrollPane scroll = new JScrollPane(nav);
+        scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1,100));
+        scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
+     
+        
         //Thêm item vào thanh menu (Tên item : icon : icon hover)
         navItem = new ArrayList<>();  //Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Bán hàng:Shop_20px.png:Shop_20px_active.png");
@@ -147,7 +153,7 @@ public class QLSieuThi extends JFrame implements MouseListener{
 /**************************************************************/   
 
         add(header,BorderLayout.NORTH);
-        add(nav,BorderLayout.WEST);
+        add(scroll,BorderLayout.WEST);
         add(main,BorderLayout.CENTER);
       
         setVisible(true);
