@@ -59,9 +59,10 @@ public class UserBUS {
         {
             if(dsUS.get(i).getUserID().equals(s.getUserID()))
             {
+                System.out.println("ABC");
                 dsUS.set(i, s);
-//                UserDAO usDAO = new UserDAO();
-//                usDAO.setChiTietHD(s);
+                UserDAO usDAO = new UserDAO();
+                usDAO.set(s);
                 return;
             }
         }

@@ -5,9 +5,11 @@
  */
 package GUI;
 
+import BUS.KhachHangBUS;
 import BUS.NhanVienBUS;
 import BUS.SanPhamBUS;
 import BUS.ThongKeBUS;
+import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import java.awt.Color;
@@ -59,6 +61,7 @@ import jdk.tools.jaotc.binformat.pecoff.JPECoffRelocObject;
 public final class ThongKeGUI extends JPanel implements ActionListener,ItemListener,ChangeListener{
     private SanPhamBUS spBUS = new SanPhamBUS();
     private NhanVienBUS nvBUS = new NhanVienBUS();
+    private KhachHangBUS khBUS = new KhachHangBUS();
     
     private JPanel paneTime = new JPanel() ;
     private JPanel paneTrimester = new JPanel() ;
@@ -67,7 +70,7 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
     
     private JLabel lbFromDate;
     private JLabel lbToDate;
-    private JRadioButton ckMaNull,ckMaSP, ckMaNV, ckMaKH ,ckDate, ckTrimester, ckPeriod;
+    private JRadioButton ckMaSP, ckMaNV, ckMaKH ,ckDate, ckTrimester, ckPeriod;
     private JLabel lbMa = new JLabel();
     private JTextField txtMa = new JTextField();
     private JTextArea viewStatistic;
@@ -104,6 +107,7 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
     {
         spBUS.listSP();
         nvBUS.listNV();
+        khBUS.list();
         DEFALUT_WIDTH = width;
         init();
     }
@@ -152,10 +156,6 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         ckMaKH.addItemListener(this);
         ckMaKH.setFont(font0);
         id.add(ckMaKH);
-        ckMaNull = new JRadioButton("Trống");
-        ckMaNull.addItemListener(this);
-        ckMaNull.setFont(font0);
-        id.add(ckMaNull);
         
         // CHỌN KIỂU THỜI GIAN
         ButtonGroup Time = new ButtonGroup();
@@ -179,7 +179,6 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         controlAll.add(ckMaSP);
         controlAll.add(ckMaNV);
         controlAll.add(ckMaKH);
-        controlAll.add(ckMaNull);
         
         JLabel lbTime = new JLabel("Chọn thời gian");
         lbTime.setFont(font1);
@@ -410,9 +409,9 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         
         // CUSTOM TABLE
         tbl.getColumnModel().getColumn(0).setPreferredWidth(15);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(2).setPreferredWidth(150);
-        tbl.getColumnModel().getColumn(3).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(50);
         
         tbl.setFocusable(false);
         tbl.setIntercellSpacing(new Dimension(0,0));     
@@ -504,7 +503,7 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
                 }
             }
         }
-        if(ckMaNV.isSelected())
+        else if(ckMaNV.isSelected())
         {
             if(OnOff)
             {
@@ -517,6 +516,20 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
                 }
             }
         }
+        else if(ckMaKH.isSelected())
+        {
+            if(OnOff)
+            {
+                obj = new KhachHangDTO();
+                obj = khBUS.get(ma);
+                if(obj == null)
+                {
+                    JOptionPane.showMessageDialog(null, "Không tồn tại khách hàng !!");
+                    return;
+                }
+            }
+        }
+        
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
         
@@ -568,6 +581,7 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             JOptionPane.showMessageDialog(null,"Lỗi");
             return;
         }
+        
         if(OnOff)
         {
             String result = "";
@@ -579,6 +593,10 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             {
                 result = tk.StatisticNV(ma, from, to);
             }
+            else if(ckMaKH.isSelected())
+            {
+                result = tk.StatisticKH(ma, from, to);
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd - MM - yyyy");
 
@@ -588,11 +606,36 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
         {
             if(ckMaSP.isSelected())
             {
+                Vector header = new Vector();
+                header.add("STT");
+                header.add("Mã SP");
+                header.add("SL Bán");
+                model = new DefaultTableModel(header,5);
+                header.add("Tên SP");
+                
                 outStatistic(tk.StatisticTopSP(from, to));
             }
             else if(ckMaNV.isSelected())
             {
+                Vector header = new Vector();
+                header.add("STT");
+                header.add("Mã NV");
+                header.add("Họ và Tên");
+                header.add("Tổng tiền(VNĐ)");
+                model = new DefaultTableModel(header,5);
+                
                 outStatistic(tk.StatisticTopNV(from, to));
+            }
+            else if(ckMaKH.isSelected())
+            {
+                Vector header = new Vector();
+                header.add("STT");
+                header.add("Mã KH");
+                header.add("Họ và Tên");
+                header.add("Tổng tiền(VNĐ)");
+                model = new DefaultTableModel(header,5);
+                
+                outStatistic(tk.StatisticTopKH(from, to));
             }
         }
     }
@@ -609,13 +652,22 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             s += "Tên : "+sp.getTenSP()+"\n";
             s += result;
         }
-        if(ckMaNV.isSelected())
+        else if(ckMaNV.isSelected())
         {
             NhanVienDTO nv = (NhanVienDTO) obj; 
             s += "Mã nhân viên :"+nv.getMaNV()+"\n";
             s += "Họ và tên : "+nv.getHoNV().concat(" "+nv.getTenNV())+"\n";
             s += "Tuổi :"+( Calendar.getInstance().get(Calendar.YEAR) - nv.getNamSinh() )+"\n";
             s += "Phái :"+nv.getPhai()+"\n";
+            s += result;
+        }
+        else if(ckMaKH.isSelected())
+        {
+            KhachHangDTO kh = (KhachHangDTO) obj; 
+            s += "Mã khách hàng :"+kh.getMaKH()+"\n";
+            s += "Họ và tên : "+kh.getHoKH().concat(" "+kh.getTenKH())+"\n";
+            s += "SĐT :"+kh.getSdt()+"\n";
+            s += "Địa chỉ :"+kh.getDiaChi()+"\n";
             s += result;
         }
         return s;
@@ -641,6 +693,10 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             model.addRow(data);
         }
         tbl.setModel(model);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(15);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(50);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -662,7 +718,6 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             Toggle.setBackground(color);
             Toggle.add(onOffButton);
             
-            ckMaNull.setVisible(!OnOff);
             
             lbMa.setVisible(!OnOff);
             txtMa.setVisible(!OnOff);
@@ -698,6 +753,12 @@ public final class ThongKeGUI extends JPanel implements ActionListener,ItemListe
             else if(ckMaNV.isSelected())
             {
                 SuggestNhanVien sp = new SuggestNhanVien();
+                String s = sp.getTextFieldContent();
+                txtMa.setText(s);
+            }
+            else if(ckMaKH.isSelected())
+            {
+                SuggestKhachHang sp = new SuggestKhachHang();
                 String s = sp.getTextFieldContent();
                 txtMa.setText(s);
             }

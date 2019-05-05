@@ -158,6 +158,69 @@ public class ThongKeDAO {
         return s;
     }
     
+    public String StatisticKH(ArrayList<HoaDonDTO> listHd,String MaKH)
+    {
+        String s ="";
+        int sum = 0;
+        String listItem = String.format("|%10s|%10s|\n","Mã SP","Số lượng");
+        if(!listHd.isEmpty())
+        {
+            MySQLConnect mySQL = new MySQLConnect();
+        try {
+            // Tổng tiền 
+            String sql1 = "SELECT SUM(TONGTIEN) AS TONGTIEN FROM hoadon WHERE (";
+            for(int i = 0 ; i < listHd.size() ; i++)
+            {
+                String mahd = listHd.get(i).getMaHD();
+                if(i == (listHd.size() - 1))
+                {
+                    sql1 += "MAHD ='"+ mahd +"') ";
+                    break;
+                }
+                sql1 += "MAHD ='"+ mahd +"' OR ";
+            }
+            sql1+= "AND MAKH = '"+MaKH+"' ";
+            sql1 += "GROUP BY MAKH";
+            System.out.println(sql1);
+            ResultSet rs1 = mySQL.executeQuery(sql1);
+            while(rs1.next())
+            {
+                sum += rs1.getInt("TONGTIEN");
+                
+            }
+            
+            // Mã SP || Số lượng 
+            String sql2 = "SELECT MASP,SUM(chitiethd.SOLUONG) AS SOLUONG FROM chitiethd WHERE chitiethd.MAHD IN (SELECT MAHD FROM hoadon WHERE (";
+            for(int i = 0 ; i < listHd.size() ; i++)
+            {
+                String mahd = listHd.get(i).getMaHD();
+                if(i == (listHd.size() - 1))
+                {
+                    sql2 += "MAHD ='"+ mahd +"') ";
+                    break;
+                }
+                sql2 += "MAHD ='"+ mahd +"' OR ";
+            }
+            sql2+= "AND MAKH = '"+MaKH+"' )";
+            sql2 += "GROUP BY MASP";
+            System.out.println(sql2);
+            ResultSet rs2 = mySQL.executeQuery(sql2);
+            while(rs2.next())
+            {
+                listItem += String.format("|%10s|%10s|\n",rs2.getString("MASP"),rs2.getString("SOLUONG"));
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        s += listItem;
+        s += "--------------------------------------------------- \n";
+        s += "TỔNG TIỀN : "+sum+"VNĐ"+"\n";      
+        return s;
+    }
+    
     public ArrayList<String> StatisticTopSP(ArrayList<HoaDonDTO> listHd)
     {   
         ArrayList<String> kq = new ArrayList<>();
@@ -223,6 +286,45 @@ public class ThongKeDAO {
                 while(rs.next())
                 {
                     String maNV = rs.getString("MANV");
+                    String tenNV = rs.getString("HOTEN");
+                    int tt = rs.getInt("TONGTIEN");
+                    String s = String.format("%6s_%20s_%5d",maNV,tenNV,tt);
+                    kq.add(s);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return kq;
+    }
+    
+    public ArrayList<String> StatisticTopKH(ArrayList<HoaDonDTO> listHd)
+    {   
+        ArrayList<String> kq = new ArrayList<>();
+        if(!listHd.isEmpty())
+        {
+            try {
+                MySQLConnect mySQL = new MySQLConnect();
+                String sql = "SELECT khachhang.MAKH, CONCAT(khachhang.HOKH,' ',khachhang.TENKH) AS HOTEN ,SUM(TONGTIEN) AS TONGTIEN ";
+                       sql+= "FROM hoadon INNER JOIN khachhang ON hoadon.MAKH = khachhang.MAKH WHERE ";
+                for(int i = 0 ; i < listHd.size() ; i++)
+                {
+                    String mahd = listHd.get(i).getMaHD();
+                    if(i == (listHd.size() - 1))
+                    {
+                        sql += "MAHD ='"+ mahd +"' ";
+                        break;
+                    }
+                    sql += "MAHD ='"+ mahd +"' OR ";
+                }
+                sql += "GROUP BY MAKH ";
+                sql += "ORDER BY SUM(TONGTIEN) DESC ";
+                sql += "LIMIT 5";
+                System.out.println(sql);
+                ResultSet rs = mySQL.executeQuery(sql);
+                while(rs.next())
+                {
+                    String maNV = rs.getString("MAKH");
                     String tenNV = rs.getString("HOTEN");
                     int tt = rs.getInt("TONGTIEN");
                     String s = String.format("%6s_%20s_%5d",maNV,tenNV,tt);

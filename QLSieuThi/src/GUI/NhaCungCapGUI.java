@@ -198,7 +198,7 @@ public class NhaCungCapGUI extends JPanel{
                 
                 if(txtMaNCC.getText().equals(""))
                 {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa !!!");
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần sửa !!!");
                     return;
                 }
                 
@@ -450,8 +450,7 @@ public class NhaCungCapGUI extends JPanel{
         txtDiaChi.setText("");
         txtDienThoai.setText("");
         txtSoFax.setText("");
-        
-        
+ 
     }
     public void outModel(DefaultTableModel model , ArrayList<NhaCungCapDTO> ncc) // Xuất ra Table từ ArrayList
     {

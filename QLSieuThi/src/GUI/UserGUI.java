@@ -7,6 +7,7 @@ package GUI;
 
 import BUS.UserBUS;
 import DTO.UserDTO;
+import DTO.UserDTO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -20,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +43,10 @@ public class UserGUI extends JPanel{
     private JTextField txtUser;
     private JTextField txtPass;
     private JComboBox cmbRole;
+    private JLabel btnConfirm;
+    private JLabel btnDelete;
+    private JLabel btnEdit;
+    private JLabel btnBack;
     
     public UserGUI(int width)
     {
@@ -96,27 +102,95 @@ public class UserGUI extends JPanel{
         itemView.add(cmbRole);
         
 /**************** TẠO CÁC BTN XÓA, SỬA, VIEW, IN BILL ********************/
-
-        JLabel btnConfirm = new JLabel(new ImageIcon("./src/image/btnConfirm_150px.png"));
+        btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit_150px.png"));
+        btnEdit.setBounds(new Rectangle(20,260,150,50));
+        btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete_150px.png"));
+        btnDelete.setBounds(new Rectangle(180,260,150,50));
+        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));    
+        
+        btnConfirm = new JLabel(new ImageIcon("./src/image/btnConfirm_150px.png"));
         btnConfirm.setBounds(new Rectangle(20,260,150,50));
-        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnConfirm.addMouseListener(new MouseAdapter(){
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));    
+        
+        btnBack = new JLabel(new ImageIcon("./src/image/btnBack_150px.png"));
+        btnBack.setBounds(new Rectangle(180,260,150,50));
+        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
+        
+        btnEdit.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
+                if(txtMaNV.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa !!!");
+                    return;
+                }
                 
+                txtMaNV.setEditable(false);
+                
+                btnEdit.setVisible(false);
+                btnDelete.setVisible(false);
+                
+                btnConfirm.setVisible(true);
+                btnBack.setVisible(true);
+                
+                tbl.setEnabled(false);
             }
         });
               
-        JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack_150px.png"));
-        btnBack.setBounds(new Rectangle(180,260,150,50));
-        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));    
-        btnBack.addMouseListener(new MouseAdapter(){
+        btnDelete.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e)
             {
                 System.exit(0);
             }
         });
         
+        btnConfirm.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                int i = JOptionPane.showConfirmDialog(null, "Xác nhận sửa sản phẩm","",JOptionPane.YES_NO_OPTION);
+                    if(i == 0)
+                    {
+                        //Lấy dữ liệu từ TextField
+                        String maNV = txtMaNV.getText();
+                        String user = txtUser.getText();
+                        String pass = txtPass.getText();
+                        String role = String.valueOf(cmbRole.getSelectedItem());
+                        String enable = "1";
+
+                        //Upload sản phẩm lên DAO và BUS
+                        UserDTO us = new UserDTO(maNV, user, pass, role, enable);
+                        usBUS.set(us);
+                        
+                        outModel(model, usBUS.getList());// Load lại table
+                        
+//                        saveIMG();// Lưu hình ảnh 
+                        
+                        JOptionPane.showMessageDialog(null, "Sửa thành công","Thành công",JOptionPane.INFORMATION_MESSAGE);
+                        
+                    }
+            }
+        });
+        
+         btnBack.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e)
+            {
+                cleanView();
+                
+                btnEdit.setVisible(true);
+                btnDelete.setVisible(true);
+                
+                btnConfirm.setVisible(false);
+                btnBack.setVisible(false);
+//                btnFile.setVisible(false);
+                
+                tbl.setEnabled(true);
+            }
+        });
+        
+        itemView.add(btnEdit);
+        itemView.add(btnDelete);
         itemView.add(btnConfirm);
         itemView.add(btnBack);
 /*************************************************************************/
@@ -204,5 +278,15 @@ public class UserGUI extends JPanel{
         ArrayList<UserDTO> nv = usBUS.getList();
 //        model.setRowCount(0);
         outModel(model,nv);
+    }
+    
+    public void cleanView() //Xóa trắng các TextField
+    {
+        txtMaNV.setEditable(true);
+
+        txtMaNV.setText("");
+        txtUser.setText("");
+        txtPass.setText("");
+ 
     }
 }
