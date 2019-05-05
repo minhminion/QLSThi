@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 04, 2019 lúc 03:10 PM
+-- Thời gian đã tạo: Th5 05, 2019 lúc 08:59 AM
 -- Phiên bản máy phục vụ: 10.1.36-MariaDB
 -- Phiên bản PHP: 7.2.10
 
@@ -60,7 +60,11 @@ INSERT INTO `chitiethd` (`MAHD`, `MASP`, `TENSP`, `SOLUONG`, `DONGIA`) VALUES
 ('008', '004', 'Nivea Man Deep White Oil Clear', 5, 27000),
 ('008', '005', 'Lotte Xylitol hương Fresh Mint', 8, 25000),
 ('008', '006', 'Cà Phê Đen Birdy', 1, 8700),
-('008', '007', 'Nước Uống Đóng Chai Aquafina', 3, 9000);
+('008', '007', 'Nước Uống Đóng Chai Aquafina', 3, 9000),
+('009', '001', 'CocaCola Light', 2, 8000),
+('009', '003', 'KitKat Classic', 100, 10000),
+('009', '005', 'Lotte Xylitol hương Fresh Mint', 1, 25000),
+('009', '007', 'Nước Uống Đóng Chai Aquafina', 1, 9000);
 
 --
 -- Bẫy `chitiethd`
@@ -105,7 +109,8 @@ INSERT INTO `hoadon` (`MAHD`, `MAKH`, `MANV`, `NGAYHD`, `TONGTIEN`) VALUES
 ('004', NULL, '002', '2019-03-11 19:04:40', 144000),
 ('006', NULL, '001', '2019-01-15 17:18:39', 48000),
 ('007', NULL, '001', '2019-02-13 18:23:12', 136000),
-('008', NULL, '002', '2019-04-15 18:24:23', 538700);
+('008', NULL, '002', '2019-04-15 18:24:23', 538700),
+('009', '001', '003', '2019-05-05 12:36:10', 1050000);
 
 -- --------------------------------------------------------
 
@@ -286,13 +291,13 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MASP`, `TENSP`, `SOLUONG`, `GIA`, `DONVITINH`, `MALOAI`, `MANSX`, `IMG`, `enable`) VALUES
-('001', 'CocaCola Light', 10, 8000, 'Lon', '002', '003', '001.jpg', 1),
+('001', 'CocaCola Light', 8, 8000, 'Lon', '002', '003', '001.jpg', 1),
 ('002', 'CocaCola', 20, 8000, 'Lon', '002', '003', '002.jpg', 1),
-('003', 'KitKat Classic', 500, 10000, 'Gói', '001', '005', '003.jpg', 1),
+('003', 'KitKat Classic', 400, 10000, 'Gói', '001', '005', '003.jpg', 1),
 ('004', 'Nivea Man Deep White Oil Clear', 90, 27000, 'Tuýp', '003', '005', '004.jpg', 1),
-('005', 'Lotte Xylitol hương Fresh Mint', 70, 25000, 'Hộp', '001', '001', '005.jpg', 1),
+('005', 'Lotte Xylitol hương Fresh Mint', 69, 25000, 'Hộp', '001', '001', '005.jpg', 1),
 ('006', 'Cà Phê Đen Birdy', 30, 8700, 'Lon', '002', '005', '006.jpg', 1),
-('007', 'Nước Uống Đóng Chai Aquafina', 60, 9000, 'Chai', '002', '005', '007.jpg', 1);
+('007', 'Nước Uống Đóng Chai Aquafina', 59, 9000, 'Chai', '002', '005', '007.jpg', 1);
 
 -- --------------------------------------------------------
 
