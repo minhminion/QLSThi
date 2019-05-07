@@ -210,7 +210,7 @@ public class NhanVienGUI extends JPanel{
             public void mouseClicked(MouseEvent e)
             {
                 EditOrAdd = true;
-                
+                txtMaNV.requestFocus();
                 cleanView();
                 
                 btnAdd.setVisible(false);
@@ -321,11 +321,13 @@ public class NhanVienGUI extends JPanel{
             public void mouseClicked(MouseEvent e)
             {
                 int i;
+               
                 if(EditOrAdd) //Thêm Nhân Viên
                 {
                     i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm sản phẩm","",JOptionPane.YES_NO_OPTION);
                     if(i == 0)
                     {
+                        try{
                         //Lấy dữ liệu từ TextField
                         String maNV = txtMaNV.getText();
                         String hoNV = txtHoNV.getText();
@@ -335,6 +337,7 @@ public class NhanVienGUI extends JPanel{
                         int mucLuong = Integer.parseInt(txtMucLuong.getText());
                         String diaChi = txtDiaChi.getText();
                         String IMG = imgName;
+                       
                         if(nvBUS.check(maNV))
                         {
                             JOptionPane.showMessageDialog(null, "Mã nhân viên đă tồn tại !!!");
@@ -349,8 +352,11 @@ public class NhanVienGUI extends JPanel{
                         outModel(model, nvBUS.getList());// Load lại table
 
                         saveIMG();// Lưu hình ảnh 
-
+                            
                         cleanView();
+                         }catch(NumberFormatException ex){
+                            JOptionPane.showMessageDialog(null,"Loi");
+                        }
                     }
                 }
                 else    // Edit Sản phẩm
