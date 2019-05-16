@@ -61,19 +61,18 @@ public class KhachHangDAO {
             mySQL.executeUpdate(sql);
     }
 
-    public void add(KhachHangDTO kh) {
+public void add(KhachHangDTO kh)
+{
+   
         MySQLConnect mySQL = new MySQLConnect();
-         String sql = "INSERT INTO khachhang VALUES (";
-                sql += "'"+kh.getMaKH()+"',";
-                sql += "'"+kh.getHoKH()+"',";
-                sql += "'"+kh.getTenKH()+"',";
-                sql += "'"+kh.getDiaChi()+"',";
-                sql += "'"+kh.getSdt()+"',";
-                sql += "'1')";
-         System.out.println(sql);
-         mySQL.executeUpdate(sql);
-    }
-    
+            String sql = "INSERT INTO VALUES (";
+            sql+="'"+kh.getMaKH()+"',";
+            sql+="'"+kh.getHoKH()+"',";
+            sql+="'"+kh.getTenKH()+"',";
+            sql+="'"+kh.getDiaChi()+"')";
+            mySQL.executeUpdate(sql);
+            System.out.println(sql);
+}
     public void delete(String MaKH)
     {
         MySQLConnect mySQL = new MySQLConnect();
